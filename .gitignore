@@ -1,0 +1,9 @@
+*.class
+\.metadata/
+\.RemoteSystemsTempFiles/
+\Scrapbook/
+\Servers/
+\Acme-Parade/target
+\Acme-Parade/.settings
+\Acme-Parade/src/main/resources/Entities.map
+RemoteSystemsTempFiles/
