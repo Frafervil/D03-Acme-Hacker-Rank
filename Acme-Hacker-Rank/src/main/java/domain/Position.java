@@ -9,8 +9,10 @@ import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -27,7 +29,7 @@ public class Position extends DomainEntity {
 	private String				description;
 	private Date				deadline;
 	private String				profileRequired;
-	private Collection<String>	skillRequired;
+	private Collection<String>	skillsRequired;
 	private Collection<String>	technologiesRequired;
 	private Double				salaryOffered;
 	private String				ticker;
@@ -74,12 +76,12 @@ public class Position extends DomainEntity {
 
 	@ElementCollection
 	@EachNotBlank
-	public Collection<String> getSkillRequired() {
-		return this.skillRequired;
+	public Collection<String> getSkillsRequired() {
+		return this.skillsRequired;
 	}
 
-	public void setSkillRequired(final Collection<String> skillRequired) {
-		this.skillRequired = skillRequired;
+	public void setSkillsRequired(final Collection<String> skillsRequired) {
+		this.skillsRequired = skillsRequired;
 	}
 
 	@ElementCollection
@@ -120,5 +122,22 @@ public class Position extends DomainEntity {
 
 	public void setStatus(final String status) {
 		this.status = status;
+	}
+
+
+	// Relationships----------------------------------------------
+
+	private Company	company;
+
+
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	public Company getCompany() {
+		return this.company;
+	}
+
+	public void setCompany(final Company company) {
+		this.company = company;
 	}
 }
