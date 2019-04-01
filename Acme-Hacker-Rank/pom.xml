@@ -11,8 +11,8 @@
 
 	<!-- Artifact identification and properties -->
 
-	<groupId>Design-and-Testing</groupId>
-	<artifactId>Sample-Project</artifactId>
+	<groupId>Acme-Hacker-Rank.com</groupId>
+	<artifactId>Acme-Hacker-Rank</artifactId>
 	<version>1.0</version>
 	<packaging>war</packaging>
 
