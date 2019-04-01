@@ -226,6 +226,13 @@
 			<version>5.1.26</version>
 		</dependency>
 
+		<!-- Validator-collections -->
+		<dependency>
+		    <groupId>cz.jirutka.validator</groupId>
+		    <artifactId>validator-collection</artifactId>
+		    <version>2.2.0</version>
+		</dependency>
+
 		<!-- Hibernate -->
 
 		<dependency>
