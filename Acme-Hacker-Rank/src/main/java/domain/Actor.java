@@ -1,9 +1,12 @@
 
 package domain;
 
+import java.util.Collection;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
@@ -13,18 +16,18 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
 import security.UserAccount;
+import cz.jirutka.validator.collection.constraints.EachNotBlank;
 
 @Entity
 @Access(AccessType.PROPERTY)
 public class Actor extends DomainEntity implements Cloneable {
 
-	private String		name;
-	private String		surname;
-	private String		photo;
-	private String		phone;
-	private String		address;
-	private Double		vatNumber;
-	private UserAccount	userAccount;
+	private String				name;
+	private Collection<String>	surname;
+	private String				photo;
+	private String				phone;
+	private String				address;
+	private double				vatNumber;
 
 
 	@NotBlank
@@ -36,12 +39,13 @@ public class Actor extends DomainEntity implements Cloneable {
 		this.name = name;
 	}
 
-	@NotBlank
-	public String getSurname() {
+	@ElementCollection
+	@EachNotBlank
+	public Collection<String> getSurname() {
 		return this.surname;
 	}
 
-	public void setSurname(final String surname) {
+	public void setSurname(final Collection<String> surname) {
 		this.surname = surname;
 	}
 
@@ -72,15 +76,20 @@ public class Actor extends DomainEntity implements Cloneable {
 	}
 
 	@NotNull
-	public Double getVatNumber() {
+	public double getVatNumber() {
 		return this.vatNumber;
 	}
 
-	public void setVatNumber(final Double vatNumber) {
+	public void setVatNumber(final double vatNumber) {
 		this.vatNumber = vatNumber;
 	}
 
+
 	// Relationships----------------------------------------------
+
+	private UserAccount	userAccount;
+	private CreditCard	creditCard;
+
 
 	@NotNull
 	@Valid
@@ -91,5 +100,16 @@ public class Actor extends DomainEntity implements Cloneable {
 
 	public void setUserAccount(final UserAccount userAccount) {
 		this.userAccount = userAccount;
+	}
+
+	@NotNull
+	@Valid
+	@OneToOne(optional = false)
+	public CreditCard getCreditCard() {
+		return this.creditCard;
+	}
+
+	public void setCreditCard(final CreditCard creditCard) {
+		this.creditCard = creditCard;
 	}
 }
