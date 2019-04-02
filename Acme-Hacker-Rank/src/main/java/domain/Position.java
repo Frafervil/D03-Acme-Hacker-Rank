@@ -31,7 +31,7 @@ public class Position extends DomainEntity {
 	private String				profileRequired;
 	private Collection<String>	skillsRequired;
 	private Collection<String>	technologiesRequired;
-	private Double				salaryOffered;
+	private double				salaryOffered;
 	private String				ticker;
 	private String				status;
 
@@ -95,7 +95,7 @@ public class Position extends DomainEntity {
 	}
 
 	@NotNull
-	public Double getSalaryOffered() {
+	public double getSalaryOffered() {
 		return this.salaryOffered;
 	}
 

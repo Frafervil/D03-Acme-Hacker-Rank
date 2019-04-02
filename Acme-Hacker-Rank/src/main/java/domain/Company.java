@@ -16,7 +16,6 @@ public class Company extends Actor {
 	private String	commercialName;
 
 
-	@NotBlank
 	@Pattern(regexp = "^[a-zA-Z0-9 ]*[<]?\\w+[@][a-zA-Z0-9.]+[>]?$")
 	public String getEmail() {
 		return this.email;
