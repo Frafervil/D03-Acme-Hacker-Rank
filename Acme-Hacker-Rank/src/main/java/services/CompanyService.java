@@ -240,6 +240,10 @@ public class CompanyService {
 		return result;
 	}
 
+	// Business Method
+
+	// Dashboard
+
 	public void flush() {
 		this.companyRepository.flush();
 	}
