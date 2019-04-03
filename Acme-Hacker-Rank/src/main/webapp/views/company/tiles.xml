@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="company/list" extends="master.page">
+		<put-attribute name="title" value="Companies' list" />
+		<put-attribute name="body" value="/views/company/list.jsp" />
+	</definition>
+	
+	<definition name="company/display" extends="master.page">
+		<put-attribute name="title" value="Display company" />
+		<put-attribute name="body" value="/views/company/display.jsp" />
+	</definition>
+	
+	<definition name="company/edit" extends="master.page">
+		<put-attribute name="title" value="Edit company" />
+		<put-attribute name="body" value="/views/company/edit.jsp" />
+	</definition>
+	
+	<definition name="company/register" extends="master.page">
+		<put-attribute name="title" value="New company registration" />
+		<put-attribute name="body" value="/views/company/register.jsp" />
+	</definition>
+	
+</tiles-definitions>

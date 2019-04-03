@@ -132,109 +132,163 @@
 	
 	<bean class="domain.Administrator" id="administrator1">
 		<property name="name" value="Lorenzo" />
-		<property name="surname" value="Dominguez" />
+		<property name="surname">
+			<list>
+				<value>Rondan</value>
+				<value>Dominguez</value>
+			</list>
+		</property>
 		<property name="photo" value="http://mifoto.com" />
 		<property name="email" value="loren@" />
 		<property name="phone" value="+34912123123" />
 		<property name="address" value="C/ A nº1 Sevilla" />
 		<property name="vatNumber" value="1" />
 		<property name="userAccount" ref="userAccount1" />
+		<property name="creditCard" ref="creditCard1" />
 	</bean>
 	
 	<bean class="domain.Administrator" id="administrator2">
 		<property name="name" value="Sergio" />
-		<property name="surname" value="Amorebieta" />
+		<property name="surname">
+			<list>
+				<value>Adebayors</value>
+				<value>Amorebieta</value>
+			</list>
+		</property>
 		<property name="photo" value="http://fotogyazo.com" />
 		<property name="email" value="adebayors@" />
 		<property name="phone" value="+34912126453" />
 		<property name="address" value="C/ H nº3 Granada" />
 		<property name="vatNumber" value="2" />
 		<property name="userAccount" ref="userAccount2" />
+		<property name="creditCard" ref="creditCard2" />
 	</bean>
 	
 	<bean class="domain.Administrator" id="administrator3">
 		<property name="name" value="Francisco" />
-		<property name="surname" value="Elena" />
+		<property name="surname">
+			<list>
+				<value>Elena</value>
+				<value>Fernández</value>
+			</list>
+		</property>
 		<property name="photo" value="http://fotogyazo2.com" />
 		<property name="email" value="fraelefer@" />
 		<property name="phone" value="+34912126464" />
 		<property name="address" value="C/ H nº6 Sevilla" />
 		<property name="vatNumber" value="3" />
 		<property name="userAccount" ref="userAccount3" />
+		<property name="creditCard" ref="creditCard3" />
 	</bean>
 	
 	<!-- Hackers -->
 	
 	<bean class="domain.Hacker" id="hacker1">
 		<property name="name" value="Maria" />
-		<property name="surname" value="Garcia" />
+		<property name="surname">
+			<list>
+				<value>del Mar</value>
+				<value>Garcia</value>
+			</list>
+		</property>
 		<property name="photo" value="http://www.tuenti.com" />
 		<property name="email" value="maria@gmail.com" />
 		<property name="phone" value="+33923680976" />
 		<property name="address" value="Calle Musica, 1, CP: 32123, Cadiz" />
 		<property name="vatNumber" value="4" />
 		<property name="userAccount" ref="userAccount4" />
+		<property name="creditCard" ref="creditCard4" />
 	</bean>
 	
 	<bean class="domain.Hacker" id="hacker2">
 		<property name="name" value="Antonia" />
-		<property name="surname" value="Castellanos" />
+		<property name="surname">
+			<list>
+				<value>Perez</value>
+				<value>Castellanos</value>
+			</list>
+		</property>
 		<property name="photo" value="http://www.mifoto.com/perfil" />
 		<property name="email" value="antonia@gmail.com" />
 		<property name="phone" value="+34678918234" />
 		<property name="address" value="Calle Napoleon, 10, CP: 32123, Madrid" />
 		<property name="vatNumber" value="5" />
 		<property name="userAccount" ref="userAccount5" />
+		<property name="creditCard" ref="creditCard5" />
 	</bean>
 	
 	<bean class="domain.Hacker" id="hacker3">
 		<property name="name" value="Antonia" />
-		<property name="surname" value="Castellanos" />
+		<property name="surname">
+			<list>
+				<value>Perez</value>
+				<value>Castellanos</value>
+			</list>
+		</property>
 		<property name="photo" value="http://www.mifoto.com/perfil" />
 		<property name="email" value="antonia@gmail.com" />
 		<property name="phone" value="+34678918234" />
 		<property name="address" value="Calle Napoleon, 10, CP: 32123, Madrid" />
 		<property name="vatNumber" value="6" />
 		<property name="userAccount" ref="userAccount6" />
+		<property name="creditCard" ref="creditCard6" />
 	</bean>
 	
 	<!-- Companies -->
 	
 	<bean class="domain.Company" id="company1">
 		<property name="name" value="Francisco" />
-		<property name="surname" value="Villen" />
+		<property name="surname">
+			<list>
+				<value>Ferreras</value>
+				<value>Villen</value>
+			</list>
+		</property>
 		<property name="photo" value="http://www.fotolog.com" />
 		<property name="email" value="fran@gmail.com" />
 		<property name="phone" value="612123234" />
 		<property name="address" value="Calle A 20 Sevilla" />
 		<property name="vatNumber" value="7" />
 		<property name="userAccount" ref="userAccount7" />
+		<property name="creditCard" ref="creditCard7" />
 
 		<property name="commercialName" value="commercialName1" />
 	</bean>
 	
 	<bean class="domain.Company" id="company2">
 		<property name="name" value="Antonio" />
-		<property name="surname" value="del Toro" />
+		<property name="surname">
+			<list>
+				<value>Lucia</value>
+				<value>del Toro</value>
+			</list>
+		</property>
 		<property name="photo" value="http://www.mifoto.com" />
 		<property name="email" value="antonio@gmail.com" />
 		<property name="phone" value="+34678123456" />
 		<property name="address" value="Calle Musica, 1, Cadiz" />
 		<property name="vatNumber" value="8" />
 		<property name="userAccount" ref="userAccount8" />
+		<property name="creditCard" ref="creditCard8" />
 
 		<property name="commercialName" value="commercialName2" />
 	</bean>
 	
 	<bean class="domain.Company" id="company3">
 		<property name="name" value="Maria" />
-		<property name="surname" value="Garcia" />
+		<property name="surname">
+			<list>
+				<value>del Mar</value>
+				<value>Garcia</value>
+			</list>
+		</property>
 		<property name="photo" value="http://www.tuenti.com" />
 		<property name="email" value="maria@gmail.com" />
 		<property name="phone" value="+33923680976" />
 		<property name="address" value="Calle Musica, 1, CP: 32123, Cadiz" />
 		<property name="vatNumber" value="9" />
 		<property name="userAccount" ref="userAccount9" />
+		<property name="creditCard" ref="creditCard9" />
 
 		<property name="commercialName" value="commercialName3" />
 	</bean>
@@ -311,6 +365,99 @@
 		<property name="status" value="CANCELLED" />
 		
 		<property name="company" ref="company2" />
+	</bean>
+	
+	<!-- Credit Card -->
+	
+	<bean class="domain.CreditCard" id="creditCard1">
+		<property name="holderName" value="Lorenzo Domínguez" />
+		<property name="brandName" value="MasterCard" />
+		<property name="number" value="5220 2777 7103 1876" />
+		<property name="expirationMonth" value="7" />
+		<property name="expirationYear" value="19" />
+		<property name="CVV" value="701" />
+	</bean>
+
+	<bean class="domain.CreditCard" id="creditCard2">
+		<property name="holderName" value="Sergio Amorebieta" />
+		<property name="brandName" value="Visa" />
+		<property name="number" value="5632 1524 7854 5969" />
+		<property name="expirationMonth" value="11" />
+		<property name="expirationYear" value="21" />
+		<property name="CVV" value="541" />
+	</bean>
+
+	<bean class="domain.CreditCard" id="creditCard3">
+		<property name="holderName" value="Francisco Elena" />
+		<property name="brandName" value="American Express" />
+		<property name="number" value="5210854698741472" />
+		<property name="expirationMonth" value="2" />
+		<property name="expirationYear" value="18" />
+		<property name="CVV" value="943" />
+	</bean>
+
+	<bean class="domain.CreditCard" id="creditCard4">
+		<property name="holderName" value="Maria Garcia" />
+		<property name="brandName" value="Visa" />
+		<property name="number" value="5123946825163459" />
+		<property name="expirationMonth" value="9" />
+		<property name="expirationYear" value="19" />
+		<property name="CVV" value="201" />
+	</bean>
+
+	<bean class="domain.CreditCard" id="creditCard5">
+		<property name="holderName" value="Antonio Castellanos" />
+		<property name="brandName" value="MasterCard" />
+		<property name="number" value="512333682516345" />
+		<property name="expirationMonth" value="11" />
+		<property name="expirationYear" value="20" />
+		<property name="CVV" value="987" />
+	</bean>
+
+	<bean class="domain.CreditCard" id="creditCard6">
+		<property name="holderName" value="Pedro Picapiedra" />
+		<property name="brandName" value="Visa" />
+		<property name="number" value="406333695716345" />
+		<property name="expirationMonth" value="12" />
+		<property name="expirationYear" value="18" />
+		<property name="CVV" value="213" />
+	</bean>
+
+	<bean class="domain.CreditCard" id="creditCard7">
+		<property name="holderName" value="Francisco Villen" />
+		<property name="brandName" value="Visa" />
+		<property name="number" value="1025850069784350" />
+		<property name="expirationMonth" value="12" />
+		<property name="expirationYear" value="18" />
+		<property name="CVV" value="213" />
+	</bean>
+
+	<bean class="domain.CreditCard" id="creditCard8">
+		<property name="holderName" value="Antonio del Toro" />
+		<property name="brandName" value="American Express" />
+		<property name="number" value="4025850069784354" />
+		<property name="expirationMonth" value="12" />
+		<property name="expirationYear" value="18" />
+		<property name="CVV" value="213" />
+	</bean>
+
+	<bean class="domain.CreditCard" id="creditCard9">
+		<property name="holderName" value="Pérez Sánchez" />
+		<property name="brandName" value="Mastercard" />
+		<property name="number" value="5411654645989597" />
+		<property name="expirationMonth" value="11" />
+		<property name="expirationYear" value="20" />
+		<property name="CVV" value="442" />
+	</bean>
+	
+	<!-- Customisation -->
+	
+	<bean id="customisation" class="domain.Customisation">
+		<property name="systemName" value="Acme Hacker Rank" />
+		<property name="welcomeBanner" value="https://tinyurl.com/acme-hacker-rank-banner" />
+		<property name="welcomeMessageEn" value="Welcome to Acme Hacker Rank!" />
+		<property name="welcomeMessageEs" value="¡Bienvenidos a Acme Hacker Rank!" />
+		<property name="countryCode" value="+34" />
 	</bean>
 	
 </beans>

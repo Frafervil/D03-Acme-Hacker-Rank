@@ -21,6 +21,7 @@ import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
 import domain.Administrator;
+import domain.CreditCard;
 import forms.AdministratorForm;
 
 @Service
@@ -41,6 +42,9 @@ public class AdministratorService {
 	// Supporting services-------------------------------------------
 	@Autowired
 	private ActorService			actorService;
+
+	@Autowired
+	private CreditCardService		creditCardService;
 
 	@Autowired
 	private Validator				validator;
@@ -68,14 +72,17 @@ public class AdministratorService {
 		Administrator result;
 		UserAccount userAccount;
 		Authority authority;
+		CreditCard creditCard;
 
 		result = new Administrator();
 		userAccount = new UserAccount();
 		authority = new Authority();
+		creditCard = this.creditCardService.create();
 
 		authority.setAuthority("ADMIN");
 		userAccount.addAuthority(authority);
 		result.setUserAccount(userAccount);
+		result.setCreditCard(creditCard);
 
 		return result;
 

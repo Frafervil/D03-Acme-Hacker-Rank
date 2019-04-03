@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 import security.UserAccount;
@@ -41,6 +42,7 @@ public class Actor extends DomainEntity implements Cloneable {
 
 	@ElementCollection
 	@EachNotBlank
+	@NotEmpty
 	public Collection<String> getSurname() {
 		return this.surname;
 	}
