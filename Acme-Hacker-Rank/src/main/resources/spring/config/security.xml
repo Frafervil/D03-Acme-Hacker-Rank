@@ -57,7 +57,12 @@
 		<security:intercept-url pattern="/company/display.do" access="permitAll"/>
 		<security:intercept-url pattern="/company/list.do" access="permitAll"/>
 		<security:intercept-url pattern="/company/register.do" access="permitAll"/>
-		<security:intercept-url pattern="/company/edit.do" access="hasRole('COMPANY')" /> 
+		<security:intercept-url pattern="/company/edit.do" access="hasRole('COMPANY')" />
+		
+		<security:intercept-url pattern="/hacker/display.do" access="permitAll"/>
+		<security:intercept-url pattern="/hacker/list.do" access="permitAll"/>
+		<security:intercept-url pattern="/hacker/register.do" access="permitAll"/>
+		<security:intercept-url pattern="/hacker/edit.do" access="hasRole('HACKER')" />  
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

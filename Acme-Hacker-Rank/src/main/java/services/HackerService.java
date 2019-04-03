@@ -59,7 +59,7 @@ public class HackerService {
 		CreditCard creditCard;
 
 		result = new Hacker();
-		creditCard = this.creditCardService.create();
+		creditCard = new CreditCard();
 
 		//Nuevo userAccount con Member en la lista de authorities
 		final UserAccount userAccount = this.actorService.createUserAccount(Authority.HACKER);
@@ -79,7 +79,10 @@ public class HackerService {
 		Assert.notNull(hacker, "hacker.not.null");
 
 		if (hacker.getId() == 0) {
+			CreditCard creditCard;
 			hacker.getUserAccount().setPassword(passwordEncoder.encodePassword(hacker.getUserAccount().getPassword(), null));
+			creditCard = this.creditCardService.saveNew(hacker.getCreditCard());
+			hacker.setCreditCard(creditCard);
 			saved = this.hackerRepository.saveAndFlush(hacker);
 
 		} else {
