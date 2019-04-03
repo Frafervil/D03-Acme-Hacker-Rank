@@ -55,4 +55,13 @@ public class CreditCardService {
 
 		return result;
 	}
+
+	public CreditCard saveNew(final CreditCard creditCard) {
+		CreditCard result;
+
+		result = this.creditCardRepository.save(creditCard);
+		Assert.notNull(result);
+
+		return result;
+	}
 }

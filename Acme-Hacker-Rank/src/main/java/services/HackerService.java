@@ -20,6 +20,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
+import domain.CreditCard;
 import domain.Hacker;
 import forms.HackerForm;
 
@@ -43,6 +44,9 @@ public class HackerService {
 	private ActorService			actorService;
 
 	@Autowired
+	private CreditCardService		creditCardService;
+
+	@Autowired
 	private Validator				validator;
 
 
@@ -52,13 +56,16 @@ public class HackerService {
 
 	public Hacker create() {
 		Hacker result;
+		CreditCard creditCard;
 
 		result = new Hacker();
+		creditCard = this.creditCardService.create();
 
 		//Nuevo userAccount con Member en la lista de authorities
 		final UserAccount userAccount = this.actorService.createUserAccount(Authority.HACKER);
 
 		result.setUserAccount(userAccount);
+		result.setCreditCard(creditCard);
 
 		return result;
 	}

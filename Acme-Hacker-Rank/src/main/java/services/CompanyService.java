@@ -21,6 +21,7 @@ import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
 import domain.Company;
+import domain.CreditCard;
 import forms.CompanyForm;
 
 @Service
@@ -39,6 +40,9 @@ public class CompanyService {
 	private ActorService			actorService;
 
 	@Autowired
+	private CreditCardService		creditCardService;
+
+	@Autowired
 	private Validator				validator;
 
 	@Autowired
@@ -55,17 +59,21 @@ public class CompanyService {
 		Company result;
 		UserAccount userAccount;
 		Authority authority;
+		CreditCard creditCard;
 
 		result = new Company();
 		userAccount = new UserAccount();
 		authority = new Authority();
+		creditCard = new CreditCard();
 
 		authority.setAuthority("COMPANY");
 		userAccount.addAuthority(authority);
 
 		Assert.notNull(userAccount);
+		Assert.notNull(creditCard);
 
 		result.setUserAccount(userAccount);
+		result.setCreditCard(creditCard);
 
 		return result;
 	}
@@ -91,7 +99,10 @@ public class CompanyService {
 			saved = this.companyRepository.save(company);
 
 		} else {
+			CreditCard creditCard;
 			company.getUserAccount().setPassword(encoder.encodePassword(company.getUserAccount().getPassword(), null));
+			creditCard = this.creditCardService.saveNew(company.getCreditCard());
+			company.setCreditCard(creditCard);
 			saved = this.companyRepository.saveAndFlush(company);
 		}
 		return saved;

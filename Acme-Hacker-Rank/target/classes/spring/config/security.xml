@@ -53,6 +53,11 @@
 		<security:intercept-url pattern="/profile/action-1.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-2.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-3.do" access="isAuthenticated()" /> 
+		
+		<security:intercept-url pattern="/company/display.do" access="permitAll"/>
+		<security:intercept-url pattern="/company/list.do" access="permitAll"/>
+		<security:intercept-url pattern="/company/register.do" access="permitAll"/>
+		<security:intercept-url pattern="/company/edit.do" access="hasRole('COMPANY')" /> 
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
