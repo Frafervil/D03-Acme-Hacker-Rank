@@ -27,10 +27,12 @@
 			<td data-label="surname"><jstl:out value="${company.surname}" /></td>
 		</tr>
 		
+		<!-- 
 		<spring:message code="company.surname" /> 
 		<jstl:forEach items="${company.surname}" var="surname"><img src='<jstl:out value="${surname}"></jstl:out>'>
 		<br />
 		</jstl:forEach>
+		-->
 		
 		<tr>
 			<td><spring:message code="company.email" />
@@ -58,8 +60,14 @@
 <jstl:choose>
 <jstl:when test="${not empty positions}">
 <display:table pagesize="5" class="displaytag" name="positions" requestURI="company/display.do" id="positions">
+		
+		<!-- Display -->
+		<display:column>
+			<a href="position/display.do?positionId=${positions.id}"><spring:message code="company.display"/></a>
+		</display:column>
+		
 		<spring:message code="company.positions.title" var="title" />
-		<display:column property="name" title="${title}" sortable="title"/>
+		<display:column property="title" title="${title}" sortable="title"/>
 	
 		<spring:message code="company.positions.description" var="description" />
 		<display:column property="description" title="${description}" sortable="true"/>
