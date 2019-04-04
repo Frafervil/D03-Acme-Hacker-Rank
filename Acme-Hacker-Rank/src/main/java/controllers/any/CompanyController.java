@@ -1,5 +1,5 @@
 
-package any;
+package controllers.any;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,20 +17,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.CompanyService;
 import services.CustomisationService;
-import services.HackerService;
+import services.PositionService;
 import controllers.AbstractController;
-import domain.Hacker;
-import forms.HackerForm;
+import domain.Company;
+import domain.Position;
+import forms.CompanyForm;
 
 @Controller
-@RequestMapping("/hacker")
-public class HackerController extends AbstractController {
+@RequestMapping("/company")
+public class CompanyController extends AbstractController {
 
 	// Services
 
 	@Autowired
-	private HackerService			hackerService;
+	private CompanyService			companyService;
+
+	@Autowired
+	private PositionService			positionService;
 
 	@Autowired
 	private CustomisationService	customisationService;
@@ -41,13 +46,13 @@ public class HackerController extends AbstractController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		ModelAndView result;
-		Collection<Hacker> hackers;
+		Collection<Company> companies;
 
-		hackers = this.hackerService.findAll();
+		companies = this.companyService.findAll();
 
-		result = new ModelAndView("hacker/list");
-		result.addObject("hackers", hackers);
-		result.addObject("requestURI", "hacker/list.do");
+		result = new ModelAndView("company/list");
+		result.addObject("companies", companies);
+		result.addObject("requestURI", "company/list.do");
 
 		return result;
 	}
@@ -55,17 +60,21 @@ public class HackerController extends AbstractController {
 	// Display
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView show(@RequestParam(required = false) final Integer hackerId) {
+	public ModelAndView show(@RequestParam(required = false) final Integer companyId) {
 		final ModelAndView result;
-		Hacker hacker = new Hacker();
+		Company company = new Company();
 
-		if (hackerId == null)
-			hacker = this.hackerService.findByPrincipal();
+		if (companyId == null)
+			company = this.companyService.findByPrincipal();
 		else
-			hacker = this.hackerService.findOne(hackerId);
+			company = this.companyService.findOne(companyId);
 
-		result = new ModelAndView("hacker/display");
-		result.addObject("hacker", hacker);
+		Collection<Position> positions;
+		positions = this.positionService.findAvailableByCompanyId(company.getId());
+
+		result = new ModelAndView("company/display");
+		result.addObject("company", company);
+		result.addObject("positions", positions);
 
 		return result;
 
@@ -75,32 +84,32 @@ public class HackerController extends AbstractController {
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
-		Hacker hacker;
-		HackerForm hackerForm;
+		Company company;
+		CompanyForm companyForm;
 
-		hacker = this.hackerService.create();
-		hackerForm = this.hackerService.construct(hacker);
-		result = this.createEditModelAndView(hackerForm);
+		company = this.companyService.create();
+		companyForm = this.companyService.construct(company);
+		result = this.createEditModelAndView(companyForm);
 
 		return result;
 	}
 
 	// Save de Edit
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@ModelAttribute("hacker") Hacker hacker, final BindingResult binding) {
+	public ModelAndView save(@ModelAttribute("company") Company company, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
-			hacker = this.hackerService.reconstructPruned(hacker, binding);
+			company = this.companyService.reconstructPruned(company, binding);
 			if (binding.hasErrors()) {
-				result = this.editModelAndView(hacker);
+				result = this.editModelAndView(company);
 				for (final ObjectError e : binding.getAllErrors())
 					System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
 			} else
-				hacker = this.hackerService.save(hacker);
+				company = this.companyService.save(company);
 			result = new ModelAndView("welcome/index");
 		} catch (final Throwable oops) {
-			result = this.editModelAndView(hacker, "hacker.commit.error");
+			result = this.editModelAndView(company, "company.commit.error");
 
 		}
 
@@ -109,22 +118,22 @@ public class HackerController extends AbstractController {
 
 	//Save de Register
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "register")
-	public ModelAndView register(@ModelAttribute("hackerForm") @Valid final HackerForm hackerForm, final BindingResult binding) {
+	public ModelAndView register(@ModelAttribute("companyForm") @Valid final CompanyForm companyForm, final BindingResult binding) {
 		ModelAndView result;
-		Hacker hacker;
+		Company company;
 
 		try {
-			hacker = this.hackerService.reconstruct(hackerForm, binding);
+			company = this.companyService.reconstruct(companyForm, binding);
 			if (binding.hasErrors()) {
 				for (final ObjectError e : binding.getAllErrors())
 					System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
-				result = this.createEditModelAndView(hackerForm);
+				result = this.createEditModelAndView(companyForm);
 			} else {
-				hacker = this.hackerService.save(hacker);
+				company = this.companyService.save(company);
 				result = new ModelAndView("welcome/index");
 			}
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(hackerForm, "hacker.commit.error");
+			result = this.createEditModelAndView(companyForm, "company.commit.error");
 		}
 
 		return result;
@@ -133,55 +142,55 @@ public class HackerController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit() {
 		ModelAndView result;
-		Hacker hacker;
+		Company company;
 
-		hacker = this.hackerService.findByPrincipal();
-		Assert.notNull(hacker);
-		result = this.editModelAndView(hacker);
+		company = this.companyService.findByPrincipal();
+		Assert.notNull(company);
+		result = this.editModelAndView(company);
 
 		return result;
 	}
 
 	// Ancillary methods ------------------------------------------------------
 
-	private ModelAndView editModelAndView(final Hacker hacker) {
+	private ModelAndView editModelAndView(final Company company) {
 		ModelAndView result;
-		result = this.editModelAndView(hacker, null);
+		result = this.editModelAndView(company, null);
 		return result;
 	}
 
-	private ModelAndView editModelAndView(final Hacker hacker, final String messageCode) {
+	private ModelAndView editModelAndView(final Company company, final String messageCode) {
 		ModelAndView result;
 		String countryCode;
 
 		countryCode = this.customisationService.find().getCountryCode();
 
-		result = new ModelAndView("hacker/edit");
-		result.addObject("hacker", hacker);
+		result = new ModelAndView("company/edit");
+		result.addObject("company", company);
 		result.addObject("countryCode", countryCode);
 		result.addObject("message", messageCode);
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final HackerForm hackerForm) {
+	protected ModelAndView createEditModelAndView(final CompanyForm companyForm) {
 		ModelAndView result;
-		result = this.createEditModelAndView(hackerForm, null);
+		result = this.createEditModelAndView(companyForm, null);
 
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final HackerForm hackerForm, final String message) {
+	protected ModelAndView createEditModelAndView(final CompanyForm companyForm, final String message) {
 		ModelAndView result;
 		String countryCode;
 
 		countryCode = this.customisationService.find().getCountryCode();
-		if (hackerForm.getIdHacker() != 0)
-			result = new ModelAndView("hacker/edit");
+		if (companyForm.getId() != 0)
+			result = new ModelAndView("company/edit");
 		else
-			result = new ModelAndView("hacker/register");
+			result = new ModelAndView("company/register");
 
-		result.addObject("hackerForm", hackerForm);
-		result.addObject("actionURI", "hacker/edit.do");
+		result.addObject("companyForm", companyForm);
+		result.addObject("actionURI", "company/edit.do");
 		result.addObject("redirectURI", "welcome/index.do");
 		result.addObject("countryCode", countryCode);
 

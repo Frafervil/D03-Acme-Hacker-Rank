@@ -1,5 +1,5 @@
 
-package any;
+package controllers.any;
 
 import java.util.Collection;
 
