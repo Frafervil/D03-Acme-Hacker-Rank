@@ -13,6 +13,11 @@
 
 <display:table name="companies" id="row" requestURI="company/list.do"
 	pagesize="5" class="displaytag">
+	
+	<!-- Display -->
+	<display:column>
+		<a href="company/display.do?companyId=${row.id}"><spring:message code="company.display"/></a>
+	</display:column>
 
 	<!-- Attributes -->
 
