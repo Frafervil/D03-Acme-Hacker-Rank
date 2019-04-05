@@ -19,8 +19,8 @@
 	<!-- User accounts -->
 
 	<bean id="userAccount1" class="security.UserAccount">
-		<property name="username" value="admin1" />
-		<property name="password" value="e00cf25ad42683b3df678c61f42c6bda" />
+		<property name="username" value="admin" />
+		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -132,12 +132,7 @@
 	
 	<bean class="domain.Administrator" id="administrator1">
 		<property name="name" value="Lorenzo" />
-		<property name="surname">
-			<list>
-				<value>Rondan</value>
-				<value>Dominguez</value>
-			</list>
-		</property>
+		<property name="surname" value="Rondán Domínguez" />
 		<property name="photo" value="http://mifoto.com" />
 		<property name="email" value="loren@" />
 		<property name="phone" value="+34912123123" />
@@ -149,12 +144,7 @@
 	
 	<bean class="domain.Administrator" id="administrator2">
 		<property name="name" value="Sergio" />
-		<property name="surname">
-			<list>
-				<value>Adebayors</value>
-				<value>Amorebieta</value>
-			</list>
-		</property>
+		<property name="surname" value="Adebayors Amorebieta" />
 		<property name="photo" value="http://fotogyazo.com" />
 		<property name="email" value="adebayors@" />
 		<property name="phone" value="+34912126453" />
@@ -166,12 +156,7 @@
 	
 	<bean class="domain.Administrator" id="administrator3">
 		<property name="name" value="Francisco" />
-		<property name="surname">
-			<list>
-				<value>Elena</value>
-				<value>Fernández</value>
-			</list>
-		</property>
+		<property name="surname" value="Elena Fernández" />
 		<property name="photo" value="http://fotogyazo2.com" />
 		<property name="email" value="fraelefer@" />
 		<property name="phone" value="+34912126464" />
@@ -185,12 +170,7 @@
 	
 	<bean class="domain.Hacker" id="hacker1">
 		<property name="name" value="Maria" />
-		<property name="surname">
-			<list>
-				<value>del Mar</value>
-				<value>Garcia</value>
-			</list>
-		</property>
+		<property name="surname" value="del Mar García" />
 		<property name="photo" value="http://www.tuenti.com" />
 		<property name="email" value="maria@gmail.com" />
 		<property name="phone" value="+33923680976" />
@@ -202,12 +182,7 @@
 	
 	<bean class="domain.Hacker" id="hacker2">
 		<property name="name" value="Antonia" />
-		<property name="surname">
-			<list>
-				<value>Perez</value>
-				<value>Castellanos</value>
-			</list>
-		</property>
+		<property name="surname" value="Perez Castellanos" />
 		<property name="photo" value="http://www.mifoto.com/perfil" />
 		<property name="email" value="antonia@gmail.com" />
 		<property name="phone" value="+34678918234" />
@@ -219,12 +194,7 @@
 	
 	<bean class="domain.Hacker" id="hacker3">
 		<property name="name" value="Antonia" />
-		<property name="surname">
-			<list>
-				<value>Perez</value>
-				<value>Castellanos</value>
-			</list>
-		</property>
+		<property name="surname" value="Perez Castellanos" />
 		<property name="photo" value="http://www.mifoto.com/perfil" />
 		<property name="email" value="antonia@gmail.com" />
 		<property name="phone" value="+34678918234" />
@@ -238,12 +208,7 @@
 	
 	<bean class="domain.Company" id="company1">
 		<property name="name" value="Francisco" />
-		<property name="surname">
-			<list>
-				<value>Ferreras</value>
-				<value>Villen</value>
-			</list>
-		</property>
+		<property name="surname" value="Ferreras Villén" />
 		<property name="photo" value="http://www.fotolog.com" />
 		<property name="email" value="fran@gmail.com" />
 		<property name="phone" value="612123234" />
@@ -257,12 +222,7 @@
 	
 	<bean class="domain.Company" id="company2">
 		<property name="name" value="Antonio" />
-		<property name="surname">
-			<list>
-				<value>Lucia</value>
-				<value>del Toro</value>
-			</list>
-		</property>
+		<property name="surname" value="Lucía del Toro" />
 		<property name="photo" value="http://www.mifoto.com" />
 		<property name="email" value="antonio@gmail.com" />
 		<property name="phone" value="+34678123456" />
@@ -276,12 +236,7 @@
 	
 	<bean class="domain.Company" id="company3">
 		<property name="name" value="Maria" />
-		<property name="surname">
-			<list>
-				<value>del Mar</value>
-				<value>Garcia</value>
-			</list>
-		</property>
+		<property name="surname" value="del Mar García" />
 		<property name="photo" value="http://www.tuenti.com" />
 		<property name="email" value="maria@gmail.com" />
 		<property name="phone" value="+33923680976" />

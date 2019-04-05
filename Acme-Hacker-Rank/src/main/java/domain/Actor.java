@@ -1,35 +1,28 @@
-
 package domain;
-
-import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 import security.UserAccount;
-import cz.jirutka.validator.collection.constraints.EachNotBlank;
 
 @Entity
 @Access(AccessType.PROPERTY)
 public class Actor extends DomainEntity implements Cloneable {
 
-	private String				name;
-	private Collection<String>	surname;
-	private String				photo;
-	private String				phone;
-	private String				address;
-	private double				vatNumber;
-
+	private String name;
+	private String surname;
+	private String photo;
+	private String phone;
+	private String address;
+	private double vatNumber;
 
 	@NotBlank
 	public String getName() {
@@ -40,14 +33,12 @@ public class Actor extends DomainEntity implements Cloneable {
 		this.name = name;
 	}
 
-	@ElementCollection
-	@EachNotBlank
-	@NotEmpty
-	public Collection<String> getSurname() {
+	@NotBlank
+	public String getSurname() {
 		return this.surname;
 	}
 
-	public void setSurname(final Collection<String> surname) {
+	public void setSurname(final String surname) {
 		this.surname = surname;
 	}
 
@@ -86,12 +77,10 @@ public class Actor extends DomainEntity implements Cloneable {
 		this.vatNumber = vatNumber;
 	}
 
-
 	// Relationships----------------------------------------------
 
-	private UserAccount	userAccount;
-	private CreditCard	creditCard;
-
+	private UserAccount userAccount;
+	private CreditCard creditCard;
 
 	@NotNull
 	@Valid

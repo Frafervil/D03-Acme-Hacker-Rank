@@ -23,8 +23,7 @@
 	
 	<acme:textbox code="hacker.email" path="email"/>
 	
-	<spring:message code = "hacker.phone.placeholder" var="phonePlaceholder"/>
-	<acme:textarea code="hacker.phone" path="phone" placeholder="${phonePlaceholder }"/>
+	<acme:textbox code="hacker.phone" path="phone"/>
 	
 	<acme:textbox code="hacker.address" path="address"/>
 	

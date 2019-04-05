@@ -1,27 +1,19 @@
-
 package forms;
 
-import java.util.Collection;
-
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
-
-import cz.jirutka.validator.collection.constraints.EachNotBlank;
 
 public class AdministratorForm {
 
 	// --- AdministratorAtributes ---------------------------------------------
-	private int	idAdministrator;
-
+	private int idAdministrator;
 
 	public int getIdAdministrator() {
 		return this.idAdministrator;
@@ -31,15 +23,13 @@ public class AdministratorForm {
 		this.idAdministrator = idAdministrator;
 	}
 
-
-	private String				name;
-	private Collection<String>	surname;
-	private String				photo;
-	private String				email;
-	private String				phone;
-	private String				address;
-	private Double				vatNumber;
-
+	private String name;
+	private String surname;
+	private String photo;
+	private String email;
+	private String phone;
+	private String address;
+	private Double vatNumber;
 
 	// --- Getters y Setters ---------------------------------------
 
@@ -52,14 +42,12 @@ public class AdministratorForm {
 		this.name = name;
 	}
 
-	@ElementCollection
-	@EachNotBlank
-	@NotEmpty
-	public Collection<String> getSurname() {
+	@NotBlank
+	public String getSurname() {
 		return this.surname;
 	}
 
-	public void setSurname(final Collection<String> surname) {
+	public void setSurname(final String surname) {
 		this.surname = surname;
 	}
 
@@ -108,12 +96,10 @@ public class AdministratorForm {
 		this.vatNumber = vatNumber;
 	}
 
-
 	// --- UserAccountAtributes ---------------------------------------
 
-	private String	username;
-	private String	password;
-
+	private String username;
+	private String password;
 
 	// --- Getters y Setters ---------------------------------------
 	@NotBlank
@@ -137,16 +123,14 @@ public class AdministratorForm {
 		this.password = password;
 	}
 
-
 	// --- CreditCardAtributes ------------------------------------
 
-	private String	holderName;
-	private String	brandName;
-	private String	number;
-	private int		expirationMonth;
-	private int		expirationYear;
-	private int		CVV;
-
+	private String holderName;
+	private String brandName;
+	private String number;
+	private int expirationMonth;
+	private int expirationYear;
+	private int CVV;
 
 	@NotBlank
 	public String getHolderName() {
@@ -206,12 +190,10 @@ public class AdministratorForm {
 		this.CVV = cVV;
 	}
 
-
 	// --- Others -------------------------------------------------
 
-	private String	passwordChecker;
-	private boolean	checkBox;
-
+	private String passwordChecker;
+	private boolean checkBox;
 
 	public boolean getCheckBox() {
 		return this.checkBox;
