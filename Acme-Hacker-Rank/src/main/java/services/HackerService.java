@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.Collection;
@@ -30,25 +29,24 @@ public class HackerService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private HackerRepository		hackerRepository;
+	private HackerRepository hackerRepository;
 
 	@Autowired
-	private UserAccountRepository	useraccountRepository;
+	private UserAccountRepository useraccountRepository;
 
 	@Autowired
-	private CustomisationRepository	customisationRepository;
+	private CustomisationRepository customisationRepository;
 
 	// Supporting services ----------------------------------------------------
 
 	@Autowired
-	private ActorService			actorService;
+	private ActorService actorService;
 
 	@Autowired
-	private CreditCardService		creditCardService;
+	private CreditCardService creditCardService;
 
 	@Autowired
-	private Validator				validator;
-
+	private Validator validator;
 
 	// Additional functions
 
@@ -61,8 +59,9 @@ public class HackerService {
 		result = new Hacker();
 		creditCard = new CreditCard();
 
-		//Nuevo userAccount con Member en la lista de authorities
-		final UserAccount userAccount = this.actorService.createUserAccount(Authority.HACKER);
+		// Nuevo userAccount con Member en la lista de authorities
+		final UserAccount userAccount = this.actorService
+				.createUserAccount(Authority.HACKER);
 
 		result.setUserAccount(userAccount);
 		result.setCreditCard(creditCard);
@@ -75,12 +74,15 @@ public class HackerService {
 		UserAccount logedUserAccount;
 
 		final Md5PasswordEncoder passwordEncoder = new Md5PasswordEncoder();
-		logedUserAccount = this.actorService.createUserAccount(Authority.HACKER);
+		logedUserAccount = this.actorService
+				.createUserAccount(Authority.HACKER);
 		Assert.notNull(hacker, "hacker.not.null");
 
 		if (hacker.getId() == 0) {
 			CreditCard creditCard;
-			hacker.getUserAccount().setPassword(passwordEncoder.encodePassword(hacker.getUserAccount().getPassword(), null));
+			hacker.getUserAccount().setPassword(
+					passwordEncoder.encodePassword(hacker.getUserAccount()
+							.getPassword(), null));
 			creditCard = this.creditCardService.saveNew(hacker.getCreditCard());
 			hacker.setCreditCard(creditCard);
 			saved = this.hackerRepository.saveAndFlush(hacker);
@@ -88,16 +90,34 @@ public class HackerService {
 		} else {
 			logedUserAccount = LoginService.getPrincipal();
 			Assert.notNull(logedUserAccount, "hacker.notLogged");
-			Assert.isTrue(logedUserAccount.equals(hacker.getUserAccount()), "hacker.notEqual.userAccount");
+			Assert.isTrue(logedUserAccount.equals(hacker.getUserAccount()),
+					"hacker.notEqual.userAccount");
 			saved = this.hackerRepository.findOne(hacker.getId());
 			Assert.notNull(saved, "hacker.not.null");
-			Assert.isTrue(saved.getUserAccount().getUsername().equals(hacker.getUserAccount().getUsername()));
-			Assert.isTrue(saved.getUserAccount().getPassword().equals(hacker.getUserAccount().getPassword()));
+			Assert.isTrue(saved.getUserAccount().getUsername()
+					.equals(hacker.getUserAccount().getUsername()));
+			Assert.isTrue(saved.getUserAccount().getPassword()
+					.equals(hacker.getUserAccount().getPassword()));
 			saved = this.hackerRepository.saveAndFlush(hacker);
 		}
 
 		return saved;
 	}
+
+//	public void delete() {
+//		Hacker principal;
+//		final Collection<Application> applications;
+//
+//		principal = this.findByPrincipal();
+//		Assert.notNull(principal);
+//
+//		applications = this.applicationService.findAllByHacker(principal
+//				.getId());
+//		for (final Application a : applications)
+//			this.applicationService.deleteApplicationDeletingProfile(a);
+//
+//		this.hackerRepository.delete(principal);
+//	}
 
 	public Hacker findOne(final int hackerId) {
 		Hacker result;
@@ -152,8 +172,10 @@ public class HackerService {
 		hackerForm.setVatNumber(hacker.getVatNumber());
 		hackerForm.setBrandName(hacker.getCreditCard().getBrandName());
 		hackerForm.setCVV(hacker.getCreditCard().getCVV());
-		hackerForm.setExpirationMonth(hacker.getCreditCard().getExpirationMonth());
-		hackerForm.setExpirationYear(hacker.getCreditCard().getExpirationYear());
+		hackerForm.setExpirationMonth(hacker.getCreditCard()
+				.getExpirationMonth());
+		hackerForm
+				.setExpirationYear(hacker.getCreditCard().getExpirationYear());
 		hackerForm.setHolderName(hacker.getCreditCard().getHolderName());
 		hackerForm.setNumber(hacker.getCreditCard().getNumber());
 		hackerForm.setCheckBox(hackerForm.getCheckBox());
@@ -161,7 +183,8 @@ public class HackerService {
 		return hackerForm;
 	}
 
-	public Hacker reconstruct(final HackerForm hackerForm, final BindingResult binding) {
+	public Hacker reconstruct(final HackerForm hackerForm,
+			final BindingResult binding) {
 		Hacker result;
 
 		result = this.create();
@@ -175,25 +198,35 @@ public class HackerService {
 		result.setVatNumber(hackerForm.getVatNumber());
 		result.getCreditCard().setBrandName(hackerForm.getBrandName());
 		result.getCreditCard().setCVV(hackerForm.getCVV());
-		result.getCreditCard().setExpirationMonth(hackerForm.getExpirationMonth());
-		result.getCreditCard().setExpirationYear(hackerForm.getExpirationYear());
+		result.getCreditCard().setExpirationMonth(
+				hackerForm.getExpirationMonth());
+		result.getCreditCard()
+				.setExpirationYear(hackerForm.getExpirationYear());
 		result.getCreditCard().setHolderName(hackerForm.getHolderName());
 		result.getCreditCard().setNumber(hackerForm.getNumber());
 
 		if (!StringUtils.isEmpty(hackerForm.getPhone())) {
-			final Pattern pattern = Pattern.compile("^\\d{4,}$", Pattern.CASE_INSENSITIVE);
+			final Pattern pattern = Pattern.compile("^\\d{4,}$",
+					Pattern.CASE_INSENSITIVE);
 			final Matcher matcher = pattern.matcher(hackerForm.getPhone());
 			if (matcher.matches())
-				hackerForm.setPhone(this.customisationRepository.findAll().iterator().next().getCountryCode() + hackerForm.getPhone());
+				hackerForm.setPhone(this.customisationRepository.findAll()
+						.iterator().next().getCountryCode()
+						+ hackerForm.getPhone());
 		}
 		result.setPhone(hackerForm.getPhone());
 
 		if (!hackerForm.getPassword().equals(hackerForm.getPasswordChecker()))
-			binding.rejectValue("passwordChecker", "member.validation.passwordsNotMatch", "Passwords doesnt match");
-		if (!this.useraccountRepository.findUserAccountsByUsername(hackerForm.getUsername()).isEmpty())
-			binding.rejectValue("username", "member.validation.usernameExists", "This username already exists");
+			binding.rejectValue("passwordChecker",
+					"member.validation.passwordsNotMatch",
+					"Passwords doesnt match");
+		if (!this.useraccountRepository.findUserAccountsByUsername(
+				hackerForm.getUsername()).isEmpty())
+			binding.rejectValue("username", "member.validation.usernameExists",
+					"This username already exists");
 		if (hackerForm.getCheckBox() == false)
-			binding.rejectValue("checkBox", "member.validation.checkBox", "This checkbox must be checked");
+			binding.rejectValue("checkBox", "member.validation.checkBox",
+					"This checkbox must be checked");
 
 		this.validator.validate(result, binding);
 		this.hackerRepository.flush();
@@ -201,7 +234,8 @@ public class HackerService {
 		return result;
 	}
 
-	public Hacker reconstructPruned(final Hacker hacker, final BindingResult binding) {
+	public Hacker reconstructPruned(final Hacker hacker,
+			final BindingResult binding) {
 		Hacker result;
 
 		if (hacker.getId() == 0)
@@ -216,10 +250,13 @@ public class HackerService {
 		result.setVatNumber(hacker.getVatNumber());
 
 		if (!StringUtils.isEmpty(hacker.getPhone())) {
-			final Pattern pattern = Pattern.compile("^\\d{4,}$", Pattern.CASE_INSENSITIVE);
+			final Pattern pattern = Pattern.compile("^\\d{4,}$",
+					Pattern.CASE_INSENSITIVE);
 			final Matcher matcher = pattern.matcher(hacker.getPhone());
 			if (matcher.matches())
-				hacker.setPhone(this.customisationRepository.findAll().iterator().next().getCountryCode() + hacker.getPhone());
+				hacker.setPhone(this.customisationRepository.findAll()
+						.iterator().next().getCountryCode()
+						+ hacker.getPhone());
 		}
 		result.setPhone(hacker.getPhone());
 
@@ -227,10 +264,6 @@ public class HackerService {
 		this.hackerRepository.flush();
 		return result;
 	}
-
-	// Business Method
-
-	// Dashboard
 
 	public void flush() {
 		this.hackerRepository.flush();

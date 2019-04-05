@@ -1,4 +1,3 @@
-
 package controllers.any;
 
 import java.util.Arrays;
@@ -30,11 +29,10 @@ public class HackerController extends AbstractController {
 	// Services
 
 	@Autowired
-	private HackerService			hackerService;
+	private HackerService hackerService;
 
 	@Autowired
-	private CustomisationService	customisationService;
-
+	private CustomisationService customisationService;
 
 	// List
 
@@ -55,7 +53,8 @@ public class HackerController extends AbstractController {
 	// Display
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView show(@RequestParam(required = false) final Integer hackerId) {
+	public ModelAndView show(
+			@RequestParam(required = false) final Integer hackerId) {
 		final ModelAndView result;
 		Hacker hacker = new Hacker();
 
@@ -71,7 +70,7 @@ public class HackerController extends AbstractController {
 
 	}
 
-	//Create
+	// Create
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
@@ -87,7 +86,8 @@ public class HackerController extends AbstractController {
 
 	// Save de Edit
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@ModelAttribute("hacker") Hacker hacker, final BindingResult binding) {
+	public ModelAndView save(@ModelAttribute("hacker") Hacker hacker,
+			final BindingResult binding) {
 		ModelAndView result;
 
 		try {
@@ -95,7 +95,9 @@ public class HackerController extends AbstractController {
 			if (binding.hasErrors()) {
 				result = this.editModelAndView(hacker);
 				for (final ObjectError e : binding.getAllErrors())
-					System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
+					System.out.println(e.getObjectName() + " error ["
+							+ e.getDefaultMessage() + "] "
+							+ Arrays.toString(e.getCodes()));
 			} else
 				hacker = this.hackerService.save(hacker);
 			result = new ModelAndView("welcome/index");
@@ -107,9 +109,11 @@ public class HackerController extends AbstractController {
 		return result;
 	}
 
-	//Save de Register
+	// Save de Register
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "register")
-	public ModelAndView register(@ModelAttribute("hackerForm") @Valid final HackerForm hackerForm, final BindingResult binding) {
+	public ModelAndView register(
+			@ModelAttribute("hackerForm") @Valid final HackerForm hackerForm,
+			final BindingResult binding) {
 		ModelAndView result;
 		Hacker hacker;
 
@@ -117,14 +121,17 @@ public class HackerController extends AbstractController {
 			hacker = this.hackerService.reconstruct(hackerForm, binding);
 			if (binding.hasErrors()) {
 				for (final ObjectError e : binding.getAllErrors())
-					System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
+					System.out.println(e.getObjectName() + " error ["
+							+ e.getDefaultMessage() + "] "
+							+ Arrays.toString(e.getCodes()));
 				result = this.createEditModelAndView(hackerForm);
 			} else {
 				hacker = this.hackerService.save(hacker);
 				result = new ModelAndView("welcome/index");
 			}
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(hackerForm, "hacker.commit.error");
+			result = this.createEditModelAndView(hackerForm,
+					"hacker.commit.error");
 		}
 
 		return result;
@@ -142,6 +149,21 @@ public class HackerController extends AbstractController {
 		return result;
 	}
 
+//	@RequestMapping(value = "/delete")
+//	public ModelAndView delete() {
+//		ModelAndView result;
+//
+//		try {
+//			this.hackerService.delete();
+//
+//			result = new ModelAndView("redirect:/j_spring_security_logout");
+//		} catch (final Throwable oops) {
+//			result = new ModelAndView("redirect:/hacker/display.do");
+//		}
+//
+//		return result;
+//	}
+
 	// Ancillary methods ------------------------------------------------------
 
 	private ModelAndView editModelAndView(final Hacker hacker) {
@@ -150,7 +172,8 @@ public class HackerController extends AbstractController {
 		return result;
 	}
 
-	private ModelAndView editModelAndView(final Hacker hacker, final String messageCode) {
+	private ModelAndView editModelAndView(final Hacker hacker,
+			final String messageCode) {
 		ModelAndView result;
 		String countryCode;
 
@@ -170,7 +193,8 @@ public class HackerController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final HackerForm hackerForm, final String message) {
+	protected ModelAndView createEditModelAndView(final HackerForm hackerForm,
+			final String message) {
 		ModelAndView result;
 		String countryCode;
 

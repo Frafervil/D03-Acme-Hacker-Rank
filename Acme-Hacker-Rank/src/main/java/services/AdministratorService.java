@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.Collection;
@@ -31,31 +30,31 @@ public class AdministratorService {
 	// Managed repository -----------------------------------------------------
 
 	@Autowired
-	private AdministratorRepository	administratorRepository;
+	private AdministratorRepository administratorRepository;
 
 	@Autowired
-	private UserAccountRepository	useraccountRepository;
+	private UserAccountRepository useraccountRepository;
 
 	@Autowired
-	private CustomisationRepository	customisationRepository;
+	private CustomisationRepository customisationRepository;
 
 	// Supporting services-------------------------------------------
 	@Autowired
-	private ActorService			actorService;
+	private ActorService actorService;
 
 	@Autowired
-	private CreditCardService		creditCardService;
+	private CreditCardService creditCardService;
 
 	@Autowired
-	private Validator				validator;
-
+	private Validator validator;
 
 	public Administrator findByPrincipal() {
 		Administrator res;
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
 		Assert.notNull(userAccount);
-		res = this.administratorRepository.findByUserAccountId(userAccount.getId());
+		res = this.administratorRepository.findByUserAccountId(userAccount
+				.getId());
 		Assert.notNull(res);
 		return res;
 	}
@@ -100,20 +99,43 @@ public class AdministratorService {
 		if (this.exists(administrator.getId())) {
 			logedUserAccount = LoginService.getPrincipal();
 			Assert.notNull(logedUserAccount, "administrator.notLogged");
-			Assert.isTrue(logedUserAccount.equals(administrator.getUserAccount()), "administrator.notEqual.userAccount");
+			Assert.isTrue(
+					logedUserAccount.equals(administrator.getUserAccount()),
+					"administrator.notEqual.userAccount");
 			saved = this.administratorRepository.findOne(administrator.getId());
 			Assert.notNull(saved, "administrator.not.null");
-			Assert.isTrue(saved.getUserAccount().getUsername().equals(administrator.getUserAccount().getUsername()), "administrator.notEqual.username");
-			Assert.isTrue(administrator.getUserAccount().getPassword().equals(saved.getUserAccount().getPassword()), "administrator.notEqual.password");
+			Assert.isTrue(
+					saved.getUserAccount()
+							.getUsername()
+							.equals(administrator.getUserAccount()
+									.getUsername()),
+					"administrator.notEqual.username");
+			Assert.isTrue(
+					administrator.getUserAccount().getPassword()
+							.equals(saved.getUserAccount().getPassword()),
+					"administrator.notEqual.password");
 
 			saved = this.administratorRepository.save(administrator);
 
 		} else {
-			administrator.getUserAccount().setPassword(encoder.encodePassword(administrator.getUserAccount().getPassword(), null));
+			administrator.getUserAccount().setPassword(
+					encoder.encodePassword(administrator.getUserAccount()
+							.getPassword(), null));
 			saved = this.administratorRepository.saveAndFlush(administrator);
 		}
 		return saved;
 
+	}
+
+	public void delete() {
+		Administrator principal;
+
+		principal = this.findByPrincipal();
+		Assert.notNull(principal);
+		// Debería quedar al menos un administrador
+		Assert.isTrue(this.findAll().size() > 1);
+
+		this.administratorRepository.delete(principal);
 	}
 
 	public Administrator findOne(final int adminId) {
@@ -143,18 +165,24 @@ public class AdministratorService {
 		administratorForm.setPhoto(administrator.getPhoto());
 		administratorForm.setSurname(administrator.getSurname());
 		administratorForm.setVatNumber(administrator.getVatNumber());
-		administratorForm.setBrandName(administrator.getCreditCard().getBrandName());
+		administratorForm.setBrandName(administrator.getCreditCard()
+				.getBrandName());
 		administratorForm.setCVV(administrator.getCreditCard().getCVV());
-		administratorForm.setExpirationMonth(administrator.getCreditCard().getExpirationMonth());
-		administratorForm.setExpirationYear(administrator.getCreditCard().getExpirationYear());
-		administratorForm.setHolderName(administrator.getCreditCard().getHolderName());
+		administratorForm.setExpirationMonth(administrator.getCreditCard()
+				.getExpirationMonth());
+		administratorForm.setExpirationYear(administrator.getCreditCard()
+				.getExpirationYear());
+		administratorForm.setHolderName(administrator.getCreditCard()
+				.getHolderName());
 		administratorForm.setNumber(administrator.getCreditCard().getNumber());
 		administratorForm.setCheckBox(administratorForm.getCheckBox());
-		administratorForm.setUsername(administrator.getUserAccount().getUsername());
+		administratorForm.setUsername(administrator.getUserAccount()
+				.getUsername());
 		return administratorForm;
 	}
 
-	public Administrator reconstruct(final AdministratorForm administratorForm, final BindingResult binding) {
+	public Administrator reconstruct(final AdministratorForm administratorForm,
+			final BindingResult binding) {
 		Administrator result;
 
 		result = this.create();
@@ -168,38 +196,56 @@ public class AdministratorService {
 		result.setVatNumber(administratorForm.getVatNumber());
 		result.getCreditCard().setBrandName(administratorForm.getBrandName());
 		result.getCreditCard().setCVV(administratorForm.getCVV());
-		result.getCreditCard().setExpirationMonth(administratorForm.getExpirationMonth());
-		result.getCreditCard().setExpirationYear(administratorForm.getExpirationYear());
+		result.getCreditCard().setExpirationMonth(
+				administratorForm.getExpirationMonth());
+		result.getCreditCard().setExpirationYear(
+				administratorForm.getExpirationYear());
 		result.getCreditCard().setHolderName(administratorForm.getHolderName());
 		result.getCreditCard().setNumber(administratorForm.getNumber());
 
 		if (!StringUtils.isEmpty(administratorForm.getPhone())) {
-			final Pattern pattern = Pattern.compile("^\\d{4,}$", Pattern.CASE_INSENSITIVE);
-			final Matcher matcher = pattern.matcher(administratorForm.getPhone());
+			final Pattern pattern = Pattern.compile("^\\d{4,}$",
+					Pattern.CASE_INSENSITIVE);
+			final Matcher matcher = pattern.matcher(administratorForm
+					.getPhone());
 			if (matcher.matches())
-				administratorForm.setPhone(this.customisationRepository.findAll().iterator().next().getCountryCode() + administratorForm.getPhone());
+				administratorForm.setPhone(this.customisationRepository
+						.findAll().iterator().next().getCountryCode()
+						+ administratorForm.getPhone());
 		}
 		result.setPhone(administratorForm.getPhone());
 
-		if (!administratorForm.getPassword().equals(administratorForm.getPasswordChecker()))
-			binding.rejectValue("passwordChecker", "administrator.validation.passwordsNotMatch", "Passwords doesnt match");
-		if (!this.useraccountRepository.findUserAccountsByUsername(administratorForm.getUsername()).isEmpty() || administratorForm.getUsername().equals(LoginService.getPrincipal().getUsername()))
-			binding.rejectValue("username", "administrator.validation.usernameExists", "This username already exists");
+		if (!administratorForm.getPassword().equals(
+				administratorForm.getPasswordChecker()))
+			binding.rejectValue("passwordChecker",
+					"administrator.validation.passwordsNotMatch",
+					"Passwords doesnt match");
+		if (!this.useraccountRepository.findUserAccountsByUsername(
+				administratorForm.getUsername()).isEmpty()
+				|| administratorForm.getUsername().equals(
+						LoginService.getPrincipal().getUsername()))
+			binding.rejectValue("username",
+					"administrator.validation.usernameExists",
+					"This username already exists");
 		if (administratorForm.getCheckBox() == false)
-			binding.rejectValue("checkBox", "administrator.validation.checkBox", "This checkbox must be checked");
+			binding.rejectValue("checkBox",
+					"administrator.validation.checkBox",
+					"This checkbox must be checked");
 
 		this.validator.validate(result, binding);
 		this.administratorRepository.flush();
 		return result;
 	}
 
-	public Administrator reconstructPruned(final Administrator administrator, final BindingResult binding) {
+	public Administrator reconstructPruned(final Administrator administrator,
+			final BindingResult binding) {
 		Administrator result;
 
 		if (administrator.getId() == 0)
 			result = administrator;
 		else
-			result = this.administratorRepository.findOne(administrator.getId());
+			result = this.administratorRepository
+					.findOne(administrator.getId());
 		result.setAddress(administrator.getAddress());
 		result.setEmail(administrator.getEmail());
 		result.setName(administrator.getName());
@@ -208,10 +254,13 @@ public class AdministratorService {
 		result.setVatNumber(administrator.getVatNumber());
 
 		if (!StringUtils.isEmpty(administrator.getPhone())) {
-			final Pattern pattern = Pattern.compile("^\\d{4,}$", Pattern.CASE_INSENSITIVE);
+			final Pattern pattern = Pattern.compile("^\\d{4,}$",
+					Pattern.CASE_INSENSITIVE);
 			final Matcher matcher = pattern.matcher(administrator.getPhone());
 			if (matcher.matches())
-				administrator.setPhone(this.customisationRepository.findAll().iterator().next().getCountryCode() + administrator.getPhone());
+				administrator.setPhone(this.customisationRepository.findAll()
+						.iterator().next().getCountryCode()
+						+ administrator.getPhone());
 		}
 		result.setPhone(administrator.getPhone());
 

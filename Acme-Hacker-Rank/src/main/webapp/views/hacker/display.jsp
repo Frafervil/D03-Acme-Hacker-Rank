@@ -25,10 +25,10 @@
 			<td data-label="surname"><jstl:out value="${hacker.surname}" /></td>
 		</tr>
 		
-		<spring:message code="hacker.surname" /> 
-		<jstl:forEach items="${hacker.surname}" var="surname"><img src='<jstl:out value="${surname}"></jstl:out>'>
-		<br />
-		</jstl:forEach>
+<%-- 		<spring:message code="hacker.surname" />  --%>
+<%-- 		<jstl:forEach items="${hacker.surname}" var="surname"><img src='<jstl:out value="${surname}"></jstl:out>'> --%>
+<!-- 		<br /> -->
+<%-- 		</jstl:forEach> --%>
 		
 		<tr>
 			<td><spring:message code="hacker.email" />
@@ -50,7 +50,7 @@
 </table>
 
 <jstl:if test="${hacker.userAccount.username == pageContext.request.userPrincipal.name}">
-	<security:authorize access="hasRole('hacker')">
+	<security:authorize access="hasRole('HACKER')">
 <br/>
 <br/>
 <input type="button" name="save" class="ui button"
