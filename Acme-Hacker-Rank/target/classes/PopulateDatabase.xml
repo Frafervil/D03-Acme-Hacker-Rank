@@ -268,7 +268,7 @@
 			</list>
 		</property>
 		<property name="salaryOffered" value="50.0" />
-		<property name="ticker" value="180301-AAAAAA" />
+		<property name="ticker" value="COMM-1234" />
 		<property name="status" value="DRAFT" />
 		
 		<property name="company" ref="company1" />
@@ -292,7 +292,7 @@
 			</list>
 		</property>
 		<property name="salaryOffered" value="60.0" />
-		<property name="ticker" value="180302-AAABBB" />
+		<property name="ticker" value="COMM-9999" />
 		<property name="status" value="FINAL" />
 		
 		<property name="company" ref="company1" />
@@ -316,7 +316,7 @@
 			</list>
 		</property>
 		<property name="salaryOffered" value="45.0" />
-		<property name="ticker" value="180303-CCCBBB" />
+		<property name="ticker" value="COMM-0000" />
 		<property name="status" value="CANCELLED" />
 		
 		<property name="company" ref="company2" />
@@ -409,7 +409,7 @@
 	
 	<bean id="customisation" class="domain.Customisation">
 		<property name="systemName" value="Acme Hacker Rank" />
-		<property name="welcomeBanner" value="https://tinyurl.com/acme-hacker-rank-banner" />
+		<property name="welcomeBanner" value="https://i.imgur.com/7b8lu4b.png" />
 		<property name="welcomeMessageEn" value="Welcome to Acme Hacker Rank!" />
 		<property name="welcomeMessageEs" value="¡Bienvenidos a Acme Hacker Rank!" />
 		<property name="countryCode" value="+34" />

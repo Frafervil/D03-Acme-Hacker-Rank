@@ -15,8 +15,9 @@
 <%@taglib prefix="jstl"  uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div>
-	<a href="#"><img src="images/logo.png" alt="Sample Co., Inc." /></a>
+	<a href="#"><img width="300px" src="${bannerWelcome }" alt="Acme Hacker Rank Co., Inc." /></a>
 </div>
+
 
 <div>
 	<ul id="jMenu">

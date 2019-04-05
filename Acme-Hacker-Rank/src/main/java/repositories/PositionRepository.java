@@ -21,4 +21,7 @@ public interface PositionRepository extends JpaRepository<Position, Integer> {
 
 	@Query("select distinct p from Position p join p.company c where (p.title like %:keyword% or p.description like %:keyword% or p.profileRequired like %:keyword% or p.skillsRequired like %:keyword% or p.technologiesRequired like %:keyword% or c.name like %:keyword%)")
 	Collection<Position> findByKeyword(@Param("keyword") String keyword);
+	
+	@Query("select count(p) from Position p where p.company.id = ?1 AND p.ticker = '?2'")
+	Integer findRepeatedTickers (int companyId, String ticker);
 }
