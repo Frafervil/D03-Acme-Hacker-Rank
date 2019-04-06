@@ -21,7 +21,7 @@
 
 
 <p>&nbsp;</p>
-<p>This Privacy Policy sets forth the terms under which Acme-Madrugá
+<p>This Privacy Policy sets forth the terms under which Acme-Hacker-Rank
 	uses and protects the information that is provided by its clients.
 	users at the time of using your website. This company is committed to
 	the security of its users' data. When we ask you to fill in the fields
@@ -45,7 +45,7 @@
 	information that we believe is relevant to you or may be of benefit to
 	you, these emails will be sent to the address you provide and may be
 	cancelled at any time.</p>
-<p>Acme-Madrugá is highly committed to fulfilling its commitment to
+<p>Acme-Hacker-Rank is highly committed to fulfilling its commitment to
 	keep saved your information. We use the most advanced systems and
 	constantly update them to ensure that there is no unauthorized access.</p>
 <p>
@@ -87,5 +87,5 @@
 <p>This company will not sell, assign, or distribute personal
 	information that is collected without your consent, unless required to
 	do so by a judge with a court order.</p>
-<p>Acme-Madrugá reserves the right to change the terms of this
+<p>Acme-Hacker-Rank reserves the right to change the terms of this
 	Privacy Policy at any time.</p>
