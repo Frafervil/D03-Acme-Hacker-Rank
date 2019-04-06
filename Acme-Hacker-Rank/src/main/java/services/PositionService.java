@@ -8,10 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.PositionRepository;
+import domain.Application;
 import domain.Company;
 import domain.Position;
+import domain.Problem;
 
 @Service
 @Transactional
@@ -28,7 +32,14 @@ public class PositionService {
 	private CompanyService companyService;
 	
 	@Autowired
-	private ProblemSer companyService;
+	private ProblemService problemService;
+	
+	@Autowired
+	private ApplicationService applicationService;
+	
+	@Autowired
+	private Validator			validator;
+
 	
 	// Simple CRUD Methods
 
@@ -95,13 +106,13 @@ public class PositionService {
 		Assert.notNull(position);
 		Assert.isTrue(position.getCompany() == principal);
 		
-		numProblems = this.p
+		numProblems = this.problemService.countByPositionId(position.getId());
 		
 		if(saveMode.equals("CANCELLED")){
 			Assert.isTrue(position.getStatus().equals("FINAL"));
 		}
 		if(saveMode.equals("FINAL")){
-			Assert.isTrue(position.getPRO);
+			Assert.isTrue(numProblems>=2);
 		}
 		
 		position.setStatus(saveMode);
@@ -148,6 +159,51 @@ public class PositionService {
 			isRepeated = true;
 		
 		return isRepeated;	
+	}
+	
+	public void delete(final Position position) {
+		Company principal;
+		Collection<Problem> problems;
+		Collection<Application> applications;
+
+		Assert.notNull(position);
+
+		principal = this.companyService.findByPrincipal();
+		Assert.notNull(principal);
+
+		applications = this.applicationService.findAllByPositionId(position.getId());
+
+		for (final Application a : applications)
+			this.applicationService.delete(a);
+
+		problems = this.problemService.findAllByPositionId(position.getId());
+		for (final Problem p : problems)
+			p.setPositions(null);
+
+		this.positionRepository.delete(position);
+	}
+	
+	public Position reconstruct(final Position position, final BindingResult binding) {
+		Position result;
+		if (position.getId() == 0) {
+			result = position;
+			result.setTicker(this.generateTicker(position.getCompany()));
+
+		} else
+			result = this.positionRepository.findOne(position.getId());
+
+		result.setDescription(position.getDescription());
+		result.setDeadline(position.getDeadline());
+		result.setTitle(position.getTitle());
+		result.setProfileRequired(position.getProfileRequired());
+		result.setSalaryOffered(position.getSalaryOffered());
+		result.setSkillsRequired(position.getSkillsRequired());
+		result.setCompany(this.companyService.findByPrincipal());
+		result.setTechnologiesRequired(position.getTechnologiesRequired());
+		result.setStatus(position.getStatus());
+		
+		this.validator.validate(result, binding);
+		return result;
 	}
 	
 	public void flush() {

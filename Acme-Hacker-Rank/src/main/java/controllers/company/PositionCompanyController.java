@@ -2,18 +2,21 @@
 package controllers.company;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
-import services.CompanyService;
 import services.PositionService;
 import controllers.AbstractController;
 import domain.Actor;
@@ -30,6 +33,8 @@ public class PositionCompanyController extends AbstractController {
 	private ActorService	actorService;
 	
 
+	//List
+	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		final ModelAndView result;
@@ -68,6 +73,8 @@ public class PositionCompanyController extends AbstractController {
 			return result;
 		}
 		
+		//Create
+		
 		@RequestMapping(value = "/create", method = RequestMethod.GET)
 		public ModelAndView create() {
 			ModelAndView result;
@@ -76,6 +83,92 @@ public class PositionCompanyController extends AbstractController {
 			position = this.positionService.create();
 			result = this.createModelAndView(position);
 
+			return result;
+		}
+		
+		@RequestMapping(value = "/edit", method = RequestMethod.GET)
+		public ModelAndView edit(@RequestParam final int positionId) {
+			ModelAndView result;
+			Position position;
+
+			position = this.positionService.findOne(positionId);
+			Assert.notNull(position);
+			result = this.createEditModelAndView(position);
+
+			return result;
+		}
+
+		@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
+		public ModelAndView save(@ModelAttribute("position") Position position, final BindingResult binding) {
+			ModelAndView result;
+
+			try {
+				position = this.positionService.reconstruct(position, binding);
+				if (binding.hasErrors()) {
+					result = this.createModelAndView(position);
+					for (final ObjectError e : binding.getAllErrors())
+						System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
+				} else {
+					position = this.positionService.save(position, "DRAFT");
+					result = new ModelAndView("redirect:/welcome/index.do");
+				}
+
+			} catch (final Throwable oops) {
+				result = this.createModelAndView(position, "position.commit.error");
+			}
+			return result;
+		}
+		
+		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveCancelled")
+		public ModelAndView saveDraft(@ModelAttribute("parade") Position position, final BindingResult binding) {
+			ModelAndView result;
+
+			try {
+				position = this.positionService.reconstruct(position, binding);
+				if (binding.hasErrors()) {
+					result = this.createEditModelAndView(position);
+					for (final ObjectError e : binding.getAllErrors())
+						System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
+				} else {
+					position = this.positionService.save(position,"CANCELLED");
+					result = new ModelAndView("redirect:/welcome/index.do");
+				}
+
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(position, "position.commit.error");
+			}
+			return result;
+		}
+
+		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveFinal")
+		public ModelAndView saveFinal(@ModelAttribute("parade") Position position, final BindingResult binding) {
+			ModelAndView result;
+
+			try {
+				position = this.positionService.reconstruct(position, binding);
+				if (binding.hasErrors()) {
+					System.out.println(binding.getAllErrors());
+					result = this.createEditModelAndView(position);
+				} else {
+					this.positionService.save(position, "FINAL");
+					result = new ModelAndView("redirect:/welcome/index.do");
+				}
+
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(position, "position.commit.error");
+			}
+
+			return result;
+		}
+		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
+		public ModelAndView delete(final Position position, final BindingResult binding) {
+			ModelAndView result;
+			try {
+				this.positionService.delete(position);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(position, "position.commit.error");
+			}
 			return result;
 		}
 		

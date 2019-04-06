@@ -2,22 +2,16 @@
 package domain;
 
 import java.util.Collection;
-import java.util.Date;
-
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import cz.jirutka.validator.collection.constraints.EachNotBlank;
 
@@ -31,13 +25,59 @@ public class Problem extends DomainEntity {
 	private Collection<String>	attachment;
 	private boolean	isDraft;
 
+	@NotBlank
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	@NotBlank
+	public String getStatement() {
+		return statement;
+	}
+
+	public void setStatement(String statement) {
+		this.statement = statement;
+	}
+
+	@NotBlank
+	public String getHint() {
+		return hint;
+	}
+
+	public void setHint(String hint) {
+		this.hint = hint;
+	}
+	
+	@ElementCollection
+	@EachNotBlank
+	public Collection<String> getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(Collection<String> attachment) {
+		this.attachment = attachment;
+	}
+
+	public boolean getIsDraft() {
+		return isDraft;
+	}
+
+	public void setIsDraft(boolean isDraft) {
+		this.isDraft = isDraft;
+	}
 
 
 
 
 	// Relationships----------------------------------------------
 
+
 	private Company	company;
+	private Collection<Position> positions;
 
 
 	@NotNull
@@ -51,7 +91,16 @@ public class Problem extends DomainEntity {
 		this.company = company;
 	}
 	
-	private Position position;
-	
-	private Application application;
+	@NotNull
+	@Valid
+	@ManyToMany 
+	public Collection<Position> getPositions() {
+		return this.positions;
+	}
+
+	public void setPositions(final Collection<Position> positions) {
+		this.positions = positions;
+	}
+
+
 }

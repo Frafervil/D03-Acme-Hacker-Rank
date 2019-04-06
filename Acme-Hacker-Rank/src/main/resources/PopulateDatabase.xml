@@ -321,6 +321,47 @@
 		
 		<property name="company" ref="company2" />
 	</bean>
+		
+	
+	<!-- Problems -->
+	<bean class="domain.Problem" id="problem1">
+		<property name="title" value="title problem 1" />
+		<property name="statement" value="statement problem 1" />
+		<property name="hint" value="this in an optional hint problem 1" />
+		<property name="isDraft" value="false" />		
+		<property name="attachment">
+			<list>
+				<value>Attachment 1</value>
+				<value>Attachment 2</value>
+			</list>
+		</property>
+		<property name="positions">
+			<list>
+				<ref bean="position1" />
+			</list>
+		</property>
+		<property name="company" ref="company1" />
+	</bean>
+	
+	<bean class="domain.Problem" id="problem2">
+		<property name="title" value="title problem 2" />
+		<property name="statement" value="statement problem 2" />
+		<property name="hint" value="this in an optional hint problem 2" />
+		<property name="isDraft" value="true" />
+		<property name="attachment">
+			<list>
+				<value>Attachment 1</value>
+				<value>Attachment 2</value>
+			</list>
+		</property>
+		<property name="positions">
+			<list>
+			</list>
+		</property>
+		<property name="company" ref="company2" />
+	</bean>
+
+	
 	
 	<!-- Credit Card -->
 	
