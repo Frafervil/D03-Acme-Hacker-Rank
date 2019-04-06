@@ -8,6 +8,13 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+<!-- Buscar rutas por palabra clave -->
+<form action="${requestURI }" method="get">
+	<spring:message code="position.keyword" var="searchHeader"/>
+	<input type="text" name="keyword">
+	<input type="submit" value="${searchHeader}">
+	<input type="hidden" name="keywordBool" value="true">
+</form>
 
 <!-- Listing grid -->
 

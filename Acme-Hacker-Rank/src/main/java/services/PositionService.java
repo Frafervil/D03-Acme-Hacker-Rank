@@ -62,6 +62,12 @@ public class PositionService {
 		return result;
 	}
 
+	public Collection<Position> findByKeyword(final String keyword) {
+		final Collection<Position> result = this.positionRepository.findByKeyword(keyword);
+
+		return result;
+	}
+
 	public void flush() {
 		this.positionRepository.flush();
 	}
