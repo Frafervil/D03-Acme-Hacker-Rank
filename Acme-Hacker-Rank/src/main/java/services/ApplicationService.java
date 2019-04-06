@@ -49,4 +49,12 @@ public class ApplicationService {
 		
 		return result;
 	}
+	
+	public Collection<Application> findAllByProblemId(int problemId){
+		Collection<Application> result;
+		
+		result = this.applicationRepository.findAllByProblemId(problemId);
+		
+		return result;
+	}
 }

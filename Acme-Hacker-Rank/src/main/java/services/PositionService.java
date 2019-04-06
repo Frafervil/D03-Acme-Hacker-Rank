@@ -63,23 +63,6 @@ public class PositionService {
 		return result;
 	}
 
-	// Business Methods
-
-	public Collection<Position> findByCompany(final int companyId) {
-		Collection<Position> result;
-
-		result = this.positionRepository.findByCompanyId(companyId);
-		Assert.notNull(result);
-		return result;
-	}
-
-	public Collection<Position> findAvailableByCompanyId(final int companyId) {
-		Collection<Position> result;
-
-		result = this.positionRepository.findAvailableByCompanyId(companyId);
-		Assert.notNull(result);
-		return result;
-	}
 	
 	public Position create() {
 		Position result;
@@ -123,6 +106,48 @@ public class PositionService {
 		return result;
 	}
 	
+	public void delete(final Position position) {
+		Company principal;
+		Collection<Problem> problems;
+		Collection<Application> applications;
+
+		Assert.notNull(position);
+
+		principal = this.companyService.findByPrincipal();
+		Assert.notNull(principal);
+
+		applications = this.applicationService.findAllByPositionId(position.getId());
+
+		for (final Application a : applications)
+			this.applicationService.delete(a);
+
+		problems = this.problemService.findAllByPositionId(position.getId());
+		for (final Problem p : problems)
+			p.setPositions(null);
+
+		this.positionRepository.delete(position);
+	}
+	
+	
+	// Business Methods
+
+	public Collection<Position> findByCompany(final int companyId) {
+		Collection<Position> result;
+
+		result = this.positionRepository.findByCompanyId(companyId);
+		Assert.notNull(result);
+		return result;
+	}
+
+	public Collection<Position> findAvailableByCompanyId(final int companyId) {
+		Collection<Position> result;
+
+		result = this.positionRepository.findAvailableByCompanyId(companyId);
+		Assert.notNull(result);
+		return result;
+	}
+
+	
 
 	private String generateTicker(Company company) {
 		String result;
@@ -161,28 +186,7 @@ public class PositionService {
 		return isRepeated;	
 	}
 	
-	public void delete(final Position position) {
-		Company principal;
-		Collection<Problem> problems;
-		Collection<Application> applications;
 
-		Assert.notNull(position);
-
-		principal = this.companyService.findByPrincipal();
-		Assert.notNull(principal);
-
-		applications = this.applicationService.findAllByPositionId(position.getId());
-
-		for (final Application a : applications)
-			this.applicationService.delete(a);
-
-		problems = this.problemService.findAllByPositionId(position.getId());
-		for (final Problem p : problems)
-			p.setPositions(null);
-
-		this.positionRepository.delete(position);
-	}
-	
 	public Position reconstruct(final Position position, final BindingResult binding) {
 		Position result;
 		if (position.getId() == 0) {
