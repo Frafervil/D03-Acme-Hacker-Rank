@@ -86,6 +86,8 @@ public class PositionCompanyController extends AbstractController {
 			return result;
 		}
 		
+		//Edit
+		
 		@RequestMapping(value = "/edit", method = RequestMethod.GET)
 		public ModelAndView edit(@RequestParam final int positionId) {
 			ModelAndView result;
@@ -98,6 +100,8 @@ public class PositionCompanyController extends AbstractController {
 			return result;
 		}
 
+		//Save
+		
 		@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
 		public ModelAndView save(@ModelAttribute("position") Position position, final BindingResult binding) {
 			ModelAndView result;
@@ -119,6 +123,8 @@ public class PositionCompanyController extends AbstractController {
 			return result;
 		}
 		
+		//Save Cancelled
+		
 		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveCancelled")
 		public ModelAndView saveDraft(@ModelAttribute("parade") Position position, final BindingResult binding) {
 			ModelAndView result;
@@ -139,6 +145,8 @@ public class PositionCompanyController extends AbstractController {
 			}
 			return result;
 		}
+		
+		//Save Final
 
 		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveFinal")
 		public ModelAndView saveFinal(@ModelAttribute("parade") Position position, final BindingResult binding) {
@@ -160,6 +168,9 @@ public class PositionCompanyController extends AbstractController {
 
 			return result;
 		}
+		
+		//Delete
+		
 		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 		public ModelAndView delete(final Position position, final BindingResult binding) {
 			ModelAndView result;

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import domain.Application;
 import domain.Company;
@@ -27,7 +29,10 @@ public class ProblemService {
 	
 	@Autowired
 	private ApplicationService applicationService;
-	
+		
+	@Autowired
+	private Validator			validator;
+
 	
 	// Simple CRUD Methods
 	
@@ -44,7 +49,7 @@ public class ProblemService {
 		return result;
 	}
 	
-	public Problem save(Problem problem){
+	public Problem save(Problem problem, Boolean draft){
 		Problem result;
 		Company principal;
 
@@ -53,6 +58,7 @@ public class ProblemService {
 		
 		Assert.notNull(problem);
 		Assert.isTrue(problem.getCompany() == principal);
+		problem.setIsDraft(draft);
 		
 		result = this.problemRepository.save(problem);
 		Assert.notNull(result);
@@ -78,6 +84,22 @@ public class ProblemService {
 		
 	}
 	
+	public Problem findOne(final int problemId) {
+		Problem result;
+
+		result = this.problemRepository.findOne(problemId);
+		Assert.notNull(result);
+		return result;
+	}
+
+	public Collection<Problem> findAll() {
+		Collection<Problem> result;
+
+		result = this.problemRepository.findAll();
+		Assert.notNull(result);
+		return result;
+	}
+	
 	// Business Methods
 
 	public Collection<Problem> findAllByPositionId (final int positionId){
@@ -101,6 +123,24 @@ public class ProblemService {
 		
 		result = this.problemRepository.countByPositionId(positionId);
 
+		return result;
+	}
+	
+	public Problem reconstruct(final Problem problem, final BindingResult binding) {
+		Problem result;
+		if (problem.getId() == 0) {
+			result = problem;
+
+		} else
+			result = this.problemRepository.findOne(problem.getId());
+
+		result.setTitle(problem.getTitle());
+		result.setStatement(problem.getStatement());
+		result.setHint(problem.getHint());
+		result.setAttachment(problem.getAttachment());
+		result.setIsDraft(problem.getIsDraft());
+		
+		this.validator.validate(result, binding);
 		return result;
 	}
 }

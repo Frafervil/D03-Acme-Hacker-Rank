@@ -337,7 +337,7 @@
 		</property>
 		<property name="positions">
 			<list>
-				<ref bean="position1" />
+				<ref bean="position2" />
 			</list>
 		</property>
 		<property name="company" ref="company1" />
@@ -360,8 +360,70 @@
 		</property>
 		<property name="company" ref="company2" />
 	</bean>
-
 	
+	<bean class="domain.Problem" id="problem3">
+		<property name="title" value="title problem 3" />
+		<property name="statement" value="statement problem 3" />
+		<property name="hint" value="this in an optional hint problem 3" />
+		<property name="isDraft" value="false" />		
+		<property name="attachment">
+			<list>
+				<value>Attachment 1</value>
+				<value>Attachment 2</value>
+				<value>Attachment 3</value>
+			</list>
+		</property>
+		<property name="positions">
+			<list>
+				<ref bean="position2" />
+			</list>
+		</property>
+		<property name="company" ref="company1" />
+	</bean>
+	
+	<bean class="domain.Problem" id="problem4">
+		<property name="title" value="title problem 4" />
+		<property name="statement" value="statement problem 4" />
+		<property name="hint" value="this in an optional hint problem 4" />
+		<property name="isDraft" value="false" />		
+		<property name="attachment">
+			<list>
+				<value>Attachment 1</value>
+			</list>
+		</property>
+		<property name="positions">
+			<list>
+				<ref bean="position2" />
+			</list>
+		</property>
+		<property name="company" ref="company1" />
+	</bean>
+
+	<!-- Application -->
+
+	<bean class="domain.Application" id="application1">
+		<property name="hacker" ref="hacker1" />
+		<property name="status" value="PENDING" />
+		<property name="moment" value="2018/03/01 13:00" />		
+		<property name="position" ref="position2" />
+		<property name="problem" ref="problem1" />
+	</bean>
+	
+	<bean class="domain.Application" id="application2">
+		<property name="hacker" ref="hacker2" />
+		<property name="status" value="PENDING" />
+		<property name="moment" value="2018/06/15 12:24" />			
+		<property name="position" ref="position2" />
+		<property name="problem" ref="problem4" />
+	</bean>
+	
+	<bean class="domain.Application" id="application3">
+		<property name="hacker" ref="hacker3" />
+		<property name="status" value="PENDING" />
+		<property name="moment" value="2018/11/17 17:24" />			
+		<property name="position" ref="position2" />
+		<property name="problem" ref="problem3" />
+	</bean>
 	
 	<!-- Credit Card -->
 	

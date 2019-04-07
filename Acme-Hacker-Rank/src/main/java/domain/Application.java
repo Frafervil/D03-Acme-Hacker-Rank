@@ -6,6 +6,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -49,6 +50,8 @@ public class Application extends DomainEntity {
 
 	private Answer answer;
 	private Problem problem;
+	private Hacker hacker;
+	private Position position;
 	
 	@Valid
 	@OneToOne(optional = true, cascade = CascadeType.ALL)
@@ -70,5 +73,28 @@ public class Application extends DomainEntity {
 	public void setProblem(Problem problem) {
 		this.problem = problem;
 	}
+	
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	public Hacker getHacker() {
+		return this.hacker;
+	}
+
+	public void setHacker(final Hacker hacker) {
+		this.hacker = hacker;
+	}
+	
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	public Position getPosition() {
+		return this.position;
+	}
+
+	public void setPosition(final Position position) {
+		this.position = position;
+	}
+
 
 }
