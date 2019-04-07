@@ -5,7 +5,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,6 @@ import security.UserAccount;
 import security.UserAccountRepository;
 import domain.Company;
 import domain.CreditCard;
-import domain.Position;
 import forms.CompanyForm;
 
 @Service
@@ -45,9 +43,6 @@ public class CompanyService {
 
 //	@Autowired
 //	private ProblemService problemService;
-
-	@Autowired
-	private PositionService positionService;
 
 	@Autowired
 	private Validator validator;

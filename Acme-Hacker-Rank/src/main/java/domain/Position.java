@@ -105,7 +105,7 @@ public class Position extends DomainEntity {
 
 	@NotBlank
 	@Column(unique = true)
-	@Pattern(regexp = "^([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|31(?!(?: 0[2469]|11))|30(?!02))-[A-Z0-9]{6}$")
+	@Pattern(regexp = "^[A-Z]{4}-([0-9]{4})$")
 	public String getTicker() {
 		return this.ticker;
 	}
