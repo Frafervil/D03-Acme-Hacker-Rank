@@ -518,4 +518,55 @@
 		<property name="countryCode" value="+34" />
 	</bean>
 	
+	<!-- Messages -->
+	
+	<bean class="domain.Message" id="message1">
+		<property name="subject" value="Seguridad" />
+		<property name="body"
+			value="Mensaje de seguridad." />
+
+		<!-- Quien lo envia -->
+		<property name="sender" ref="administrator1" />
+
+		<!-- A quien va -->
+		<property name="recipients">
+			<list>
+				<ref bean="hacker1" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean class="domain.Message" id="message2">
+		<property name="subject" value="Seguridad" />
+		<property name="body"
+			value="Mensaje de prueba de seguridad." />
+
+		<!-- Quien lo envia -->
+		<property name="sender" ref="administrator1" />
+
+		<!-- A quien va -->
+		<property name="recipients">
+			<list>
+				<ref bean="hacker2" />
+				<ref bean="company1" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean class="domain.Message" id="message3">
+		<property name="subject" value="Seguridad" />
+		<property name="body"
+			value="Mensaje seguro." />
+
+		<!-- Quien lo envia -->
+		<property name="sender" ref="administrator1" />
+
+		<!-- A quien va -->
+		<property name="recipients">
+			<list>
+				<ref bean="company2" />
+			</list>
+		</property>
+	</bean>
+	
 </beans>
