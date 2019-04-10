@@ -42,13 +42,13 @@ public class MessageController extends AbstractController {
 
 			messages = this.messageService.findByActorId(actorId);
 
-			result = new ModelAndView("message/actor/list");
+			result = new ModelAndView("message/list");
 			result.addObject("messages", messages);
 			result.addObject("requestURI", "message/actor/list.do");
 
 		} catch (final Throwable oops) {
 			oops.printStackTrace();
-			result = new ModelAndView("message/actor/list");
+			result = new ModelAndView("message/list");
 			result.addObject("message", "message.retrieve.error");
 			result.addObject("messages", new ArrayList<Message>());
 		}
