@@ -124,7 +124,8 @@
 					</security:authorize>
 					<security:authorize access="hasRole('ADMIN')">
 					<li><a href="administrator/viewProfile.do"><spring:message code="master.page.administrator.viewProfile" /></a></li>
-					</security:authorize>					
+					</security:authorize>
+					<li><a href="message/actor/list.do"><spring:message code="master.page.profile.messages" /></a></li>					
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
 				</ul>
 			</li>
