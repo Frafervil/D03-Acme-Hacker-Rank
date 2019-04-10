@@ -1,4 +1,3 @@
-
 package domain;
 
 import javax.persistence.Access;
@@ -12,9 +11,8 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.PROPERTY)
 public class Company extends Actor {
 
-	private String	email;
-	private String	commercialName;
-
+	private String email;
+	private String commercialName;
 
 	@Pattern(regexp = "^[a-zA-Z0-9 ]*[<]?\\w+[@][a-zA-Z0-9.]+[>]?$")
 	public String getEmail() {

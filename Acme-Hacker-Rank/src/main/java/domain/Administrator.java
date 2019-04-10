@@ -1,4 +1,3 @@
-
 package domain;
 
 import javax.persistence.Access;
@@ -10,8 +9,7 @@ import javax.validation.constraints.Pattern;
 @Access(AccessType.PROPERTY)
 public class Administrator extends Actor {
 
-	private String	email;
-
+	private String email;
 
 	@Pattern(regexp = "^[a-zA-Z0-9 ]*[<]?\\w+[@]")
 	public String getEmail() {
