@@ -28,6 +28,21 @@ public class MessageAdministratorController extends AbstractController {
 	@Autowired
 	private ActorService actorService;
 
+	// Creation ---------------------------------------------------------------
+
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create() {
+		final ModelAndView result;
+		Message mensaje;
+
+		mensaje = this.messageService.create();
+
+		result = this.createEditModelAndView(mensaje);
+
+		return result;
+
+	}
+
 	// Broadcast
 	@RequestMapping(value = "/broadcast", method = RequestMethod.POST, params = "save")
 	public ModelAndView broadcast(@Valid final Message mensaje,

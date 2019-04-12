@@ -46,16 +46,16 @@ public class MessageService {
 	}
 
 	public Message save(final Message message) {
-		Actor principal;
 		Message result;
-
+		Actor principal;
+		
 		Assert.notNull(message);
 
 		principal = this.actorService.findByPrincipal();
 		Assert.notNull(principal);
 
 		Assert.isTrue(message.getSender().equals(principal));
-
+		
 		result = this.messageRepository.save(message);
 		Assert.notNull(result);
 
@@ -74,16 +74,17 @@ public class MessageService {
 		Message result;
 		Message saved;
 		Actor principal;
+		Collection<Actor> recipients;
 
 		Assert.notNull(message);
 
 		principal = this.actorService.findByPrincipal();
-
 		Assert.notNull(principal);
-
 		message.setSender(principal);
 
-		Assert.isTrue(!message.getRecipients().contains(principal));
+		recipients = this.actorService.findAll();
+		Assert.notNull(recipients);
+		message.setRecipients(recipients);
 
 		saved = this.messageRepository.save(message);
 		Assert.notNull(saved);
