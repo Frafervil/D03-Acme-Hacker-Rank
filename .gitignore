@@ -3,6 +3,6 @@
 \.RemoteSystemsTempFiles/
 \Scrapbook/
 \Servers/
-\Acme-Hacker-Rank/target
-\Acme-Hacker-Rank/.settings
+\Acme-Hacker-Rank/target/
+\Acme-Hacker-Rank/.settings/
 \Acme-Hacker-Rank/src/main/resources/Entities.map

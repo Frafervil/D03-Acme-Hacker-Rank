@@ -168,7 +168,7 @@ public class PositionService {
 			}
 		}else{
 			if(text.length() >4){
-				text = text.substring(0,3);
+				text = text.substring(0,4);
 			}
 		}
 		
