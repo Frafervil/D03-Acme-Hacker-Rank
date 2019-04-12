@@ -102,7 +102,7 @@ public class PositionCompanyController extends AbstractController {
 
 		//Save
 		
-		@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
+		@RequestMapping(value = "/create", method = RequestMethod.POST, params = "saveDraft")
 		public ModelAndView save(@ModelAttribute("position") Position position, final BindingResult binding) {
 			ModelAndView result;
 
