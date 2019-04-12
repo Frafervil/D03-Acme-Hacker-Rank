@@ -7,6 +7,7 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <!-- Buscar rutas por palabra clave -->
 <form action="${requestURI }" method="get">
@@ -49,3 +50,13 @@
 	</display:column>
 
 </display:table>
+
+<!-- Create position -->
+<security:authorize access="hasRole('COMPANY')">
+<jstl:if test = "${row.company.userAccount.username == pageContext.request.userPrincipal.name}">
+	
+		
+		<acme:button url="position/company/create.do" code="position.create"/>
+	
+	</jstl:if>
+</security:authorize> 
