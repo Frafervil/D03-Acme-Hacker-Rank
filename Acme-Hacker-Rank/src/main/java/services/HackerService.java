@@ -19,7 +19,6 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
-import domain.Company;
 import domain.CreditCard;
 import domain.Hacker;
 import forms.HackerForm;

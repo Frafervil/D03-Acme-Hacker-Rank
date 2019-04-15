@@ -11,7 +11,7 @@ import security.UserAccountRepository;
 
 @Component
 @Transactional
-public class StringToUserAccount implements Converter<String, UserAccount> {
+public class StringToUserAccountConverter implements Converter<String, UserAccount> {
 
 	@Autowired
 	UserAccountRepository useraccountrepository;
