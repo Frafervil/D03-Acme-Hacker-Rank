@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Administrator;
+import forms.AdministratorForm;
 
 import services.AdministratorService;
 import services.CustomisationService;
@@ -95,6 +96,30 @@ public class AdministratorController extends AbstractController {
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/administrator/viewProfile.do");
 		}
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(
+			final Administrator administrator) {
+		ModelAndView result;
+		AdministratorForm administratorForm;
+		administratorForm = this.administratorservice.construct(administrator);
+		result = this.createEditModelAndView(administratorForm, null);
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(
+			final AdministratorForm administratorForm, final String messageCode) {
+		ModelAndView result;
+		String countryCode;
+
+		countryCode = this.customisationService.find().getCountryCode();
+
+		result = new ModelAndView("administrator/edit");
+		result.addObject("administratorForm", administratorForm);
+		result.addObject("countryCode", countryCode);
+		result.addObject("message", messageCode);
 
 		return result;
 	}

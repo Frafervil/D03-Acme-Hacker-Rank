@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.Collection;
@@ -23,24 +22,22 @@ public class PositionService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private PositionRepository	positionRepository;
-
+	private PositionRepository positionRepository;
 
 	// Supporting services ----------------------------------------------------
 
 	@Autowired
 	private CompanyService companyService;
-	
+
 	@Autowired
 	private ProblemService problemService;
-	
+
 	@Autowired
 	private ApplicationService applicationService;
-	
-	@Autowired
-	private Validator			validator;
 
-	
+	@Autowired
+	private Validator validator;
+
 	// Simple CRUD Methods
 
 	public boolean exist(final Integer positionId) {
@@ -63,7 +60,6 @@ public class PositionService {
 		return result;
 	}
 
-	
 	public Position create() {
 		Position result;
 		final Company principal;
@@ -77,7 +73,7 @@ public class PositionService {
 		result.setCompany(principal);
 		return result;
 	}
-	
+
 	public Position save(final Position position, String saveMode) {
 		Company principal;
 		Position result;
@@ -85,27 +81,27 @@ public class PositionService {
 
 		principal = this.companyService.findByPrincipal();
 		Assert.notNull(principal);
-		
+
 		Assert.notNull(position);
 		Assert.isTrue(position.getCompany() == principal);
-		
+
 		numProblems = this.problemService.countByPositionId(position.getId());
-		
-		if(saveMode.equals("CANCELLED")){
+
+		if (saveMode.equals("CANCELLED")) {
 			Assert.isTrue(position.getStatus().equals("FINAL"));
 		}
-		if(saveMode.equals("FINAL")){
-			Assert.isTrue(numProblems>=2);
+		if (saveMode.equals("FINAL")) {
+			Assert.isTrue(numProblems >= 2);
 		}
-		
+
 		position.setStatus(saveMode);
-		
+
 		result = this.positionRepository.save(position);
 		Assert.notNull(result);
 
 		return result;
 	}
-	
+
 	public void delete(final Position position) {
 		Company principal;
 		Collection<Problem> problems;
@@ -116,7 +112,8 @@ public class PositionService {
 		principal = this.companyService.findByPrincipal();
 		Assert.notNull(principal);
 
-		applications = this.applicationService.findAllByPositionId(position.getId());
+		applications = this.applicationService.findAllByPositionId(position
+				.getId());
 
 		for (final Application a : applications)
 			this.applicationService.delete(a);
@@ -127,8 +124,7 @@ public class PositionService {
 
 		this.positionRepository.delete(position);
 	}
-	
-	
+
 	// Business Methods
 
 	public Collection<Position> findByCompany(final int companyId) {
@@ -148,12 +144,11 @@ public class PositionService {
 	}
 
 	public Collection<Position> findByKeyword(final String keyword) {
-		final Collection<Position> result = this.positionRepository.findByKeyword(keyword);
+		final Collection<Position> result = this.positionRepository
+				.findByKeyword(keyword);
 
 		return result;
 	}
-
-	
 
 	private String generateTicker(Company company) {
 		String result;
@@ -162,38 +157,39 @@ public class PositionService {
 		text = company.getCommercialName().toUpperCase();
 		Random random = new Random();
 
-		if (text.length() < 4){
-			while(text.length() < 4){
+		if (text.length() < 4) {
+			while (text.length() < 4) {
 				text.concat("X");
 			}
-		}else{
-			if(text.length() >4){
-				text = text.substring(0,4);
+		} else {
+			if (text.length() > 4) {
+				text = text.substring(0, 4);
 			}
 		}
-		
-		numbers = String.format("%04d", random.nextInt(10000));		
+
+		numbers = String.format("%04d", random.nextInt(10000));
 		result = text + "-" + numbers;
-		if(this.repeatedTicker(company, result))
+		if (this.repeatedTicker(company, result))
 			generateTicker(company);
-			
+
 		return result;
 	}
 
-	public boolean repeatedTicker(Company company, String ticker){
+	public boolean repeatedTicker(Company company, String ticker) {
 		Boolean isRepeated = false;
 		int repeats;
-		
-		repeats = this.positionRepository.findRepeatedTickers(company.getId(), ticker);
-		
-		if(repeats>0)
-			isRepeated = true;
-		
-		return isRepeated;	
-	}
-	
 
-	public Position reconstruct(final Position position, final BindingResult binding) {
+		repeats = this.positionRepository.findRepeatedTickers(company.getId(),
+				ticker);
+
+		if (repeats > 0)
+			isRepeated = true;
+
+		return isRepeated;
+	}
+
+	public Position reconstruct(final Position position,
+			final BindingResult binding) {
 		Position result;
 		if (position.getId() == 0) {
 			result = position;
@@ -211,12 +207,93 @@ public class PositionService {
 		result.setCompany(this.companyService.findByPrincipal());
 		result.setTechnologiesRequired(position.getTechnologiesRequired());
 		result.setStatus(position.getStatus());
-		
+
 		this.validator.validate(result, binding);
 		return result;
 	}
-	
+
 	public void flush() {
 		this.positionRepository.flush();
 	}
+
+	public Double avgPositionsPerCompany() {
+		Double result;
+
+		result = this.positionRepository.avgPositionsPerCompany();
+
+		return result;
+	}
+
+	public Double minPositionsPerCompany() {
+		Double result;
+
+		result = this.positionRepository.minPositionsPerCompany();
+
+		return result;
+	}
+
+	public Double maxPositionsPerCompany() {
+		Double result;
+
+		result = this.positionRepository.maxPositionsPerCompany();
+
+		return result;
+	}
+
+	public Double stddevPositionsPerCompany() {
+		Double result;
+
+		result = this.positionRepository.stddevPositionsPerCompany();
+
+		return result;
+	}
+
+	public Double avgSalariesOffered() {
+		Double result;
+
+		result = this.positionRepository.avgSalariesOffered();
+
+		return result;
+	}
+
+	public Double minSalariesOffered() {
+		Double result;
+
+		result = this.positionRepository.minSalariesOffered();
+
+		return result;
+	}
+
+	public Double maxSalariesOffered() {
+		Double result;
+
+		result = this.positionRepository.maxSalariesOffered();
+
+		return result;
+	}
+
+	public Double stddevSalariesOffered() {
+		Double result;
+
+		result = this.positionRepository.stddevSalariesOffered();
+
+		return result;
+	}
+
+	public Position bestSalaryPosition() {
+		Position result;
+
+		result = this.positionRepository.bestSalaryPosition();
+
+		return result;
+	}
+
+	public Position worstSalaryPosition() {
+		Position result;
+
+		result = this.positionRepository.worstSalaryPosition();
+
+		return result;
+	}
+
 }

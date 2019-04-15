@@ -165,16 +165,6 @@ public class AdministratorService {
 		administratorForm.setPhoto(administrator.getPhoto());
 		administratorForm.setSurname(administrator.getSurname());
 		administratorForm.setVatNumber(administrator.getVatNumber());
-		administratorForm.setBrandName(administrator.getCreditCard()
-				.getBrandName());
-		administratorForm.setCVV(administrator.getCreditCard().getCVV());
-		administratorForm.setExpirationMonth(administrator.getCreditCard()
-				.getExpirationMonth());
-		administratorForm.setExpirationYear(administrator.getCreditCard()
-				.getExpirationYear());
-		administratorForm.setHolderName(administrator.getCreditCard()
-				.getHolderName());
-		administratorForm.setNumber(administrator.getCreditCard().getNumber());
 		administratorForm.setCheckBox(administratorForm.getCheckBox());
 		administratorForm.setUsername(administrator.getUserAccount()
 				.getUsername());
@@ -194,14 +184,6 @@ public class AdministratorService {
 		result.setPhoto(administratorForm.getPhoto());
 		result.setSurname(administratorForm.getSurname());
 		result.setVatNumber(administratorForm.getVatNumber());
-		result.getCreditCard().setBrandName(administratorForm.getBrandName());
-		result.getCreditCard().setCVV(administratorForm.getCVV());
-		result.getCreditCard().setExpirationMonth(
-				administratorForm.getExpirationMonth());
-		result.getCreditCard().setExpirationYear(
-				administratorForm.getExpirationYear());
-		result.getCreditCard().setHolderName(administratorForm.getHolderName());
-		result.getCreditCard().setNumber(administratorForm.getNumber());
 
 		if (!StringUtils.isEmpty(administratorForm.getPhone())) {
 			final Pattern pattern = Pattern.compile("^\\d{4,}$",

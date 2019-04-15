@@ -41,8 +41,8 @@ public class CompanyService {
 	@Autowired
 	private CreditCardService creditCardService;
 
-//	@Autowired
-//	private ProblemService problemService;
+	// @Autowired
+	// private ProblemService problemService;
 
 	@Autowired
 	private Validator validator;
@@ -120,25 +120,25 @@ public class CompanyService {
 		return saved;
 	}
 
-//	public void delete() {
-//		Company principal;
-//		Collection<Problem> problems;
-//		Collection<Position> positions;
-//
-//		principal = this.findByPrincipal();
-//		Assert.notNull(principal);
-//
-//		problems = this.problemService.findByCompanyId(principal.getId());
-//		for (final Problem p : problems)
-//			this.problemService.delete(p);
-//
-//		positions = this.positionService.findAllPositionsOfOneCompany(principal
-//				.getId());
-//		for (final Position p : positions)
-//			this.positionService.delete(p);
-//
-//		this.companyRepository.delete(principal);
-//	}
+	// public void delete() {
+	// Company principal;
+	// Collection<Problem> problems;
+	// Collection<Position> positions;
+	//
+	// principal = this.findByPrincipal();
+	// Assert.notNull(principal);
+	//
+	// problems = this.problemService.findByCompanyId(principal.getId());
+	// for (final Problem p : problems)
+	// this.problemService.delete(p);
+	//
+	// positions = this.positionService.findAllPositionsOfOneCompany(principal
+	// .getId());
+	// for (final Position p : positions)
+	// this.positionService.delete(p);
+	//
+	// this.companyRepository.delete(principal);
+	// }
 
 	public Company findOne(final int companyId) {
 		Company result;
@@ -293,5 +293,13 @@ public class CompanyService {
 
 	public void flush() {
 		this.companyRepository.flush();
+	}
+
+	public Collection<Company> companiesWithMorePositions() {
+		Collection<Company> result;
+
+		result = this.companyRepository.companiesWithMorePositions();
+
+		return result;
 	}
 }
