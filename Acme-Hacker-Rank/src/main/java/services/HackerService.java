@@ -19,6 +19,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
+import domain.Actor;
 import domain.CreditCard;
 import domain.Hacker;
 import forms.HackerForm;
@@ -270,6 +271,12 @@ public class HackerService {
 	}
 
 	public Collection<Hacker> hackersWithMoreApplications() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities()
+				.contains(authority));
 		Collection<Hacker> result;
 
 		result = this.hackerRepository.hackersWithMoreApplications();

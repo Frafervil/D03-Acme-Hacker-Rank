@@ -19,6 +19,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
+import domain.Actor;
 import domain.Company;
 import domain.CreditCard;
 import forms.CompanyForm;
@@ -296,6 +297,12 @@ public class CompanyService {
 	}
 
 	public Collection<Company> companiesWithMorePositions() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities()
+				.contains(authority));
 		Collection<Company> result;
 
 		result = this.companyRepository.companiesWithMorePositions();

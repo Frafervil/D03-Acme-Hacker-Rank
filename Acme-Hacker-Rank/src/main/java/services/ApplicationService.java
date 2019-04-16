@@ -13,11 +13,13 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import domain.Actor;
 import domain.Answer;
 import domain.Application;
 import domain.Company;
 
 import repositories.ApplicationRepository;
+import security.Authority;
 
 @Service
 @Transactional
@@ -38,6 +40,9 @@ public class ApplicationService {
 
 	@Autowired
 	private HackerService hackerService;
+
+	@Autowired
+	private ActorService actorService;
 
 	// Simple CRUD Methods
 	public void delete(final Application application) {
@@ -184,6 +189,12 @@ public class ApplicationService {
 	}
 
 	public Double avgApplicationsPerHacker() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities()
+				.contains(authority));
 		Double result;
 
 		result = this.applicationRepository.avgApplicationsPerHacker();
@@ -192,6 +203,12 @@ public class ApplicationService {
 	}
 
 	public Double minApplicationsPerHacker() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities()
+				.contains(authority));
 		Double result;
 
 		result = this.applicationRepository.minApplicationsPerHacker();
@@ -200,6 +217,12 @@ public class ApplicationService {
 	}
 
 	public Double maxApplicationsPerHacker() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities()
+				.contains(authority));
 		Double result;
 
 		result = this.applicationRepository.maxApplicationsPerHacker();
@@ -208,6 +231,12 @@ public class ApplicationService {
 	}
 
 	public Double stddevApplicationsPerHacker() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities()
+				.contains(authority));
 		Double result;
 
 		result = this.applicationRepository.stddevApplicationsPerHacker();
