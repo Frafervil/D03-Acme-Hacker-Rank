@@ -90,13 +90,22 @@ public class AdministratorService {
 	public Administrator save(final Administrator administrator) {
 		Administrator saved;
 		UserAccount logedUserAccount;
-		Md5PasswordEncoder encoder;
 
-		encoder = new Md5PasswordEncoder();
+		final Md5PasswordEncoder passwordEncoder = new Md5PasswordEncoder();
 		logedUserAccount = this.actorService.createUserAccount(Authority.ADMIN);
 		Assert.notNull(administrator, "administrator.not.null");
 
-		if (this.exists(administrator.getId())) {
+		if (administrator.getId() == 0) {
+			CreditCard creditCard;
+			administrator.getUserAccount().setPassword(
+					passwordEncoder.encodePassword(administrator
+							.getUserAccount().getPassword(), null));
+			creditCard = this.creditCardService.saveNew(administrator
+					.getCreditCard());
+			administrator.setCreditCard(creditCard);
+			saved = this.administratorRepository.saveAndFlush(administrator);
+
+		} else {
 			logedUserAccount = LoginService.getPrincipal();
 			Assert.notNull(logedUserAccount, "administrator.notLogged");
 			Assert.isTrue(
@@ -104,27 +113,14 @@ public class AdministratorService {
 					"administrator.notEqual.userAccount");
 			saved = this.administratorRepository.findOne(administrator.getId());
 			Assert.notNull(saved, "administrator.not.null");
-			Assert.isTrue(
-					saved.getUserAccount()
-							.getUsername()
-							.equals(administrator.getUserAccount()
-									.getUsername()),
-					"administrator.notEqual.username");
-			Assert.isTrue(
-					administrator.getUserAccount().getPassword()
-							.equals(saved.getUserAccount().getPassword()),
-					"administrator.notEqual.password");
-
-			saved = this.administratorRepository.save(administrator);
-
-		} else {
-			administrator.getUserAccount().setPassword(
-					encoder.encodePassword(administrator.getUserAccount()
-							.getPassword(), null));
+			Assert.isTrue(saved.getUserAccount().getUsername()
+					.equals(administrator.getUserAccount().getUsername()));
+			Assert.isTrue(saved.getUserAccount().getPassword()
+					.equals(administrator.getUserAccount().getPassword()));
 			saved = this.administratorRepository.saveAndFlush(administrator);
 		}
-		return saved;
 
+		return saved;
 	}
 
 	public void delete() {
@@ -165,6 +161,16 @@ public class AdministratorService {
 		administratorForm.setPhoto(administrator.getPhoto());
 		administratorForm.setSurname(administrator.getSurname());
 		administratorForm.setVatNumber(administrator.getVatNumber());
+		administratorForm.setBrandName(administrator.getCreditCard()
+				.getBrandName());
+		administratorForm.setCVV(administrator.getCreditCard().getCVV());
+		administratorForm.setExpirationMonth(administrator.getCreditCard()
+				.getExpirationMonth());
+		administratorForm.setExpirationYear(administrator.getCreditCard()
+				.getExpirationYear());
+		administratorForm.setHolderName(administrator.getCreditCard()
+				.getHolderName());
+		administratorForm.setNumber(administrator.getCreditCard().getNumber());
 		administratorForm.setCheckBox(administratorForm.getCheckBox());
 		administratorForm.setUsername(administrator.getUserAccount()
 				.getUsername());
@@ -184,6 +190,14 @@ public class AdministratorService {
 		result.setPhoto(administratorForm.getPhoto());
 		result.setSurname(administratorForm.getSurname());
 		result.setVatNumber(administratorForm.getVatNumber());
+		result.getCreditCard().setBrandName(administratorForm.getBrandName());
+		result.getCreditCard().setCVV(administratorForm.getCVV());
+		result.getCreditCard().setExpirationMonth(
+				administratorForm.getExpirationMonth());
+		result.getCreditCard().setExpirationYear(
+				administratorForm.getExpirationYear());
+		result.getCreditCard().setHolderName(administratorForm.getHolderName());
+		result.getCreditCard().setNumber(administratorForm.getNumber());
 
 		if (!StringUtils.isEmpty(administratorForm.getPhone())) {
 			final Pattern pattern = Pattern.compile("^\\d{4,}$",

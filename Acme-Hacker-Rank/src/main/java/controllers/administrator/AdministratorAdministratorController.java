@@ -53,12 +53,11 @@ public class AdministratorAdministratorController extends AbstractController {
 			admin = this.administratorService.reconstruct(administratorForm,
 					binding);
 			if (binding.hasErrors()) {
-				res = this.createRegisterModelAndView(administratorForm);
 				for (final ObjectError e : binding.getAllErrors())
 					System.out.println(e.getObjectName() + " error ["
 							+ e.getDefaultMessage() + "] "
 							+ Arrays.toString(e.getCodes()));
-
+				res = this.createRegisterModelAndView(administratorForm);
 			} else {
 				admin = this.administratorService.save(admin);
 				res = new ModelAndView("welcome/index");
