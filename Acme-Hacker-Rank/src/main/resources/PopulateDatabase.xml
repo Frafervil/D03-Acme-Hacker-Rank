@@ -187,8 +187,8 @@
 	</bean>
 
 	<bean class="domain.Hacker" id="hacker3">
-		<property name="name" value="Antonia" />
-		<property name="surname" value="Perez Castellanos" />
+		<property name="name" value="Julia" />
+		<property name="surname" value="Galán Ortiz" />
 		<property name="photo" value="http://www.mifoto.com/perfil" />
 		<property name="email" value="antonia@gmail.com" />
 		<property name="phone" value="+34678918234" />

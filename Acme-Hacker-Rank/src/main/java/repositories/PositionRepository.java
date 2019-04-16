@@ -25,4 +25,33 @@ public interface PositionRepository extends JpaRepository<Position, Integer> {
 	@Query("select count(p) from Position p where p.company.id = ?1 AND p.ticker = ?2")
 	Integer findRepeatedTickers (int companyId, String ticker);
 
+	@Query("select avg(1.0*(select count(p) from Position p where p.company.id = c.id)) from Company c")
+	Double avgPositionsPerCompany();
+	
+	@Query("select min(1.0*(select count(p) from Position p where p.company.id = c.id)) from Company c")
+	Double minPositionsPerCompany();
+	
+	@Query("select max(1.0*(select count(p) from Position p where p.company.id = c.id)) from Company c")
+	Double maxPositionsPerCompany();
+	
+	@Query("select stddev(1.0*(select count(p) from Position p where p.company.id = c.id)) from Company c")
+	Double stddevPositionsPerCompany();
+	
+	@Query("select avg(p.salaryOffered) from Position p")
+	Double avgSalariesOffered();
+	
+	@Query("select min(p.salaryOffered) from Position p")
+	Double minSalariesOffered();
+	
+	@Query("select max(p.salaryOffered) from Position p")
+	Double maxSalariesOffered();
+	
+	@Query("select stddev(p.salaryOffered) from Position p")
+	Double stddevSalariesOffered();
+	
+	@Query("select p from Position p where p.salaryOffered = (select max(p.salaryOffered) from Position p)")
+	Position bestSalaryPosition();
+	
+	@Query("select p from Position p where p.salaryOffered = (select min(p.salaryOffered) from Position p)")
+	Position worstSalaryPosition();
 }

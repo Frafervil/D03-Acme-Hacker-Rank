@@ -104,20 +104,20 @@ public class HackerService {
 		return saved;
 	}
 
-//	public void delete() {
-//		Hacker principal;
-//		final Collection<Application> applications;
-//
-//		principal = this.findByPrincipal();
-//		Assert.notNull(principal);
-//
-//		applications = this.applicationService.findAllByHacker(principal
-//				.getId());
-//		for (final Application a : applications)
-//			this.applicationService.deleteApplicationDeletingProfile(a);
-//
-//		this.hackerRepository.delete(principal);
-//	}
+	// public void delete() {
+	// Hacker principal;
+	// final Collection<Application> applications;
+	//
+	// principal = this.findByPrincipal();
+	// Assert.notNull(principal);
+	//
+	// applications = this.applicationService.findAllByHacker(principal
+	// .getId());
+	// for (final Application a : applications)
+	// this.applicationService.deleteApplicationDeletingProfile(a);
+	//
+	// this.hackerRepository.delete(principal);
+	// }
 
 	public Hacker findOne(final int hackerId) {
 		Hacker result;
@@ -267,6 +267,14 @@ public class HackerService {
 
 	public void flush() {
 		this.hackerRepository.flush();
+	}
+
+	public Collection<Hacker> hackersWithMoreApplications() {
+		Collection<Hacker> result;
+
+		result = this.hackerRepository.hackersWithMoreApplications();
+
+		return result;
 	}
 
 }

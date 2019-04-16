@@ -9,8 +9,6 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <security:authorize access="hasRole('ADMIN')">
-<a href="message/administrator/create.do"><spring:message code="message.broadCastMessage" /></a>
-<br/>
 <a href="message/administrator/warning.do"><spring:message code="message.warning" /></a>
 <br/>
 </security:authorize>

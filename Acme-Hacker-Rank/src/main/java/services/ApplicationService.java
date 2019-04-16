@@ -17,7 +17,6 @@ import domain.Answer;
 import domain.Application;
 import domain.Company;
 
-
 import repositories.ApplicationRepository;
 
 @Service
@@ -26,23 +25,20 @@ public class ApplicationService {
 	// Managed repository -----------------------------------------------------
 	@Autowired
 	private ApplicationRepository applicationRepository;
-	
-	@Autowired
-	private Validator			validator;
 
+	@Autowired
+	private Validator validator;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
 	private AnswerService answerService;
-	
+
 	@Autowired
 	private CompanyService companyService;
-	
-	
+
 	@Autowired
 	private HackerService hackerService;
-	
-	
+
 	// Simple CRUD Methods
 	public void delete(final Application application) {
 		final Answer answer;
@@ -58,7 +54,7 @@ public class ApplicationService {
 		this.applicationRepository.delete(application);
 
 	}
-	
+
 	public Application findOne(final int applicationId) {
 		Application result;
 
@@ -67,42 +63,43 @@ public class ApplicationService {
 		return result;
 
 	}
-	
+
 	public Application save(final Application application) {
 		Application result;
 		result = this.applicationRepository.save(application);
 		Assert.notNull(result);
 		return result;
 	}
-	
+
 	// Additional functions
 
-	public Collection<Application> findAllByPositionId(int positionId){
+	public Collection<Application> findAllByPositionId(int positionId) {
 		Collection<Application> result;
-		
+
 		result = this.applicationRepository.findAllByPositionId(positionId);
 		Assert.notNull(result);
-		
+
 		return result;
 	}
-	
-	public Collection<Application> findAllByProblemId(int problemId){
+
+	public Collection<Application> findAllByProblemId(int problemId) {
 		Collection<Application> result;
 		result = new ArrayList<Application>();
 		result = this.applicationRepository.findAllByProblemId(problemId);
-		
+
 		return result;
 	}
-	
-	public Collection<Application> findAllByCompanyId(int companyId){
+
+	public Collection<Application> findAllByCompanyId(int companyId) {
 		Collection<Application> result;
 		result = new ArrayList<Application>();
 		result = this.applicationRepository.findAllByCompany(companyId);
-		
+
 		return result;
 	}
-	
-	public Map<String, List<Application>> groupByStatus(final Collection<Application> applications) {
+
+	public Map<String, List<Application>> groupByStatus(
+			final Collection<Application> applications) {
 		final Map<String, List<Application>> result = new HashMap<String, List<Application>>();
 
 		Assert.notNull(applications);
@@ -123,10 +120,10 @@ public class ApplicationService {
 			result.put("REJECTED", new ArrayList<Application>());
 		if (!result.containsKey("SUBMITTED"))
 			result.put("SUBMITTED", new ArrayList<Application>());
-		
+
 		return result;
 	}
-	
+
 	public void reject(final Application a) {
 		Company principal;
 
@@ -139,7 +136,7 @@ public class ApplicationService {
 		Assert.isTrue(a.getStatus().equals("PENDING"));
 
 		a.setStatus("REJECTED");
-		
+
 		this.applicationRepository.save(a);
 	}
 
@@ -159,7 +156,8 @@ public class ApplicationService {
 		this.applicationRepository.save(a);
 	}
 
-	public Application reconstruct(final Application application, final BindingResult binding) {
+	public Application reconstruct(final Application application,
+			final BindingResult binding) {
 		Application result;
 		result = application;
 		result.setHacker(this.hackerService.findByPrincipal());
@@ -171,16 +169,49 @@ public class ApplicationService {
 		return result;
 	}
 
-
-	public Application reconstructCompany(final Application application, final BindingResult binding) {
+	public Application reconstructCompany(final Application application,
+			final BindingResult binding) {
 		Application result;
 		result = this.applicationRepository.findOne(application.getId());
 		result.getAnswer().setMoment(application.getAnswer().getMoment());
-		result.getAnswer().setAnswerText(application.getAnswer().getAnswerText());
+		result.getAnswer().setAnswerText(
+				application.getAnswer().getAnswerText());
 		result.getAnswer().setCodeLink(application.getAnswer().getCodeLink());
 
 		this.validator.validate(result, binding);
 		this.applicationRepository.flush();
+		return result;
+	}
+
+	public Double avgApplicationsPerHacker() {
+		Double result;
+
+		result = this.applicationRepository.avgApplicationsPerHacker();
+
+		return result;
+	}
+
+	public Double minApplicationsPerHacker() {
+		Double result;
+
+		result = this.applicationRepository.minApplicationsPerHacker();
+
+		return result;
+	}
+
+	public Double maxApplicationsPerHacker() {
+		Double result;
+
+		result = this.applicationRepository.maxApplicationsPerHacker();
+
+		return result;
+	}
+
+	public Double stddevApplicationsPerHacker() {
+		Double result;
+
+		result = this.applicationRepository.stddevApplicationsPerHacker();
+
 		return result;
 	}
 

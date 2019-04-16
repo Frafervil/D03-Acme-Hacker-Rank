@@ -7,17 +7,17 @@
 <tiles-definitions>
 	
 	<definition name="position/list" extends="master.page">
-		<put-attribute name="title" value="Lista de posiciones" />
+		<put-attribute name="title" value="Lista de puestos de trabajo" />
 		<put-attribute name="body" value="/views/position/list.jsp" />
 	</definition>
 	
 	<definition name="position/display" extends="master.page">
-		<put-attribute name="title" value="Mostrar posición" />
+		<put-attribute name="title" value="Mostrar puesto de trabajo" />
 		<put-attribute name="body" value="/views/position/display.jsp" />
 	</definition>
 	
 	<definition name="position/create" extends="master.page">
-		<put-attribute name="title" value="Crear posición" />
+		<put-attribute name="title" value="Crear puesto de trabajo" />
 		<put-attribute name="body" value="/views/position/create.jsp" />
 	</definition>
 		

@@ -18,6 +18,9 @@
 		<bean class="converters.ActorToStringConverter" />
 		<bean class="converters.StringToActorConverter" />
 
+		<bean class="converters.AdministratorToStringConverter" />
+		<bean class="converters.StringToAdministratorConverter" />
+
 		<bean class="converters.AuthorityToStringConverter" />
 		<bean class="converters.StringToAuthorityConverter" />
 
@@ -31,7 +34,7 @@
 		<bean class="converters.StringToHackerConverter" />
 
 		<bean class="converters.UserAccountToStringConverter" />
-		<bean class="converters.StringToUserAccount" />
+		<bean class="converters.StringToUserAccountConverter" />
 
 		<bean class="converters.ProblemToStringConverter" />
 		<bean class="converters.StringToProblemConverter" />

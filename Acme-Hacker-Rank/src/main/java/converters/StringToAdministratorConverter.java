@@ -6,19 +6,20 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import security.UserAccount;
-import security.UserAccountRepository;
+import repositories.AdministratorRepository;
+import domain.Administrator;
 
 @Component
 @Transactional
-public class StringToUserAccount implements Converter<String, UserAccount> {
+public class StringToAdministratorConverter implements
+		Converter<String, Administrator> {
 
 	@Autowired
-	UserAccountRepository useraccountrepository;
+	AdministratorRepository administratorRepository;
 
 	@Override
-	public UserAccount convert(final String text) {
-		UserAccount result;
+	public Administrator convert(final String text) {
+		Administrator result;
 		int id;
 
 		try {
@@ -26,12 +27,11 @@ public class StringToUserAccount implements Converter<String, UserAccount> {
 				result = null;
 			else {
 				id = Integer.valueOf(text);
-				result = this.useraccountrepository.findOne(id);
+				result = this.administratorRepository.findOne(id);
 			}
 		} catch (final Throwable oops) {
 			throw new IllegalArgumentException(oops);
 		}
 		return result;
 	}
-
 }
