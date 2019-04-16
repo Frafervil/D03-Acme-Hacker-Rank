@@ -75,8 +75,6 @@
 		<security:intercept-url pattern="/message/actor/list.do" access="isAuthenticated()" />
 		<security:intercept-url pattern="/message/actor/exportData.do" access="isAuthenticated()" />
 		
-		<security:intercept-url pattern="/message/administrator/create.do" access="hasRole('ADMIN')" /> 
-		<security:intercept-url pattern="/message/administrator/broadcast.do" access="hasRole('ADMIN')" /> 
 		<security:intercept-url pattern="/message/administrator/warning.do" access="hasRole('ADMIN')" />
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
