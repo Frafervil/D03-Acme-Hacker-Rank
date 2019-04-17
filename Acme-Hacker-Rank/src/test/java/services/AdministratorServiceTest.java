@@ -40,27 +40,39 @@ public class AdministratorServiceTest extends AbstractTest {
 	 */
 
 	@Test
-	public void createTest() {
-		final Object createTest[][] = {
-				{
-				/*
-				 * Test negativo: Alguien sin loguear intenta crear una cuenta
-				 * de administrador
-				 */
-				null, "Lorenzo", "Rondán Domínguez", "http://mifoto.com",
-						"+34912123123", "C/ A nº1 Sevilla", 1.0, "loren@",
-						"admin", "admin", "Lorenzo Domínguez", "MasterCard",
-						"5220 2777 7103 1876", 7, 19, 701,
-						IllegalArgumentException.class },
-				{
-				/*
-				 * Test positivo: Un administrador crea otra cuenta de
-				 * administrador
-				 */
-				"admin", "Nueva", "Nueva Nueva", "http://mifoto.com",
-						"+34912233123", "C/ A nº1 Sevilla", 1.0, "nueva@",
-						"admin4", "admin4", "Nueva Nueva", "MasterCard",
-						"5220 2457 7103 1876", 7, 19, 703, null } };
+	public void createTestFail() {
+		final Object createTest[][] = { {
+		/*
+		 * Test negativo: Alguien sin loguear intenta crear una cuenta de
+		 * administrador
+		 */
+		null, "Lorenzo", "Rondán Domínguez", "http://mifoto.com",
+				"+34912123123", "C/ A nº1 Sevilla", 1.0, "loren@", "admin",
+				"admin", "Lorenzo Domínguez", "MasterCard",
+				"5220 2777 7103 1876", 7, 19, 701,
+				IllegalArgumentException.class } };
+		for (int i = 0; i < createTest.length; i++)
+			this.CreateTemplate((String) createTest[i][0],
+					(String) createTest[i][1], (String) createTest[i][2],
+					(String) createTest[i][3], (String) createTest[i][4],
+					(String) createTest[i][5], (double) createTest[i][6],
+					(String) createTest[i][7], (String) createTest[i][8],
+					(String) createTest[i][9], (String) createTest[i][10],
+					(String) createTest[i][11], (String) createTest[i][12],
+					(int) createTest[i][13], (int) createTest[i][14],
+					(int) createTest[i][15], (Class<?>) createTest[i][16]);
+	}
+
+	@Test
+	public void createTestSuccess() {
+		final Object createTest[][] = { {
+		/*
+		 * Test positivo: Un administrador crea otra cuenta de administrador
+		 */
+		"admin", "Nueva", "Nueva Nueva", "http://mifoto2.com", "+34910323123",
+				"C/ B nº2 Sevilla", 2.0, "nueva@", "admin20", "admin20",
+				"Nueva Nueva", "MasterCard", "5169 8379 5973 7918", 8, 21, 703,
+				null } };
 		for (int i = 0; i < createTest.length; i++)
 			this.CreateTemplate((String) createTest[i][0],
 					(String) createTest[i][1], (String) createTest[i][2],
@@ -93,7 +105,7 @@ public class AdministratorServiceTest extends AbstractTest {
 				"hacker1", "administrator1", "other name",
 						IllegalArgumentException.class }, {
 				/*
-				 * Test positivo: Pone otro nombre
+				 * Test positivo: Poner otro nombre
 				 */
 				"admin", "administrator1", "other name", null } };
 		for (int i = 0; i < updateTest.length; i++)
