@@ -29,7 +29,7 @@ public class AdministratorForm {
 	private String email;
 	private String phone;
 	private String address;
-	private Double vatNumber;
+	private double vatNumber;
 
 	// --- Getters y Setters ---------------------------------------
 
@@ -78,7 +78,6 @@ public class AdministratorForm {
 		this.phone = phone;
 	}
 
-	@NotBlank
 	public String getAddress() {
 		return this.address;
 	}
@@ -88,11 +87,11 @@ public class AdministratorForm {
 	}
 
 	@NotNull
-	public Double getVatNumber() {
+	public double getVatNumber() {
 		return this.vatNumber;
 	}
 
-	public void setVatNumber(final Double vatNumber) {
+	public void setVatNumber(final double vatNumber) {
 		this.vatNumber = vatNumber;
 	}
 

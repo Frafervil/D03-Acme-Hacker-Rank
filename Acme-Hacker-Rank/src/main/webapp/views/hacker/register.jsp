@@ -25,9 +25,6 @@
 		
 		<form:hidden path="idHacker" />
 		
-		<acme:displayText dataLabel="Terms and conditions" code="hacker.confirmTerms"/>
-		<br/>
-		<br/>
 		<fieldset>
     	<legend><spring:message code="hacker.fieldset.personalInformation"/></legend>
 		<acme:textbox code="hacker.name" path="name" placeholder="Homer"/>

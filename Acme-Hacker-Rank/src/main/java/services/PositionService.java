@@ -11,6 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.PositionRepository;
+import security.Authority;
+import domain.Actor;
 import domain.Application;
 import domain.Company;
 import domain.Position;
@@ -34,6 +36,9 @@ public class PositionService {
 
 	@Autowired
 	private ApplicationService applicationService;
+
+	@Autowired
+	private ActorService actorService;
 
 	@Autowired
 	private Validator validator;
@@ -217,6 +222,12 @@ public class PositionService {
 	}
 
 	public Double avgPositionsPerCompany() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities()
+				.contains(authority));
 		Double result;
 
 		result = this.positionRepository.avgPositionsPerCompany();
@@ -225,6 +236,12 @@ public class PositionService {
 	}
 
 	public Double minPositionsPerCompany() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities()
+				.contains(authority));
 		Double result;
 
 		result = this.positionRepository.minPositionsPerCompany();
@@ -233,6 +250,12 @@ public class PositionService {
 	}
 
 	public Double maxPositionsPerCompany() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities()
+				.contains(authority));
 		Double result;
 
 		result = this.positionRepository.maxPositionsPerCompany();
@@ -241,6 +264,12 @@ public class PositionService {
 	}
 
 	public Double stddevPositionsPerCompany() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities()
+				.contains(authority));
 		Double result;
 
 		result = this.positionRepository.stddevPositionsPerCompany();
@@ -249,6 +278,12 @@ public class PositionService {
 	}
 
 	public Double avgSalariesOffered() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities()
+				.contains(authority));
 		Double result;
 
 		result = this.positionRepository.avgSalariesOffered();
@@ -257,6 +292,12 @@ public class PositionService {
 	}
 
 	public Double minSalariesOffered() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities()
+				.contains(authority));
 		Double result;
 
 		result = this.positionRepository.minSalariesOffered();
@@ -265,6 +306,12 @@ public class PositionService {
 	}
 
 	public Double maxSalariesOffered() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities()
+				.contains(authority));
 		Double result;
 
 		result = this.positionRepository.maxSalariesOffered();
@@ -273,6 +320,12 @@ public class PositionService {
 	}
 
 	public Double stddevSalariesOffered() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities()
+				.contains(authority));
 		Double result;
 
 		result = this.positionRepository.stddevSalariesOffered();
@@ -281,6 +334,12 @@ public class PositionService {
 	}
 
 	public Position bestSalaryPosition() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities()
+				.contains(authority));
 		Position result;
 
 		result = this.positionRepository.bestSalaryPosition();
@@ -289,6 +348,12 @@ public class PositionService {
 	}
 
 	public Position worstSalaryPosition() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities()
+				.contains(authority));
 		Position result;
 
 		result = this.positionRepository.worstSalaryPosition();

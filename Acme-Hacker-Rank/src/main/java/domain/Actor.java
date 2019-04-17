@@ -59,7 +59,6 @@ public class Actor extends DomainEntity implements Cloneable {
 		this.phone = phone;
 	}
 
-	@NotBlank
 	public String getAddress() {
 		return this.address;
 	}
