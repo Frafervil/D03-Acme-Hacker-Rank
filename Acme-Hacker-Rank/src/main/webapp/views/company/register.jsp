@@ -25,9 +25,6 @@
 		
 		<form:hidden path="id" />
 		
-		<acme:displayText dataLabel="Terms and conditions" code="company.confirmTerms"/>
-		<br/>
-		<br/>
 		<fieldset>
     	<legend><spring:message code="company.fieldset.personalInformation"/></legend>
 		<acme:textbox code="company.name" path="name" placeholder="Homer"/>

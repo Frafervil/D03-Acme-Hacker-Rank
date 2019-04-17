@@ -78,7 +78,6 @@ public class HackerForm {
 		this.phone = phone;
 	}
 
-	@NotBlank
 	public String getAddress() {
 		return this.address;
 	}

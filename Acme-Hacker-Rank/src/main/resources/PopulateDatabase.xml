@@ -142,7 +142,6 @@
 		<property name="photo" value="http://fotogyazo.com" />
 		<property name="email" value="adebayors@" />
 		<property name="phone" value="+34912126453" />
-		<property name="address" value="C/ H nº3 Granada" />
 		<property name="vatNumber" value="2" />
 		<property name="userAccount" ref="userAccount2" />
 		<property name="creditCard" ref="creditCard2" />
@@ -192,7 +191,6 @@
 		<property name="photo" value="http://www.mifoto.com/perfil" />
 		<property name="email" value="antonia@gmail.com" />
 		<property name="phone" value="+34678918234" />
-		<property name="address" value="Calle Napoleon, 10, CP: 32123, Madrid" />
 		<property name="vatNumber" value="6" />
 		<property name="userAccount" ref="userAccount6" />
 		<property name="creditCard" ref="creditCard6" />
@@ -234,7 +232,6 @@
 		<property name="photo" value="http://www.tuenti.com" />
 		<property name="email" value="maria@gmail.com" />
 		<property name="phone" value="+33923680976" />
-		<property name="address" value="Calle Musica, 1, CP: 32123, Cadiz" />
 		<property name="vatNumber" value="9" />
 		<property name="userAccount" ref="userAccount9" />
 		<property name="creditCard" ref="creditCard9" />

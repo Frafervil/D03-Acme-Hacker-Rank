@@ -75,7 +75,6 @@ public class CompanyForm {
 		this.phone = phone;
 	}
 
-	@NotBlank
 	public String getAddress() {
 		return this.address;
 	}
