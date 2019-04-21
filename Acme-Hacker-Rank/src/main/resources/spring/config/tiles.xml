@@ -24,6 +24,7 @@
 		<value>/views/hacker/tiles.xml</value>
 		<value>/views/position/tiles.xml</value>
 		<value>/views/message/tiles.xml</value>
+		<value>/views/application/tiles.xml</value>
 	</util:list>
 
 </beans>

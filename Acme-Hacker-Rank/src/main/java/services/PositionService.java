@@ -25,22 +25,21 @@ public class PositionService {
 	@Autowired
 	private PositionRepository	positionRepository;
 
-
 	// Supporting services ----------------------------------------------------
 
 	@Autowired
-	private CompanyService companyService;
-	
+	private CompanyService		companyService;
+
 	@Autowired
-	private ProblemService problemService;
-	
+	private ProblemService		problemService;
+
 	@Autowired
-	private ApplicationService applicationService;
-	
+	private ApplicationService	applicationService;
+
 	@Autowired
 	private Validator			validator;
 
-	
+
 	// Simple CRUD Methods
 
 	public boolean exist(final Integer positionId) {
@@ -63,7 +62,15 @@ public class PositionService {
 		return result;
 	}
 
-	
+	public Collection<Position> findAllFinal() {
+		Collection<Position> result;
+
+		result = this.positionRepository.findAllFinal();
+		Assert.notNull(result);
+
+		return result;
+	}
+
 	public Position create() {
 		Position result;
 		final Company principal;
@@ -77,35 +84,33 @@ public class PositionService {
 		result.setCompany(principal);
 		return result;
 	}
-	
-	public Position save(final Position position, String saveMode) {
+
+	public Position save(final Position position, final String saveMode) {
 		Company principal;
 		Position result;
 		int numProblems;
 
 		principal = this.companyService.findByPrincipal();
 		Assert.notNull(principal);
-		
+
 		Assert.notNull(position);
 		Assert.isTrue(position.getCompany() == principal);
-		
+
 		numProblems = this.problemService.countByPositionId(position.getId());
-		
-		if(saveMode.equals("CANCELLED")){
+
+		if (saveMode.equals("CANCELLED"))
 			Assert.isTrue(position.getStatus().equals("FINAL"));
-		}
-		if(saveMode.equals("FINAL")){
-			Assert.isTrue(numProblems>=2);
-		}
-		
+		if (saveMode.equals("FINAL"))
+			Assert.isTrue(numProblems >= 2);
+
 		position.setStatus(saveMode);
-		
+
 		result = this.positionRepository.save(position);
 		Assert.notNull(result);
 
 		return result;
 	}
-	
+
 	public void delete(final Position position) {
 		Company principal;
 		Collection<Problem> problems;
@@ -127,8 +132,7 @@ public class PositionService {
 
 		this.positionRepository.delete(position);
 	}
-	
-	
+
 	// Business Methods
 
 	public Collection<Position> findByCompany(final int companyId) {
@@ -153,45 +157,38 @@ public class PositionService {
 		return result;
 	}
 
-	
-
-	private String generateTicker(Company company) {
+	private String generateTicker(final Company company) {
 		String result;
 		String text;
 		String numbers;
 		text = company.getCommercialName().toUpperCase();
-		Random random = new Random();
+		final Random random = new Random();
 
-		if (text.length() < 4){
-			while(text.length() < 4){
+		if (text.length() < 4)
+			while (text.length() < 4)
 				text.concat("X");
-			}
-		}else{
-			if(text.length() >4){
-				text = text.substring(0,3);
-			}
-		}
-		
-		numbers = String.format("%04d", random.nextInt(10000));		
+		else if (text.length() > 4)
+			text = text.substring(0, 3);
+
+		numbers = String.format("%04d", random.nextInt(10000));
 		result = text + "-" + numbers;
-		if(this.repeatedTicker(company, result))
-			generateTicker(company);
-			
+		if (this.repeatedTicker(company, result))
+			this.generateTicker(company);
+
 		return result;
 	}
 
-	public boolean repeatedTicker(Company company, String ticker){
+	public boolean repeatedTicker(final Company company, final String ticker) {
 		Boolean isRepeated = false;
 		int repeats;
-		
+
 		repeats = this.positionRepository.findRepeatedTickers(company.getId(), ticker);
-		
-		if(repeats>0)
+
+		if (repeats > 0)
 			isRepeated = true;
-		
-		return isRepeated;	
+
+		return isRepeated;
 	}
-	
 
 	public Position reconstruct(final Position position, final BindingResult binding) {
 		Position result;
@@ -211,12 +208,13 @@ public class PositionService {
 		result.setCompany(this.companyService.findByPrincipal());
 		result.setTechnologiesRequired(position.getTechnologiesRequired());
 		result.setStatus(position.getStatus());
-		
+
 		this.validator.validate(result, binding);
 		return result;
 	}
-	
+
 	public void flush() {
 		this.positionRepository.flush();
 	}
+
 }

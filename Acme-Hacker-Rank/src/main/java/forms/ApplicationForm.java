@@ -1,33 +1,29 @@
 
-package domain;
+package forms;
 
 import java.util.Date;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Entity
-@Access(AccessType.PROPERTY)
-public class Application extends DomainEntity {
+import domain.Hacker;
+import domain.Position;
+import domain.Problem;
+
+public class ApplicationForm {
 
 	private Date	moment;
 	private String	status;
 
 
-	@NotNull
 	@Past
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
@@ -38,8 +34,8 @@ public class Application extends DomainEntity {
 		this.moment = moment;
 	}
 
-	@NotBlank
 	@Pattern(regexp = "^PENDING|APPROVED|REJECTED$")
+	@SafeHtml
 	public String getStatus() {
 		return this.status;
 	}
@@ -48,25 +44,50 @@ public class Application extends DomainEntity {
 	}
 
 
-	// Relationships----------------------------------------------
-
-	private Answer		answer;
 	private Problem		problem;
 	private Hacker		hacker;
 	private Position	position;
+	private Date		answerMoment;
+	private String		answerText;
+	private String		codeLink;
+	private int			id;
 
 
-	@Valid
-	@OneToOne(optional = true, cascade = CascadeType.ALL)
-	public Answer getAnswer() {
-		return this.answer;
+	public int getId() {
+		return this.id;
 	}
 
-	public void setAnswer(final Answer answer) {
-		this.answer = answer;
+	public void setId(final int id) {
+		this.id = id;
 	}
 
-	@NotNull
+	@Past
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+	public Date getAnswerMoment() {
+		return this.answerMoment;
+	}
+	public void setAnswerMoment(final Date answerMoment) {
+		this.answerMoment = answerMoment;
+	}
+
+	@SafeHtml
+	public String getAnswerText() {
+		return this.answerText;
+	}
+	public void setAnswerText(final String answerText) {
+		this.answerText = answerText;
+	}
+
+	@URL
+	@SafeHtml
+	public String getCodeLink() {
+		return this.codeLink;
+	}
+	public void setCodeLink(final String codeLink) {
+		this.codeLink = codeLink;
+	}
+
 	@Valid
 	@ManyToOne(optional = false)
 	public Problem getProblem() {
@@ -77,7 +98,6 @@ public class Application extends DomainEntity {
 		this.problem = problem;
 	}
 
-	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
 	public Hacker getHacker() {
@@ -88,7 +108,6 @@ public class Application extends DomainEntity {
 		this.hacker = hacker;
 	}
 
-	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
 	public Position getPosition() {
