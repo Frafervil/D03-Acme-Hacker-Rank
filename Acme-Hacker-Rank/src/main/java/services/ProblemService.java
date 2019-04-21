@@ -29,6 +29,9 @@ public class ProblemService {
 	
 	@Autowired
 	private ApplicationService applicationService;
+	
+	@Autowired
+	private PositionService positionService;
 		
 	@Autowired
 	private Validator			validator;
@@ -70,15 +73,15 @@ public class ProblemService {
 		Collection<Problem> problems;
 		Collection<Application> applications;
 		
-		positions = problem.getPositions();
+		positions = this.positionService.findByProblemId(problem.getId());
 		applications = this.applicationService.findAllByProblemId(problem.getId());
 		
 		for (Position p : positions) {
-			problems = this.findAllByPositionId(p.getId());
-			Assert.isTrue(problems.size()>2,"This position has 2 problems only");
+			problems = p.getProblems();
+			Assert.isTrue(problems.size()>2, "problem.position.error");
 		}
 		
-		Assert.isNull(applications, "This problem is associated to an application");
+		Assert.notNull(applications, "problem.application.error");
 		
 		this.problemRepository.delete(problem);
 		
@@ -101,27 +104,19 @@ public class ProblemService {
 	}
 	
 	// Business Methods
-
-	public Collection<Problem> findAllByPositionId (final int positionId){
-		Collection<Problem> result;
-		
-		result = this.problemRepository.findAllByPositionId(positionId);
-		Assert.notNull(result);
-		return result;
-	}
 	
 	public Collection<Problem> findAllByCompanyId (final int companyId){
 		Collection<Problem> result;
 		
 		result = this.problemRepository.findAllByCompanyId(companyId);
-		Assert.notNull(result);
+
 		return result;
 	}
 	
-	public int countByPositionId (final int positionId){
-		int result;
+	public Collection<Problem> findAllFinalByCompanyId (final int companyId){
+		Collection<Problem> result;
 		
-		result = this.problemRepository.countByPositionId(positionId);
+		result = this.problemRepository.findAllFinalByCompanyId(companyId);
 
 		return result;
 	}
@@ -137,8 +132,9 @@ public class ProblemService {
 		result.setTitle(problem.getTitle());
 		result.setStatement(problem.getStatement());
 		result.setHint(problem.getHint());
-		result.setAttachment(problem.getAttachment());
+		result.setAttachments(problem.getAttachments());
 		result.setIsDraft(problem.getIsDraft());
+		result.setCompany(this.companyService.findByPrincipal());
 		
 		this.validator.validate(result, binding);
 		return result;

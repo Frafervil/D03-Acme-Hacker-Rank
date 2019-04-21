@@ -263,6 +263,10 @@
 		<property name="status" value="DRAFT" />
 
 		<property name="company" ref="company1" />
+		<property name="problems">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 	<bean class="domain.Position" id="position2">
@@ -287,6 +291,13 @@
 		<property name="status" value="FINAL" />
 
 		<property name="company" ref="company1" />
+		<property name="problems">
+			<list>
+				<ref bean="problem1" />
+				<ref bean="problem3" />
+				<ref bean="problem4" />
+			</list>
+		</property>
 	</bean>
 
 	<bean class="domain.Position" id="position3">
@@ -311,6 +322,10 @@
 		<property name="status" value="CANCELLED" />
 
 		<property name="company" ref="company2" />
+		<property name="problems">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 
@@ -320,15 +335,10 @@
 		<property name="statement" value="statement problem 1" />
 		<property name="hint" value="this in an optional hint problem 1" />
 		<property name="isDraft" value="false" />
-		<property name="attachment">
+		<property name="attachments">
 			<list>
 				<value>Attachment 1</value>
 				<value>Attachment 2</value>
-			</list>
-		</property>
-		<property name="positions">
-			<list>
-				<ref bean="position2" />
 			</list>
 		</property>
 		<property name="company" ref="company1" />
@@ -339,14 +349,10 @@
 		<property name="statement" value="statement problem 2" />
 		<property name="hint" value="this in an optional hint problem 2" />
 		<property name="isDraft" value="true" />
-		<property name="attachment">
+		<property name="attachments">
 			<list>
 				<value>Attachment 1</value>
 				<value>Attachment 2</value>
-			</list>
-		</property>
-		<property name="positions">
-			<list>
 			</list>
 		</property>
 		<property name="company" ref="company2" />
@@ -357,16 +363,11 @@
 		<property name="statement" value="statement problem 3" />
 		<property name="hint" value="this in an optional hint problem 3" />
 		<property name="isDraft" value="false" />
-		<property name="attachment">
+		<property name="attachments">
 			<list>
 				<value>Attachment 1</value>
 				<value>Attachment 2</value>
 				<value>Attachment 3</value>
-			</list>
-		</property>
-		<property name="positions">
-			<list>
-				<ref bean="position2" />
 			</list>
 		</property>
 		<property name="company" ref="company1" />
@@ -377,17 +378,26 @@
 		<property name="statement" value="statement problem 4" />
 		<property name="hint" value="this in an optional hint problem 4" />
 		<property name="isDraft" value="false" />
-		<property name="attachment">
+		<property name="attachments">
 			<list>
 				<value>Attachment 1</value>
 			</list>
 		</property>
-		<property name="positions">
+		<property name="company" ref="company1" />
+	</bean>
+	
+	<bean class="domain.Problem" id="problem5">
+		<property name="title" value="title problem 5" />
+		<property name="statement" value="statement problem 5" />
+		<property name="hint" value="this in an optional hint problem 5" />
+		<property name="isDraft" value="true" />
+		<property name="attachments">
 			<list>
-				<ref bean="position2" />
+				<value>Attachment 1</value>
+				<value>Attachment 2</value>
 			</list>
 		</property>
-		<property name="company" ref="company1" />
+		<property name="company" ref="company3" />
 	</bean>
 
 	<!-- Application -->

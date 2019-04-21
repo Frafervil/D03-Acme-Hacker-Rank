@@ -24,6 +24,7 @@ import services.ProblemService;
 @Controller
 @RequestMapping("/problem/company")
 public class ProblemCompanyController {
+	
 	@Autowired
 	private ActorService	actorService;
 	
@@ -86,9 +87,12 @@ public class ProblemCompanyController {
 	
 	// Delete
 	
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(final Problem problem, final BindingResult binding) {
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(final int problemId) {
+		Problem problem;
 		ModelAndView result;
+		
+		problem = this.problemService.findOne(problemId);
 		try {
 			this.problemService.delete(problem);
 			result = new ModelAndView("redirect:/welcome/index.do");
@@ -112,10 +116,10 @@ public class ProblemCompanyController {
 		return result;
 	}
 
-	//Save draft
+	//Save draft --- CREATE
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "saveDraft")
-	public ModelAndView saveDraft(@ModelAttribute("problem") Problem problem, final BindingResult binding) {
+	public ModelAndView createDraft(@ModelAttribute("problem") Problem problem, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
@@ -135,10 +139,10 @@ public class ProblemCompanyController {
 		return result;
 	}
 	
-	//Save Final
+	//Save Final --- CREATE
 	
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveFinal")
-	public ModelAndView saveFinal(@ModelAttribute("problem") Problem problem, final BindingResult binding) {
+	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "saveFinal")
+	public ModelAndView createFinal(@ModelAttribute("problem") Problem problem, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
@@ -157,6 +161,53 @@ public class ProblemCompanyController {
 		}
 		return result;
 	}
+	// Save Draft --- Edit
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveDraft")
+	public ModelAndView saveDraft(@ModelAttribute("problem") Problem problem, final BindingResult binding) {
+		ModelAndView result;
+
+		try {
+			problem = this.problemService.reconstruct(problem, binding);
+			if (binding.hasErrors()) {
+				System.out.println(binding.getAllErrors());
+				result = this.editModelAndView(problem);
+			} else {
+				problem = this.problemService.save(problem, true);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			}
+
+		} catch (final Throwable oops) {
+			oops.printStackTrace();
+			result = this.editModelAndView(problem, "problem.commit.error");
+		}
+		return result;
+	}
+	
+	// Save Draft --- Edit
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveFinal")
+	public ModelAndView saveFinal(@ModelAttribute("problem") Problem problem, final BindingResult binding) {
+		ModelAndView result;
+
+		try {
+			problem = this.problemService.reconstruct(problem, binding);
+			if (binding.hasErrors()) {
+				System.out.println(binding.getAllErrors());
+				result = this.editModelAndView(problem);
+			} else {
+				problem = this.problemService.save(problem, false);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			}
+
+		} catch (final Throwable oops) {
+			oops.printStackTrace();
+			result = this.editModelAndView(problem, "problem.commit.error");
+		}
+		return result;
+	}
+	
+	
 	// ------------------- Ancillary Methods
 			protected ModelAndView createEditModelAndView(final Problem problem) {
 				ModelAndView result;
@@ -169,7 +220,7 @@ public class ProblemCompanyController {
 			protected ModelAndView createEditModelAndView(final Problem problem, final String messageCode) {
 				ModelAndView result;
 
-				result = new ModelAndView("problem/edit");
+				result = new ModelAndView("problem/display");
 				result.addObject("problem", problem);
 
 				result.addObject("message", messageCode);
@@ -191,5 +242,23 @@ public class ProblemCompanyController {
 				result.addObject("message", messageCode);
 				return result;
 			}
+			
+
+			private ModelAndView editModelAndView(final Problem problem) {
+				ModelAndView result;
+
+				result = this.editModelAndView(problem, null);
+				return result;
+			}
+
+			private ModelAndView editModelAndView(final Problem problem, final String messageCode) {
+				ModelAndView result;
+
+				result = new ModelAndView("float/edit");
+				result.addObject("problem", problem);
+				result.addObject("message", messageCode);
+				return result;
+			}
+
 
 }

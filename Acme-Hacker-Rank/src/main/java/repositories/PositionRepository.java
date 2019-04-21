@@ -25,6 +25,9 @@ public interface PositionRepository extends JpaRepository<Position, Integer> {
 	@Query("select count(p) from Position p where p.company.id = ?1 AND p.ticker = ?2")
 	Integer findRepeatedTickers (int companyId, String ticker);
 
+	@Query("select p from Position p join p.problems po where po.id = ?1")
+	Collection<Position> findByProblemId(int problemId);
+
 	@Query("select avg(1.0*(select count(p) from Position p where p.company.id = c.id)) from Company c")
 	Double avgPositionsPerCompany();
 	
