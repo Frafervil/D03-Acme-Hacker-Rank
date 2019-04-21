@@ -17,7 +17,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 
 	@Query("select a from Application a where a.problem.id = ?1")
 	Collection<Application> findAllByProblemId(int problemId);
-	
+
 	@Query("select a from Application a join a.position p where p.company.id = ?1")
 	Collection<Application> findAllByCompany(int companyId);
 
@@ -32,4 +32,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 	
 	@Query("select stddev(1.0*(select count(a) from Application a where a.hacker.id = h.id)) from Hacker h")
 	Double stddevApplicationsPerHacker();
+	@Query("select a from Application a where a.hacker.id = ?1")
+	Collection<Application> findAllApplicationsByHackerId(int hackerId);
+
 }

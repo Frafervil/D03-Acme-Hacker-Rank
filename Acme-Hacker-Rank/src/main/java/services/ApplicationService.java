@@ -1,10 +1,13 @@
+
 package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,36 +16,38 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import domain.Actor;
+import repositories.ApplicationRepository;
 import domain.Answer;
 import domain.Application;
 import domain.Company;
-
-import repositories.ApplicationRepository;
-import security.Authority;
+import domain.Hacker;
+import domain.Problem;
+import forms.ApplicationForm;
 
 @Service
 @Transactional
 public class ApplicationService {
+
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private ApplicationRepository applicationRepository;
+	private ApplicationRepository	applicationRepository;
 
 	@Autowired
-	private Validator validator;
+	private Validator				validator;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	private AnswerService answerService;
+	private AnswerService			answerService;
 
 	@Autowired
-	private CompanyService companyService;
+	private CompanyService			companyService;
 
 	@Autowired
-	private HackerService hackerService;
+	private HackerService			hackerService;
 
 	@Autowired
-	private ActorService actorService;
+	private ProblemService			problemService;
+
 
 	// Simple CRUD Methods
 	public void delete(final Application application) {
@@ -78,7 +83,7 @@ public class ApplicationService {
 
 	// Additional functions
 
-	public Collection<Application> findAllByPositionId(int positionId) {
+	public Collection<Application> findAllByPositionId(final int positionId) {
 		Collection<Application> result;
 
 		result = this.applicationRepository.findAllByPositionId(positionId);
@@ -87,7 +92,7 @@ public class ApplicationService {
 		return result;
 	}
 
-	public Collection<Application> findAllByProblemId(int problemId) {
+	public Collection<Application> findAllByProblemId(final int problemId) {
 		Collection<Application> result;
 		result = new ArrayList<Application>();
 		result = this.applicationRepository.findAllByProblemId(problemId);
@@ -95,7 +100,7 @@ public class ApplicationService {
 		return result;
 	}
 
-	public Collection<Application> findAllByCompanyId(int companyId) {
+	public Collection<Application> findAllByCompanyId(final int companyId) {
 		Collection<Application> result;
 		result = new ArrayList<Application>();
 		result = this.applicationRepository.findAllByCompany(companyId);
@@ -103,8 +108,15 @@ public class ApplicationService {
 		return result;
 	}
 
-	public Map<String, List<Application>> groupByStatus(
-			final Collection<Application> applications) {
+	public Collection<Application> findAllApplicationsByHackerId(final int hackerId) {
+		Collection<Application> result;
+		result = new ArrayList<Application>();
+		result = this.applicationRepository.findAllApplicationsByHackerId(hackerId);
+
+		return result;
+	}
+
+	public Map<String, List<Application>> groupByStatus(final Collection<Application> applications) {
 		final Map<String, List<Application>> result = new HashMap<String, List<Application>>();
 
 		Assert.notNull(applications);
@@ -161,21 +173,40 @@ public class ApplicationService {
 		this.applicationRepository.save(a);
 	}
 
-	public Application reconstruct(final Application application,
-			final BindingResult binding) {
+	public Application reconstruct(final ApplicationForm applicationForm, final BindingResult binding) {
 		Application result;
-		result = application;
-		result.setHacker(this.hackerService.findByPrincipal());
-		result.setStatus("PENDING");
-		result.setPosition(application.getPosition());
+		List<Problem> problems = new ArrayList<>();
+		if (applicationForm.getId() == 0) {
+			result = this.create();
+			result.setMoment(new Date(System.currentTimeMillis() - 1));
+			result.setHacker(this.hackerService.findByPrincipal());
+			result.setStatus("PENDING");
+			result.setPosition(applicationForm.getPosition());
+			problems = (List<Problem>) this.problemService.findAllByPositionId(applicationForm.getPosition().getId());
+			final Random random = new Random();
+			final Problem problem = problems.get(random.nextInt(problems.size() - 1));
+			result.setProblem(problem);
+			//result.setProblem(this.problemService.findProblemByPositionId(applicationForm.getPosition().getId()));
+		} else {
+			result = this.applicationRepository.findOne(applicationForm.getId());
+			final Answer answer = new Answer();
+			result.setAnswer(answer);
+			result.getAnswer().setAnswerText(applicationForm.getAnswerText());
+			result.getAnswer().setCodeLink(applicationForm.getCodeLink());
+			result.getAnswer().setMoment(new Date(System.currentTimeMillis() - 1));
+
+			if (applicationForm.getAnswerText().isEmpty())
+				binding.rejectValue("answerText", "application.validation.answerText", "Must not be blank");
+			if (applicationForm.getCodeLink().isEmpty())
+				binding.rejectValue("codeLink", "application.validation.codeLink", "Must not be blank");
+		}
 
 		this.validator.validate(result, binding);
 		this.applicationRepository.flush();
 		return result;
 	}
 
-	public Application reconstructCompany(final Application application,
-			final BindingResult binding) {
+	public Application reconstructCompany(final Application application, final BindingResult binding) {
 		Application result;
 		result = this.applicationRepository.findOne(application.getId());
 		result.getAnswer().setMoment(application.getAnswer().getMoment());
@@ -186,6 +217,27 @@ public class ApplicationService {
 		this.validator.validate(result, binding);
 		this.applicationRepository.flush();
 		return result;
+	}
+
+	public Application create() {
+		Application result;
+		final Hacker principal;
+
+		principal = this.hackerService.findByPrincipal();
+		Assert.notNull(principal);
+
+		result = new Application();
+		result.setStatus("PENDING");
+		result.setHacker(principal);
+		return result;
+	}
+
+	public ApplicationForm construct(final Application application) {
+		final ApplicationForm applicationForm = new ApplicationForm();
+		applicationForm.setId(application.getId());
+		applicationForm.setPosition(application.getPosition());
+		applicationForm.setStatus(application.getStatus());
+		return applicationForm;
 	}
 
 	public Double avgApplicationsPerHacker() {

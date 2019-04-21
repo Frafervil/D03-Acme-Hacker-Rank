@@ -158,7 +158,7 @@ public class PositionService {
 		String text;
 		String numbers;
 		text = company.getCommercialName().toUpperCase();
-		Random random = new Random();
+		final Random random = new Random();
 
 		if (text.length() < 4) {
 			while (text.length() < 4) {

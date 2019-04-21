@@ -18,4 +18,7 @@ public interface ProblemRepository extends JpaRepository<Problem, Integer> {
 	@Query("select p from Problem p where p.isDraft = 0 AND p.company.id = ?1")
 	Collection<Problem> findAllFinalByCompanyId(int companyId);
 
+	@Query("select p from Problem p where ?1 member of p.positions")
+	Problem findProblemByPositionId(int positionId);
+
 }
