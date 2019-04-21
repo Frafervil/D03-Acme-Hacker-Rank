@@ -117,7 +117,7 @@ public class PositionCompanyController extends AbstractController {
 			ModelAndView result;
 
 			try {
-				position = this.positionService.reconstruct(position, binding, "DRAFT");
+				position = this.positionService.reconstruct(position, binding);
 				if (binding.hasErrors()) {
 					result = this.createModelAndView(position);
 					for (final ObjectError e : binding.getAllErrors())
@@ -140,7 +140,7 @@ public class PositionCompanyController extends AbstractController {
 			ModelAndView result;
 
 			try {
-				position = this.positionService.reconstruct(position, binding, "FINAL");
+				position = this.positionService.reconstruct(position, binding);
 				if (binding.hasErrors()) {
 					result = this.createModelAndView(position);
 					for (final ObjectError e : binding.getAllErrors())
@@ -159,11 +159,11 @@ public class PositionCompanyController extends AbstractController {
 		// --- EDIT ---
 		//Save Draft
 		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveDraft")
-		public ModelAndView saveDraft(@ModelAttribute("parade") Position position, final BindingResult binding) {
+		public ModelAndView saveDraft(@ModelAttribute("position") Position position, final BindingResult binding) {
 			ModelAndView result;
 
 			try {
-				position = this.positionService.reconstruct(position, binding, "DRAFT");
+				position = this.positionService.reconstruct(position, binding);
 				if (binding.hasErrors()) {
 					System.out.println(binding.getAllErrors());
 					result = this.createEditModelAndView(position);
@@ -181,11 +181,11 @@ public class PositionCompanyController extends AbstractController {
 		//Save Cancelled
 		
 		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveCancelled")
-		public ModelAndView saveCancelled(@ModelAttribute("parade") Position position, final BindingResult binding) {
+		public ModelAndView saveCancelled(@ModelAttribute("position") Position position, final BindingResult binding) {
 			ModelAndView result;
 
 			try {
-				position = this.positionService.reconstruct(position, binding,"CANCELLED");
+				position = this.positionService.reconstruct(position, binding);
 				if (binding.hasErrors()) {
 					result = this.createEditModelAndView(position);
 					for (final ObjectError e : binding.getAllErrors())
@@ -204,11 +204,11 @@ public class PositionCompanyController extends AbstractController {
 		//Save Final
 
 		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveFinal")
-		public ModelAndView saveFinal(@ModelAttribute("parade") Position position, final BindingResult binding) {
+		public ModelAndView saveFinal(@ModelAttribute("position") Position position, final BindingResult binding) {
 			ModelAndView result;
 
 			try {
-				position = this.positionService.reconstruct(position, binding, "FINAL");
+				position = this.positionService.reconstruct(position, binding);
 				if (binding.hasErrors()) {
 					System.out.println(binding.getAllErrors());
 					result = this.createEditModelAndView(position);

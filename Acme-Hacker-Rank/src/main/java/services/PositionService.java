@@ -189,29 +189,25 @@ public class PositionService {
 	}
 	
 
-	public Position reconstruct(final Position position, final BindingResult binding, final String status) {
+	public Position reconstruct(final Position position, final BindingResult binding) {
 		Position result;
 		if (position.getId() == 0) {
 			result = position;
-			result.setTicker(this.generateTicker(this.companyService.findByPrincipal()));
-			result.setStatus(status);
-
 		} else{
 			result = this.positionRepository.findOne(position.getId());
-			result.setStatus(position.getStatus());
-		}
-		result.setCompany(this.companyService.findByPrincipal());
-		result.setDescription(position.getDescription());
-		result.setDeadline(position.getDeadline());
-		result.setTitle(position.getTitle());
-		result.setProfileRequired(position.getProfileRequired());
-		result.setSalaryOffered(position.getSalaryOffered());
-		result.setSkillsRequired(position.getSkillsRequired());
-		result.setProblems(position.getProblems());
-		result.setTechnologiesRequired(position.getTechnologiesRequired());
-		result.setTicker(position.getTicker());
+	
+			result.setDescription(position.getDescription());
+			result.setDeadline(position.getDeadline());
+			result.setTitle(position.getTitle());
+			result.setProfileRequired(position.getProfileRequired());
+			result.setSalaryOffered(position.getSalaryOffered());
+			result.setSkillsRequired(position.getSkillsRequired());
+			result.setProblems(position.getProblems());
+			result.setTechnologiesRequired(position.getTechnologiesRequired());
+
 		
-		this.validator.validate(result, binding);
+			this.validator.validate(result, binding);
+		}
 		return result;
 	}
 	
