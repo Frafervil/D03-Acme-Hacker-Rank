@@ -7,7 +7,6 @@ import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -78,7 +77,6 @@ public class Problem extends DomainEntity {
 
 
 	private Company	company;
-	private Collection<Position> positions;
 
 
 	@NotNull
@@ -91,16 +89,5 @@ public class Problem extends DomainEntity {
 	public void setCompany(final Company company) {
 		this.company = company;
 	}
-	
-	@Valid
-	@ManyToMany 
-	public Collection<Position> getPositions() {
-		return this.positions;
-	}
-
-	public void setPositions(final Collection<Position> positions) {
-		this.positions = positions;
-	}
-
 
 }

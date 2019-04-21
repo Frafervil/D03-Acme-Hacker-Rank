@@ -15,7 +15,6 @@ import repositories.PositionRepository;
 import domain.Application;
 import domain.Company;
 import domain.Position;
-import domain.Problem;
 
 @Service
 @Transactional
@@ -30,10 +29,7 @@ public class PositionService {
 
 	@Autowired
 	private CompanyService companyService;
-	
-	@Autowired
-	private ProblemService problemService;
-	
+
 	@Autowired
 	private ApplicationService applicationService;
 	
@@ -81,7 +77,7 @@ public class PositionService {
 	public Position save(final Position position, String saveMode) {
 		Company principal;
 		Position result;
-		int numProblems;
+		int numProblems = 0;
 
 		principal = this.companyService.findByPrincipal();
 		Assert.notNull(principal);
@@ -89,7 +85,8 @@ public class PositionService {
 		Assert.notNull(position);
 		Assert.isTrue(position.getCompany() == principal);
 		
-		numProblems = this.problemService.countByPositionId(position.getId());
+		if(position.getProblems() != null)
+			numProblems = position.getProblems().size();
 		
 		if(saveMode.equals("CANCELLED")){
 			Assert.isTrue(position.getStatus().equals("FINAL"));
@@ -108,7 +105,6 @@ public class PositionService {
 	
 	public void delete(final Position position) {
 		Company principal;
-		Collection<Problem> problems;
 		Collection<Application> applications;
 
 		Assert.notNull(position);
@@ -121,10 +117,6 @@ public class PositionService {
 		for (final Application a : applications)
 			this.applicationService.delete(a);
 
-		problems = this.problemService.findAllByPositionId(position.getId());
-		for (final Problem p : problems)
-			p.setPositions(null);
-
 		this.positionRepository.delete(position);
 	}
 	
@@ -135,7 +127,6 @@ public class PositionService {
 		Collection<Position> result;
 
 		result = this.positionRepository.findByCompanyId(companyId);
-		Assert.notNull(result);
 		return result;
 	}
 
@@ -143,7 +134,6 @@ public class PositionService {
 		Collection<Position> result;
 
 		result = this.positionRepository.findAvailableByCompanyId(companyId);
-		Assert.notNull(result);
 		return result;
 	}
 
@@ -152,7 +142,13 @@ public class PositionService {
 
 		return result;
 	}
+	
+	public Collection<Position> findByProblemId(final int problemId) {
+		Collection<Position> result;
 
+		result = this.positionRepository.findByProblemId(problemId);
+		return result;
+	}
 	
 
 	private String generateTicker(Company company) {
@@ -193,24 +189,27 @@ public class PositionService {
 	}
 	
 
-	public Position reconstruct(final Position position, final BindingResult binding) {
+	public Position reconstruct(final Position position, final BindingResult binding, final String status) {
 		Position result;
 		if (position.getId() == 0) {
 			result = position;
-			result.setTicker(this.generateTicker(position.getCompany()));
+			result.setTicker(this.generateTicker(this.companyService.findByPrincipal()));
+			result.setStatus(status);
 
-		} else
+		} else{
 			result = this.positionRepository.findOne(position.getId());
-
+			result.setStatus(position.getStatus());
+		}
+		result.setCompany(this.companyService.findByPrincipal());
 		result.setDescription(position.getDescription());
 		result.setDeadline(position.getDeadline());
 		result.setTitle(position.getTitle());
 		result.setProfileRequired(position.getProfileRequired());
 		result.setSalaryOffered(position.getSalaryOffered());
 		result.setSkillsRequired(position.getSkillsRequired());
-		result.setCompany(this.companyService.findByPrincipal());
+		result.setProblems(position.getProblems());
 		result.setTechnologiesRequired(position.getTechnologiesRequired());
-		result.setStatus(position.getStatus());
+		result.setTicker(position.getTicker());
 		
 		this.validator.validate(result, binding);
 		return result;

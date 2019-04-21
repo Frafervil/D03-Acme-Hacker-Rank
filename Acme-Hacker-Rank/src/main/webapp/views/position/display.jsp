@@ -57,19 +57,21 @@
 			<jstl:out value="${position.company.commercialName}"/>
 		</a><br/>
 		
+		<!-- Problems -->
+		
+		<b><spring:message code="position.problems" /></b>:
+		<br/><ul>
+		<jstl:forEach items="${position.problems}" var="problem" >
+			<jstl:if test="${problem != null}">
+	        	<li><jstl:out value="${problem.title}"/></li>
+	        </jstl:if>
+		</jstl:forEach></ul>
 
+<security:authorize access="hasRole('COMPANY')">
 <jstl:if test="${position.company.userAccount.username == pageContext.request.userPrincipal.name}">
-	<security:authorize access="hasRole('COMPANY')">
 <br/>
+	<a href="position/company/edit.do?positionId=${position.id}"><spring:message code="position.edit"/></a><br/>
 <br/>
-<input type="button" name="save" class="ui button"
-	value="<spring:message code="position.edit" />"
-	onclick="javascript: relativeRedir('position/edit.do');" />
-	
+	<a href="position/company/delete.do?positionId=${position.id}"><spring:message code="position.delete"/></a><br/>
+</jstl:if>
 </security:authorize>
-</jstl:if>
-<br/>
-<br/>
-<jstl:if test="${position.company.userAccount.username == pageContext.request.userPrincipal.name}">
-	<acme:button url="position/delete.do" code="actor.delete"/>
-</jstl:if>

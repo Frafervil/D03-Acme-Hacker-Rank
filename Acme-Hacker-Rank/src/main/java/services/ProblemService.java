@@ -29,6 +29,9 @@ public class ProblemService {
 	
 	@Autowired
 	private ApplicationService applicationService;
+	
+	@Autowired
+	private PositionService positionService;
 		
 	@Autowired
 	private Validator			validator;
@@ -70,11 +73,11 @@ public class ProblemService {
 		Collection<Problem> problems;
 		Collection<Application> applications;
 		
-		positions = problem.getPositions();
+		positions = this.positionService.findByProblemId(problem.getId());
 		applications = this.applicationService.findAllByProblemId(problem.getId());
 		
 		for (Position p : positions) {
-			problems = this.findAllByPositionId(p.getId());
+			problems = p.getProblems();
 			Assert.isTrue(problems.size()>2, "problem.position.error");
 		}
 		
@@ -101,14 +104,6 @@ public class ProblemService {
 	}
 	
 	// Business Methods
-
-	public Collection<Problem> findAllByPositionId (final int positionId){
-		Collection<Problem> result;
-		
-		result = this.problemRepository.findAllByPositionId(positionId);
-		Assert.notNull(result);
-		return result;
-	}
 	
 	public Collection<Problem> findAllByCompanyId (final int companyId){
 		Collection<Problem> result;
@@ -118,10 +113,10 @@ public class ProblemService {
 		return result;
 	}
 	
-	public int countByPositionId (final int positionId){
-		int result;
+	public Collection<Problem> findAllFinalByCompanyId (final int companyId){
+		Collection<Problem> result;
 		
-		result = this.problemRepository.countByPositionId(positionId);
+		result = this.problemRepository.findAllFinalByCompanyId(companyId);
 
 		return result;
 	}
@@ -140,7 +135,6 @@ public class ProblemService {
 		result.setAttachments(problem.getAttachments());
 		result.setIsDraft(problem.getIsDraft());
 		result.setCompany(this.companyService.findByPrincipal());
-		result.setPositions(problem.getPositions());
 		
 		this.validator.validate(result, binding);
 		return result;

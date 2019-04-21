@@ -266,6 +266,10 @@
 		<property name="status" value="DRAFT" />
 
 		<property name="company" ref="company1" />
+		<property name="problems">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 	<bean class="domain.Position" id="position2">
@@ -290,6 +294,13 @@
 		<property name="status" value="FINAL" />
 
 		<property name="company" ref="company1" />
+		<property name="problems">
+			<list>
+				<ref bean="problem1" />
+				<ref bean="problem3" />
+				<ref bean="problem4" />
+			</list>
+		</property>
 	</bean>
 
 	<bean class="domain.Position" id="position3">
@@ -314,6 +325,10 @@
 		<property name="status" value="CANCELLED" />
 
 		<property name="company" ref="company2" />
+		<property name="problems">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 
@@ -329,11 +344,6 @@
 				<value>Attachment 2</value>
 			</list>
 		</property>
-		<property name="positions">
-			<list>
-				<ref bean="position2" />
-			</list>
-		</property>
 		<property name="company" ref="company1" />
 	</bean>
 
@@ -346,10 +356,6 @@
 			<list>
 				<value>Attachment 1</value>
 				<value>Attachment 2</value>
-			</list>
-		</property>
-		<property name="positions">
-			<list>
 			</list>
 		</property>
 		<property name="company" ref="company2" />
@@ -367,11 +373,6 @@
 				<value>Attachment 3</value>
 			</list>
 		</property>
-		<property name="positions">
-			<list>
-				<ref bean="position2" />
-			</list>
-		</property>
 		<property name="company" ref="company1" />
 	</bean>
 
@@ -383,11 +384,6 @@
 		<property name="attachments">
 			<list>
 				<value>Attachment 1</value>
-			</list>
-		</property>
-		<property name="positions">
-			<list>
-				<ref bean="position2" />
 			</list>
 		</property>
 		<property name="company" ref="company1" />
@@ -402,10 +398,6 @@
 			<list>
 				<value>Attachment 1</value>
 				<value>Attachment 2</value>
-			</list>
-		</property>
-		<property name="positions">
-			<list>
 			</list>
 		</property>
 		<property name="company" ref="company3" />

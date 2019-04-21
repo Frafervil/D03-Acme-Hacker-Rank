@@ -18,7 +18,7 @@
 
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="problem/company/create.do" modelAttribute="problem">
+<form:form action="problem/company/edit.do" modelAttribute="problem">
 		<form:hidden path="id"/>
 		<form:hidden path="version"/>
 		

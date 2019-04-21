@@ -17,10 +17,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
+import services.CompanyService;
 import services.PositionService;
+import services.ProblemService;
 import controllers.AbstractController;
 import domain.Actor;
+import domain.Company;
 import domain.Position;
+import domain.Problem;
 
 @Controller
 @RequestMapping("/position/company")
@@ -32,7 +36,12 @@ public class PositionCompanyController extends AbstractController {
 	@Autowired
 	private ActorService	actorService;
 	
-
+	@Autowired
+	private ProblemService	problemService;
+	
+	@Autowired
+	private CompanyService	companyService;
+	
 	//List
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -99,15 +108,16 @@ public class PositionCompanyController extends AbstractController {
 
 			return result;
 		}
-
-		//Save
+		// --- CREATION ---
+		
+		//Save Draft
 		
 		@RequestMapping(value = "/create", method = RequestMethod.POST, params = "saveDraft")
-		public ModelAndView save(@ModelAttribute("position") Position position, final BindingResult binding) {
+		public ModelAndView createDraft(@ModelAttribute("position") Position position, final BindingResult binding) {
 			ModelAndView result;
 
 			try {
-				position = this.positionService.reconstruct(position, binding);
+				position = this.positionService.reconstruct(position, binding, "DRAFT");
 				if (binding.hasErrors()) {
 					result = this.createModelAndView(position);
 					for (final ObjectError e : binding.getAllErrors())
@@ -123,14 +133,59 @@ public class PositionCompanyController extends AbstractController {
 			return result;
 		}
 		
-		//Save Cancelled
+		//Save Final
 		
-		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveCancelled")
+		@RequestMapping(value = "/create", method = RequestMethod.POST, params = "saveFinal")
+		public ModelAndView createFinal(@ModelAttribute("position") Position position, final BindingResult binding) {
+			ModelAndView result;
+
+			try {
+				position = this.positionService.reconstruct(position, binding, "FINAL");
+				if (binding.hasErrors()) {
+					result = this.createModelAndView(position);
+					for (final ObjectError e : binding.getAllErrors())
+						System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
+				} else {
+					position = this.positionService.save(position, "FINAL");
+					result = new ModelAndView("redirect:/welcome/index.do");
+				}
+
+			} catch (final Throwable oops) {
+				result = this.createModelAndView(position, "position.commit.error");
+			}
+			return result;
+		} 
+		
+		// --- EDIT ---
+		//Save Draft
+		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveDraft")
 		public ModelAndView saveDraft(@ModelAttribute("parade") Position position, final BindingResult binding) {
 			ModelAndView result;
 
 			try {
-				position = this.positionService.reconstruct(position, binding);
+				position = this.positionService.reconstruct(position, binding, "DRAFT");
+				if (binding.hasErrors()) {
+					System.out.println(binding.getAllErrors());
+					result = this.createEditModelAndView(position);
+				} else {
+					this.positionService.save(position, "DRAFT");
+					result = new ModelAndView("redirect:/welcome/index.do");
+				}
+
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(position, "position.commit.error");
+			}
+
+			return result;
+		}
+		//Save Cancelled
+		
+		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveCancelled")
+		public ModelAndView saveCancelled(@ModelAttribute("parade") Position position, final BindingResult binding) {
+			ModelAndView result;
+
+			try {
+				position = this.positionService.reconstruct(position, binding,"CANCELLED");
 				if (binding.hasErrors()) {
 					result = this.createEditModelAndView(position);
 					for (final ObjectError e : binding.getAllErrors())
@@ -153,7 +208,7 @@ public class PositionCompanyController extends AbstractController {
 			ModelAndView result;
 
 			try {
-				position = this.positionService.reconstruct(position, binding);
+				position = this.positionService.reconstruct(position, binding, "FINAL");
 				if (binding.hasErrors()) {
 					System.out.println(binding.getAllErrors());
 					result = this.createEditModelAndView(position);
@@ -171,9 +226,13 @@ public class PositionCompanyController extends AbstractController {
 		
 		//Delete
 		
-		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-		public ModelAndView delete(final Position position, final BindingResult binding) {
+		@RequestMapping(value = "/delete", method = RequestMethod.GET)
+		public ModelAndView delete(final int positionId) {
 			ModelAndView result;
+			Position position;
+			
+			position = this.positionService.findOne(positionId);
+			
 			try {
 				this.positionService.delete(position);
 				result = new ModelAndView("redirect:/welcome/index.do");
@@ -182,8 +241,11 @@ public class PositionCompanyController extends AbstractController {
 			}
 			return result;
 		}
+
+		
 		
 		// -------------------
+		
 		protected ModelAndView createEditModelAndView(final Position position) {
 			ModelAndView result;
 
@@ -194,10 +256,14 @@ public class PositionCompanyController extends AbstractController {
 
 		protected ModelAndView createEditModelAndView(final Position position, final String messageCode) {
 			ModelAndView result;
-
+			Collection<Problem> problems;
+			Company company;
+			company = this.companyService.findByPrincipal();
+			problems = this.problemService.findAllFinalByCompanyId(company.getId());
+			
 			result = new ModelAndView("position/edit");
 			result.addObject("position", position);
-
+			result.addObject("problems", problems);
 			result.addObject("message", messageCode);
 
 			return result;
@@ -212,8 +278,14 @@ public class PositionCompanyController extends AbstractController {
 
 		private ModelAndView createModelAndView(final Position position, final String messageCode) {
 			ModelAndView result;
+			Collection<Problem> problems;
+			Company company;
+			company = this.companyService.findByPrincipal();
+			problems = this.problemService.findAllFinalByCompanyId(company.getId());
+			
 			result = new ModelAndView("position/create");
 			result.addObject("position", position);
+			result.addObject("problems", problems);
 			result.addObject("message", messageCode);
 			return result;
 		}

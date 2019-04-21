@@ -38,16 +38,7 @@
 		<a href="company/display.do?companyId=${problem.company.id}">
 			<jstl:out value="${problem.company.commercialName}"/>
 		</a><br/>
-		<!-- Positions -->
-		
-		<b><spring:message code="problem.position" /></b>:
-		<br/><ul>
-		<jstl:forEach items="${problem.positions}" var="position" >
-			<jstl:if test="${position != null}">
-	        	<li><jstl:out value="${position.title}"/></li>
-	        </jstl:if>
-		</jstl:forEach></ul>
-		<br/>
+
 		
 <jstl:if test="${problem.company.userAccount.username == pageContext.request.userPrincipal.name}">
 <br/>
