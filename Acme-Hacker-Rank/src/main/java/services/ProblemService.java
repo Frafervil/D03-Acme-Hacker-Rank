@@ -75,10 +75,10 @@ public class ProblemService {
 		
 		for (Position p : positions) {
 			problems = this.findAllByPositionId(p.getId());
-			Assert.isTrue(problems.size()>2,"This position has 2 problems only");
+			Assert.isTrue(problems.size()>2, "problem.position.error");
 		}
 		
-		Assert.isNull(applications, "This problem is associated to an application");
+		Assert.notNull(applications, "problem.application.error");
 		
 		this.problemRepository.delete(problem);
 		
@@ -114,7 +114,7 @@ public class ProblemService {
 		Collection<Problem> result;
 		
 		result = this.problemRepository.findAllByCompanyId(companyId);
-		Assert.notNull(result);
+
 		return result;
 	}
 	
@@ -137,8 +137,10 @@ public class ProblemService {
 		result.setTitle(problem.getTitle());
 		result.setStatement(problem.getStatement());
 		result.setHint(problem.getHint());
-		result.setAttachment(problem.getAttachment());
+		result.setAttachments(problem.getAttachments());
 		result.setIsDraft(problem.getIsDraft());
+		result.setCompany(this.companyService.findByPrincipal());
+		result.setPositions(problem.getPositions());
 		
 		this.validator.validate(result, binding);
 		return result;

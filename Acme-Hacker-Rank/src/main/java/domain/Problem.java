@@ -6,6 +6,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
@@ -22,7 +23,7 @@ public class Problem extends DomainEntity {
 	private String				title;
 	private String				statement;
 	private String				hint;
-	private Collection<String>	attachment;
+	private Collection<String>	attachments;
 	private boolean	isDraft;
 
 	@NotBlank
@@ -52,14 +53,14 @@ public class Problem extends DomainEntity {
 		this.hint = hint;
 	}
 	
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@EachNotBlank
-	public Collection<String> getAttachment() {
-		return attachment;
+	public Collection<String> getAttachments() {
+		return attachments;
 	}
 
-	public void setAttachment(Collection<String> attachment) {
-		this.attachment = attachment;
+	public void setAttachments(Collection<String> attachments) {
+		this.attachments = attachments;
 	}
 
 	public boolean getIsDraft() {
@@ -91,7 +92,6 @@ public class Problem extends DomainEntity {
 		this.company = company;
 	}
 	
-	@NotNull
 	@Valid
 	@ManyToMany 
 	public Collection<Position> getPositions() {

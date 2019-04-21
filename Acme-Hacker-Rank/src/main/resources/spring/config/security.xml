@@ -69,6 +69,12 @@
 		<security:intercept-url pattern="/position/company/delete.do" access="hasRole('COMPANY')"/>
 		<security:intercept-url pattern="/position/company/display.do" access="hasRole('COMPANY')"/>		
 
+		<security:intercept-url pattern="/problem/company/list.do" access="hasRole('COMPANY')"/>
+		<security:intercept-url pattern="/problem/company/create.do" access="hasRole('COMPANY')"/>
+		<security:intercept-url pattern="/problem/company/edit.do" access="hasRole('COMPANY')"/>
+		<security:intercept-url pattern="/problem/company/delete.do" access="hasRole('COMPANY')"/>
+		<security:intercept-url pattern="/problem/company/display.do" access="hasRole('COMPANY')"/>		
+
 		
 		<security:intercept-url pattern="/message/**" access="isAuthenticated()" />
 	

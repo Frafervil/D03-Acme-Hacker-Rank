@@ -323,7 +323,7 @@
 		<property name="statement" value="statement problem 1" />
 		<property name="hint" value="this in an optional hint problem 1" />
 		<property name="isDraft" value="false" />
-		<property name="attachment">
+		<property name="attachments">
 			<list>
 				<value>Attachment 1</value>
 				<value>Attachment 2</value>
@@ -342,7 +342,7 @@
 		<property name="statement" value="statement problem 2" />
 		<property name="hint" value="this in an optional hint problem 2" />
 		<property name="isDraft" value="true" />
-		<property name="attachment">
+		<property name="attachments">
 			<list>
 				<value>Attachment 1</value>
 				<value>Attachment 2</value>
@@ -360,7 +360,7 @@
 		<property name="statement" value="statement problem 3" />
 		<property name="hint" value="this in an optional hint problem 3" />
 		<property name="isDraft" value="false" />
-		<property name="attachment">
+		<property name="attachments">
 			<list>
 				<value>Attachment 1</value>
 				<value>Attachment 2</value>
@@ -380,7 +380,7 @@
 		<property name="statement" value="statement problem 4" />
 		<property name="hint" value="this in an optional hint problem 4" />
 		<property name="isDraft" value="false" />
-		<property name="attachment">
+		<property name="attachments">
 			<list>
 				<value>Attachment 1</value>
 			</list>
@@ -391,6 +391,24 @@
 			</list>
 		</property>
 		<property name="company" ref="company1" />
+	</bean>
+	
+	<bean class="domain.Problem" id="problem5">
+		<property name="title" value="title problem 5" />
+		<property name="statement" value="statement problem 5" />
+		<property name="hint" value="this in an optional hint problem 5" />
+		<property name="isDraft" value="true" />
+		<property name="attachments">
+			<list>
+				<value>Attachment 1</value>
+				<value>Attachment 2</value>
+			</list>
+		</property>
+		<property name="positions">
+			<list>
+			</list>
+		</property>
+		<property name="company" ref="company3" />
 	</bean>
 
 	<!-- Application -->
