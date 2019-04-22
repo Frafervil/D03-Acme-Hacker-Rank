@@ -8,7 +8,7 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 
-<form:form action = "application/edit.do" modelAttribute="applicationForm">
+<form:form action = "application/hacker/edit.do" modelAttribute="applicationForm">
 	<form:hidden path="id"/>
 	<div class="ui equal width form">
 		<div class = "fields">

@@ -27,7 +27,7 @@
 		</tr>
 		<tr>
 			<td><spring:message code="application.answer.answerText" />
-			<td data-label="answer.answerText"><jstl:out value="${application.answer.text}" /></td>
+			<td data-label="answer.answerText"><jstl:out value="${application.answer.answerText}" /></td>
 		</tr>
 		<tr>
 			<td><spring:message code="application.answer.codeLink" />
@@ -39,3 +39,12 @@
 		</tr>
 	</tbody>
 </table>
+
+<security:authorize access="hasRole('COMPANY')">
+	<jstl:if test="${application.status == 'SUBMITTED'}">
+	<br/>
+		<a href="application/company/reject.do?applicationId=${application.id}" ><spring:message code="application.reject" /></a><br/>			
+		<a href="application/company/approve.do?applicationId=${application.id}" ><spring:message code="application.approve" /></a>								
+		
+	</jstl:if>
+</security:authorize>

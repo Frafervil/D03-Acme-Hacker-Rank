@@ -17,6 +17,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.ApplicationRepository;
+import security.Authority;
+import domain.Actor;
 import domain.Answer;
 import domain.Application;
 import domain.Company;
@@ -46,9 +48,9 @@ public class ApplicationService {
 	private HackerService			hackerService;
 
 	@Autowired
-	private ProblemService			problemService;
+	private ActorService			actorService;
 
-
+	
 	// Simple CRUD Methods
 	public void delete(final Application application) {
 		final Answer answer;
@@ -172,6 +174,21 @@ public class ApplicationService {
 
 		this.applicationRepository.save(a);
 	}
+	
+	public void submit(final Application a){
+		Hacker principal;
+		
+		Assert.notNull(a);
+		Assert.isTrue(a.getId()!=0);
+		
+		principal = this.hackerService.findByPrincipal();
+		Assert.notNull(principal);
+		
+		Assert.isTrue(a.getStatus().equals("PENDING"));
+		a.setStatus("SUBMITTED");
+
+		this.applicationRepository.save(a);
+	}
 
 	public Application reconstruct(final ApplicationForm applicationForm, final BindingResult binding) {
 		Application result;
@@ -182,11 +199,11 @@ public class ApplicationService {
 			result.setHacker(this.hackerService.findByPrincipal());
 			result.setStatus("PENDING");
 			result.setPosition(applicationForm.getPosition());
-			problems = (List<Problem>) this.problemService.findAllByPositionId(applicationForm.getPosition().getId());
+			problems = (List<Problem>) result.getPosition().getProblems();
 			final Random random = new Random();
 			final Problem problem = problems.get(random.nextInt(problems.size() - 1));
 			result.setProblem(problem);
-			//result.setProblem(this.problemService.findProblemByPositionId(applicationForm.getPosition().getId()));
+
 		} else {
 			result = this.applicationRepository.findOne(applicationForm.getId());
 			final Answer answer = new Answer();

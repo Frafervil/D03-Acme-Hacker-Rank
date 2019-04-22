@@ -95,15 +95,6 @@ public class ProblemService {
 		return result;
 	}
 
-	public Problem findProblemByPositionId(final int positionId) {
-		Problem result;
-
-		result = this.problemRepository.findProblemByPositionId(positionId);
-		Assert.notNull(result);
-		return result;
-
-	}
-
 	public Collection<Problem> findAll() {
 		Collection<Problem> result;
 

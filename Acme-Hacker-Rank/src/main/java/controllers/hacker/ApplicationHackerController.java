@@ -1,5 +1,5 @@
 
-package controllers;
+package controllers.hacker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import controllers.AbstractController;
+
 import services.ApplicationService;
 import services.HackerService;
 import services.PositionService;
@@ -28,8 +30,8 @@ import domain.Hacker;
 import forms.ApplicationForm;
 
 @Controller
-@RequestMapping("/application")
-public class ApplicationController extends AbstractController {
+@RequestMapping("/application/hacker")
+public class ApplicationHackerController extends AbstractController {
 
 	//Services
 	@Autowired
@@ -170,7 +172,7 @@ public class ApplicationController extends AbstractController {
 					System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
 				result = this.createEditModelAndView(applicationForm);
 			} else {
-				application = this.applicationService.save(application);
+				this.applicationService.submit(application);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			}
 		} catch (final Throwable oops) {

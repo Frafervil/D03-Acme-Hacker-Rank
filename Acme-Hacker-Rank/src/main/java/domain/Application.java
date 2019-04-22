@@ -39,7 +39,7 @@ public class Application extends DomainEntity {
 	}
 
 	@NotBlank
-	@Pattern(regexp = "^PENDING|APPROVED|REJECTED$")
+	@Pattern(regexp = "^PENDING|APPROVED|SUBMITTED|REJECTED$")
 	public String getStatus() {
 		return this.status;
 	}

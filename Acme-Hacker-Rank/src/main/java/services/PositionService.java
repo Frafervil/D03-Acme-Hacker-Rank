@@ -130,6 +130,13 @@ public class PositionService {
 		result = this.positionRepository.findByCompanyId(companyId);
 		return result;
 	}
+	
+	public Collection<Position> findAllFinal() {
+		Collection<Position> result;
+
+		result = this.positionRepository.findAllFinal();
+		return result;
+	}
 
 	public Collection<Position> findAvailableByCompanyId(final int companyId) {
 		Collection<Position> result;
@@ -157,6 +164,7 @@ public class PositionService {
 		String result;
 		String text;
 		String numbers;
+
 		text = company.getCommercialName().toUpperCase();
 		final Random random = new Random();
 
@@ -196,6 +204,8 @@ public class PositionService {
 		Position result;
 		if (position.getId() == 0) {
 			result = position;
+			result.setCompany(this.companyService.findByPrincipal());
+			result.setTicker(this.generateTicker(result.getCompany()));
 		} else{
 			result = this.positionRepository.findOne(position.getId());
 	

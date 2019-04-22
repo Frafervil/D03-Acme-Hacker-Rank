@@ -11,7 +11,7 @@
 
 <security:authorize access="hasRole('HACKER')">
 
-<form action="application/list.do" method="get">
+<form action="application/hacker/list.do" method="get">
 	
 	<input type="radio" name="applicationStatus" value="0" checked> <spring:message code="application.status.all" />
 	<input type="radio" name="applicationStatus" value="1"> <spring:message code="application.status.accepted" />
@@ -25,16 +25,42 @@
 	
 </security:authorize>
 
+<security:authorize access="hasRole('COMPANY')">
+	
+	<form action="application/company/list.do" method="get">
+	
+	<input type="radio" name="applicationStatus" value="0" checked> <spring:message code="application.status.all" />
+	<input type="radio" name="applicationStatus" value="1"> <spring:message code="application.status.accepted" />
+	<input type="radio" name="applicationStatus" value="2">  <spring:message code="application.status.pending" />
+	<input type="radio" name="applicationStatus" value="3">  <spring:message code="application.status.rejected" />
+	<input type="radio" name="applicationStatus" value="4">  <spring:message code="application.status.submitted" />
+	<br />
+	<spring:message code="application.status.choose" var="choose"/>
+	<input type="submit" value="${choose}">
+	</form>
+	
+	
+	
+</security:authorize>
+
+
+
 <!-- Listing grid -->
 
 <display:table name="applications" id="row" requestURI="application/list.do"
 	pagesize="5" class="displaytag">
 	
 	<!-- Display -->
-	<display:column>
-		<a href="application/display.do?applicationId=${row.id}"><spring:message code="application.display"/></a>
-	</display:column>
-
+	<security:authorize access="hasRole('HACKER')">
+		<display:column>
+			<a href="application/hacker/display.do?applicationId=${row.id}"><spring:message code="application.display"/></a>
+		</display:column>
+	</security:authorize>
+	<security:authorize access="hasRole('COMPANY')">
+		<display:column>
+			<a href="application/company/display.do?applicationId=${row.id}"><spring:message code="application.display"/></a>
+		</display:column>
+	</security:authorize>
 	<!-- Attributes -->
 	
 	<spring:message code="application.moment" var="applicationMoment" />
@@ -72,18 +98,20 @@
 	<spring:message code="application.hacker.name" var="hackerName" />
 	<display:column property="hacker.name" title="${hackerName}"
 		sortable="true" />
-	
+
 	
 	<!-- Action links -->
-
-	<display:column>
-	<a href="application/edit.do?applicationId=${row.id }"> <spring:message code="application.answer" /></a>
-	</display:column>
-
+	<security:authorize access="hasRole('HACKER')">
+			<jstl:if test="${status == 'PENDING'}">
+				<display:column>
+					<a href="application/hacker/edit.do?applicationId=${row.id }"> <spring:message code="application.answer" /></a>
+				</display:column>
+			</jstl:if>
+	</security:authorize>
 </display:table>
 
 	<security:authorize access="hasRole('HACKER')">
 	<div>
-		<a href="application/create.do"><spring:message code="application.create" /></a>
+		<a href="application/hacker/create.do"><spring:message code="application.create" /></a>
 	</div>
 </security:authorize> 

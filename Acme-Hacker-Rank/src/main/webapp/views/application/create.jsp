@@ -10,7 +10,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-	<form:form action ="application/create.do" modelAttribute ="applicationForm">
+	<form:form action ="application/hacker/create.do" modelAttribute ="applicationForm">
 		
 		<form:hidden path="id"/>
 		
