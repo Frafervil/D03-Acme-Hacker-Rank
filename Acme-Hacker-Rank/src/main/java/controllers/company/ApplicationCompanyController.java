@@ -123,7 +123,7 @@ public class ApplicationCompanyController extends AbstractController {
 		application = this.applicationService.findOne(applicationId);
 		Assert.notNull(application);
 
-		if (application.getPosition().getCompany().getId() == principal.getId() && application.getStatus().equals("PENDING"))
+		if (application.getPosition().getCompany().getId() == principal.getId() && application.getStatus().equals("SUBMITTED"))
 			result = this.createEditModelAndView(application, false);
 		else
 			result = new ModelAndView("redirect:list.do");
@@ -162,7 +162,7 @@ public class ApplicationCompanyController extends AbstractController {
 		application = this.applicationService.findOne(applicationId);
 		Assert.notNull(application);
 
-		if (application.getPosition().getCompany().getId() == principal.getId() && application.getStatus().equals("PENDING"))
+		if (application.getPosition().getCompany().getId() == principal.getId() && application.getStatus().equals("SUBMITTED"))
 			result = this.createEditModelAndView(application, true);
 		else
 			result = new ModelAndView("redirect:list.do");

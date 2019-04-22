@@ -102,7 +102,7 @@
 	
 	<!-- Action links -->
 	<security:authorize access="hasRole('HACKER')">
-			<jstl:if test="${status == 'PENDING'}">
+			<jstl:if test="${row.status == 'PENDING'}">
 				<display:column>
 					<a href="application/hacker/edit.do?applicationId=${row.id }"> <spring:message code="application.answer" /></a>
 				</display:column>
