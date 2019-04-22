@@ -113,6 +113,8 @@ public class PositionService {
 		principal = this.companyService.findByPrincipal();
 		Assert.notNull(principal);
 
+		Assert.isTrue(position.getCompany().getId() == principal.getId());
+		
 		applications = this.applicationService.findAllByPositionId(position
 				.getId());
 

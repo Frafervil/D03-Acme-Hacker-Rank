@@ -328,7 +328,36 @@
 		</property>
 	</bean>
 
+	<bean class="domain.Position" id="position4">
+		<property name="title" value="title position 4" />
+		<property name="description" value="description position 4" />
+		<property name="deadline" value="2019/04/30" />
+		<property name="profileRequired" value="profileRequired 4" />
+		<property name="skillsRequired">
+			<list>
+				<value>skillRequired 5</value>
+				<value>skillRequired 6</value>
+			</list>
+		</property>
+		<property name="technologiesRequired">
+			<list>
+				<value>technologiesRequired 1</value>
+				<value>technologiesRequired 4</value>
+			</list>
+		</property>
+		<property name="salaryOffered" value="60.0" />
+		<property name="ticker" value="COMM-9125" />
+		<property name="status" value="DRAFT" />
 
+		<property name="company" ref="company1" />
+		<property name="problems">
+			<list>
+				<ref bean="problem1" />
+				<ref bean="problem3" />
+				<ref bean="problem4" />
+			</list>
+		</property>
+	</bean>
 	<!-- Problems -->
 	<bean class="domain.Problem" id="problem1">
 		<property name="title" value="title problem 1" />
@@ -514,8 +543,10 @@
 	<bean id="customisation" class="domain.Customisation">
 		<property name="systemName" value="Acme Hacker Rank" />
 		<property name="welcomeBanner" value="https://i.imgur.com/7b8lu4b.png" />
-		<property name="welcomeMessageEn" value="Welcome to Acme Hacker Rank!" />
-		<property name="welcomeMessageEs" value="¡Bienvenidos a Acme Hacker Rank!" />
+		<property name="welcomeMessageEn" value="Welcome to Acme hacker Rank! We’re IT
+hacker’s favourite job marketplace!" />
+		<property name="welcomeMessageEs" value="¡Bienvenidos a Acme Hacker Rank! ¡Somos el mercado de trabajo favorito de los profesionales de
+las TICs!" />
 		<property name="countryCode" value="+34" />
 	</bean>
 
