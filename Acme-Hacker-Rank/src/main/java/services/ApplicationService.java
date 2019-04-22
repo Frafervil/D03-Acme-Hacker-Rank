@@ -152,14 +152,14 @@ public class ApplicationService {
 		principal = this.companyService.findByPrincipal();
 		Assert.notNull(principal);
 
-		Assert.isTrue(a.getStatus().equals("PENDING"));
+		Assert.isTrue(a.getStatus().equals("SUBMITTED"));
 
 		a.setStatus("REJECTED");
 
 		this.applicationRepository.save(a);
 	}
 
-	public void accept(final Application a) {
+	public void approve(final Application a) {
 		Company principal;
 
 		Assert.notNull(a);
@@ -168,9 +168,9 @@ public class ApplicationService {
 		principal = this.companyService.findByPrincipal();
 		Assert.notNull(principal);
 
-		Assert.isTrue(a.getStatus().equals("PENDING"));
+		Assert.isTrue(a.getStatus().equals("SUBMITTED"));
 
-		a.setStatus("ACCEPTED");
+		a.setStatus("APPROVED");
 
 		this.applicationRepository.save(a);
 	}
