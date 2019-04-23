@@ -20,8 +20,10 @@ import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
 import domain.Actor;
+import domain.Application;
 import domain.CreditCard;
 import domain.Hacker;
+import domain.Message;
 import forms.HackerForm;
 
 @Service
@@ -45,6 +47,15 @@ public class HackerService {
 
 	@Autowired
 	private CreditCardService creditCardService;
+	
+	@Autowired
+	private ApplicationService applicationService;
+	
+	@Autowired
+	private AnswerService answerService;
+
+	@Autowired
+	private MessageService messageService;
 
 	@Autowired
 	private Validator validator;
@@ -104,22 +115,38 @@ public class HackerService {
 
 		return saved;
 	}
+	 public void delete() {
+		 /*
+		  * Orden de borrado:
+		  * 	1 Answer de las applications
+		  * 	2 Application
+		  * 	3 Mensajes 
+		  * 	4 Hacker
+		  * 	5 CC
+		  */
+		 Hacker principal;
+		 Collection<Application> applications;
+		 Collection<Message> messages;
 
-	// public void delete() {
-	// Hacker principal;
-	// final Collection<Application> applications;
-	//
-	// principal = this.findByPrincipal();
-	// Assert.notNull(principal);
-	//
-	// applications = this.applicationService.findAllByHacker(principal
-	// .getId());
-	// for (final Application a : applications)
-	// this.applicationService.deleteApplicationDeletingProfile(a);
-	//
-	// this.hackerRepository.delete(principal);
-	// }
+		 principal = this.findByPrincipal();
+		 Assert.notNull(principal);
+		 		 
+		 applications = this.applicationService.findAllByCompanyId(principal.getId());
+		 for (Application a : applications) {
+				if(a.getAnswer()!= null)
+					this.answerService.delete(a.getAnswer());
+		 }
+		 this.applicationService.deleteInBatch(applications);	 
+		 
+		 messages = this.messageService.findBySenderId(principal.getId());
+		 this.messageService.deleteInBach(messages);
 
+		 
+		 this.hackerRepository.delete(principal);
+		 
+		 this.creditCardService.delete(principal.getCreditCard());
+
+	 }
 	public Hacker findOne(final int hackerId) {
 		Hacker result;
 

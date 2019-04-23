@@ -144,9 +144,9 @@ public class CompanyService {
 		  * 	2 Application a una position de la company
 		  * 	3 Problemas
 		  * 	4 Position
-		  * 	5 CC
-		  * 	6 Mensajes
-		  * 	7 Company
+		  * 	5 Mensajes
+		  * 	6 Company
+		  * 	7 CC
 		  */
 		 Company principal;
 		 Collection<Problem> problems;
@@ -164,18 +164,27 @@ public class CompanyService {
 		 }
 		 this.applicationService.deleteInBatch(applications);
 		 
-		 problems = this.problemService.findAllByCompanyId(principal.getId());
-		 this.problemService.deleteInBatch(problems);
-		 
 		 positions = this.positionService.findByCompany(principal.getId());
-		 this.positionService.deleteInBatch(positions);
+		 for (Position position : positions) {
+			 position.getSkillsRequired().clear();
+			 position.getTechnologiesRequired().clear();
+			 position.getProblems().clear();
+			 this.positionService.delete(position);
+		 }
 		 
-		 this.creditCardService.delete(principal.getCreditCard());
+		 problems = this.problemService.findAllByCompanyId(principal.getId());
+		 for (Problem problem : problems) {
+			 this.problemService.delete(problem);
+		 }		 
 		 
 		 messages = this.messageService.findBySenderId(principal.getId());
 		 this.messageService.deleteInBach(messages);
+
 		 
 		 this.companyRepository.delete(principal);
+		 
+		 this.creditCardService.delete(principal.getCreditCard());
+
 	 }
 
 	public Company findOne(final int companyId) {

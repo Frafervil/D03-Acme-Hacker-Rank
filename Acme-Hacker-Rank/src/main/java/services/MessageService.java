@@ -104,7 +104,11 @@ public class MessageService {
 	}
 	
 	public void deleteInBach(Collection<Message> messages){
-		this.deleteInBach(messages);
+		this.messageRepository.deleteInBatch(messages);
+	}
+
+	public void delete(Message message) {
+		this.messageRepository.delete(message);
 	}
 
 }

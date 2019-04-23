@@ -21,6 +21,7 @@ import security.UserAccount;
 import security.UserAccountRepository;
 import domain.Administrator;
 import domain.CreditCard;
+import domain.Message;
 import forms.AdministratorForm;
 
 @Service
@@ -41,6 +42,9 @@ public class AdministratorService {
 	// Supporting services-------------------------------------------
 	@Autowired
 	private ActorService actorService;
+
+	@Autowired
+	private MessageService messageService;
 
 	@Autowired
 	private CreditCardService creditCardService;
@@ -125,13 +129,19 @@ public class AdministratorService {
 
 	public void delete() {
 		Administrator principal;
+		Collection<Message> messages;
 
 		principal = this.findByPrincipal();
 		Assert.notNull(principal);
 		// Debería quedar al menos un administrador
 		Assert.isTrue(this.findAll().size() > 1);
+		
+		messages = this.messageService.findBySenderId(principal.getId());
+		this.messageService.deleteInBach(messages);
 
 		this.administratorRepository.delete(principal);
+		 
+		this.creditCardService.delete(principal.getCreditCard());
 	}
 
 	public Administrator findOne(final int adminId) {
