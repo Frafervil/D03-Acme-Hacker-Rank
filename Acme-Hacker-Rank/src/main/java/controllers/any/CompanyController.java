@@ -151,20 +151,20 @@ public class CompanyController extends AbstractController {
 		return result;
 	}
 
-//	@RequestMapping(value = "/delete")
-//	public ModelAndView delete() {
-//		ModelAndView result;
-//
-//		try {
-//			this.companyService.delete();
-//
-//			result = new ModelAndView("redirect:/j_spring_security_logout");
-//		} catch (final Throwable oops) {
-//			result = new ModelAndView("redirect:/company/display.do");
-//		}
-//
-//		return result;
-//	}
+	@RequestMapping(value = "/delete")
+	public ModelAndView delete() {
+		ModelAndView result;
+
+		try {
+			this.companyService.delete();
+
+			result = new ModelAndView("redirect:/j_spring_security_logout");
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/company/display.do");
+		}
+
+		return result;
+	}
 	
 	// Ancillary methods ------------------------------------------------------
 

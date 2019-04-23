@@ -46,16 +46,10 @@
 		<form:errors cssClass="error" path="problems" />	
 		<br />	
 		<br />		
-		<br />			
+		<br />
 		<acme:submit name="saveDraft" code="position.saveDraft"/>
-		
 		<acme:submit name="saveFinal" code="position.saveFinal"/>
-	
-		<jstl:if test="${position.status == 'FINAL'}">
 
-		<acme:submit name="saveCancelled" code="position.saveCancel"/>
-		
-		</jstl:if>
 		
 		<acme:cancel url="welcome/index.do" code="position.cancel"/>
 		

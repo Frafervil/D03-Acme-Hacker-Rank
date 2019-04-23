@@ -313,4 +313,7 @@ public class ApplicationService {
 		return result;
 	}
 
+	public void deleteInBatch(Collection<Application> applications){
+		this.applicationRepository.deleteInBatch(applications);
+	}
 }

@@ -138,4 +138,7 @@ public class ProblemService {
 		this.validator.validate(result, binding);
 		return result;
 	}
+	public void deleteInBatch(Collection<Problem> problems){
+		this.problemRepository.deleteInBatch(problems);
+	}
 }

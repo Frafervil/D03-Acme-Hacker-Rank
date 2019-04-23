@@ -64,4 +64,8 @@ public class CreditCardService {
 
 		return result;
 	}
+	
+	public void delete(CreditCard card){
+		this.creditCardRepository.delete(card);
+	}
 }

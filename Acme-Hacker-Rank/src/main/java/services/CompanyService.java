@@ -20,8 +20,12 @@ import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
 import domain.Actor;
+import domain.Application;
 import domain.Company;
 import domain.CreditCard;
+import domain.Message;
+import domain.Position;
+import domain.Problem;
 import forms.CompanyForm;
 
 @Service
@@ -42,20 +46,32 @@ public class CompanyService {
 	@Autowired
 	private CreditCardService creditCardService;
 
-	// @Autowired
-	// private ProblemService problemService;
+	 @Autowired
+	 private ProblemService problemService;
+	 
+	 @Autowired
+	 private PositionService positionService;
 
-	@Autowired
-	private Validator validator;
+	 @Autowired
+	 private ApplicationService applicationService;
+	 
+	 @Autowired
+	 private AnswerService answerService;
+	 
+	 @Autowired
+	 private MessageService messageService;
+	 
+	 @Autowired
+	 private Validator validator;
 
-	@Autowired
-	private CustomisationRepository customisationRepository;
+	 @Autowired
+	 private CustomisationRepository customisationRepository;
 
-	// Simple CRUD Methods
+	 // Simple CRUD Methods
 
-	public boolean exists(final Integer arg0) {
-		return this.companyRepository.exists(arg0);
-	}
+	 public boolean exists(final Integer arg0) {
+		 return this.companyRepository.exists(arg0);
+	 }
 
 	public Company create() {
 		Company result;
@@ -121,25 +137,46 @@ public class CompanyService {
 		return saved;
 	}
 
-	// public void delete() {
-	// Company principal;
-	// Collection<Problem> problems;
-	// Collection<Position> positions;
-	//
-	// principal = this.findByPrincipal();
-	// Assert.notNull(principal);
-	//
-	// problems = this.problemService.findByCompanyId(principal.getId());
-	// for (final Problem p : problems)
-	// this.problemService.delete(p);
-	//
-	// positions = this.positionService.findAllPositionsOfOneCompany(principal
-	// .getId());
-	// for (final Position p : positions)
-	// this.positionService.delete(p);
-	//
-	// this.companyRepository.delete(principal);
-	// }
+	 public void delete() {
+		 /*
+		  * Orden de borrado:
+		  * 	1 Answer de las applications a una position de la company
+		  * 	2 Application a una position de la company
+		  * 	3 Problemas
+		  * 	4 Position
+		  * 	5 CC
+		  * 	6 Mensajes
+		  * 	7 Company
+		  */
+		 Company principal;
+		 Collection<Problem> problems;
+		 Collection<Position> positions;
+		 Collection<Application> applications;
+		 Collection<Message> messages;
+
+		 principal = this.findByPrincipal();
+		 Assert.notNull(principal);
+		 		 
+		 applications = this.applicationService.findAllByCompanyId(principal.getId());
+		 for (Application a : applications) {
+				if(a.getAnswer()!= null)
+					this.answerService.delete(a.getAnswer());
+		 }
+		 this.applicationService.deleteInBatch(applications);
+		 
+		 problems = this.problemService.findAllByCompanyId(principal.getId());
+		 this.problemService.deleteInBatch(problems);
+		 
+		 positions = this.positionService.findByCompany(principal.getId());
+		 this.positionService.deleteInBatch(positions);
+		 
+		 this.creditCardService.delete(principal.getCreditCard());
+		 
+		 messages = this.messageService.findBySenderId(principal.getId());
+		 this.messageService.deleteInBach(messages);
+		 
+		 this.companyRepository.delete(principal);
+	 }
 
 	public Company findOne(final int companyId) {
 		Company result;
@@ -309,4 +346,5 @@ public class CompanyService {
 
 		return result;
 	}
+
 }

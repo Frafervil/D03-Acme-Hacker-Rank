@@ -43,7 +43,6 @@ public class Problem extends DomainEntity {
 		this.statement = statement;
 	}
 
-	@NotBlank
 	public String getHint() {
 		return hint;
 	}

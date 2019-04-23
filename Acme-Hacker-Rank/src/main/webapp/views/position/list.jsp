@@ -53,10 +53,6 @@
 
 <!-- Create position -->
 <security:authorize access="hasRole('COMPANY')">
-<jstl:if test = "${row.company.userAccount.username == pageContext.request.userPrincipal.name}">
-	
-		
 		<acme:button url="position/company/create.do" code="position.create"/>
 	
-	</jstl:if>
 </security:authorize> 

@@ -165,10 +165,11 @@ public class PositionCompanyController extends AbstractController {
 			try {
 				position = this.positionService.reconstruct(position, binding);
 				if (binding.hasErrors()) {
-					System.out.println(binding.getAllErrors());
 					result = this.createEditModelAndView(position);
+					for (final ObjectError e : binding.getAllErrors())
+						System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
 				} else {
-					this.positionService.save(position, "DRAFT");
+					position = this.positionService.save(position, "DRAFT");
 					result = new ModelAndView("redirect:/welcome/index.do");
 				}
 
@@ -210,10 +211,11 @@ public class PositionCompanyController extends AbstractController {
 			try {
 				position = this.positionService.reconstruct(position, binding);
 				if (binding.hasErrors()) {
-					System.out.println(binding.getAllErrors());
 					result = this.createEditModelAndView(position);
+					for (final ObjectError e : binding.getAllErrors())
+						System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
 				} else {
-					this.positionService.save(position, "FINAL");
+					position = this.positionService.save(position, "FINAL");
 					result = new ModelAndView("redirect:/welcome/index.do");
 				}
 
@@ -222,6 +224,28 @@ public class PositionCompanyController extends AbstractController {
 			}
 
 			return result;
+		}
+		
+		// Cancel position
+		@RequestMapping(value = "/cancel", method = RequestMethod.GET)
+		public ModelAndView reject(@RequestParam final int positionId) {
+			ModelAndView result;
+			Position position;
+			Company principal;
+			principal = this.companyService.findByPrincipal();
+
+			position = this.positionService.findOne(positionId);
+			Assert.notNull(position);
+			Assert.isTrue(position.getCompany().getId() == principal.getId() && position.getStatus().equals("FINAL"));
+			
+			try{
+				this.positionService.save(position, "CANCELLED");
+				result = new ModelAndView("redirect:list.do");
+			}catch(final Throwable oops) {
+				result = this.createEditModelAndView(position, "position.commit.error");
+			}
+			return result;
+			
 		}
 		
 		//Delete

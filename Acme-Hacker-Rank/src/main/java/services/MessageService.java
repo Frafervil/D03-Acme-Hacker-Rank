@@ -69,6 +69,14 @@ public class MessageService {
 		Assert.notNull(result);
 		return result;
 	}
+	
+	public Collection<Message> findBySenderId(final int actorId) {
+		Collection<Message> result;
+
+		result = this.messageRepository.findBySenderId(actorId);
+		Assert.notNull(result);
+		return result;
+	}
 
 	public Message broadcast(final Message message) {
 		Message result;
@@ -93,6 +101,10 @@ public class MessageService {
 		Assert.notNull(result);
 
 		return result;
+	}
+	
+	public void deleteInBach(Collection<Message> messages){
+		this.deleteInBach(messages);
 	}
 
 }

@@ -208,6 +208,7 @@ public class PositionService {
 			result = position;
 			result.setCompany(this.companyService.findByPrincipal());
 			result.setTicker(this.generateTicker(result.getCompany()));
+			result.setStatus("DRAFT");
 		} else{
 			result = this.positionRepository.findOne(position.getId());
 	
@@ -221,8 +222,14 @@ public class PositionService {
 			result.setTechnologiesRequired(position.getTechnologiesRequired());
 
 		
-			this.validator.validate(result, binding);
 		}
+		if (result.getTechnologiesRequired().isEmpty())
+			binding.rejectValue("technologiesRequired", "application.validation.technologiesRequired", "Must not be blank");
+		if (result.getSkillsRequired().isEmpty())
+			binding.rejectValue("skillsRequired", "application.validation.skillsRequired", "Must not be blank");
+		
+		this.validator.validate(result, binding);
+
 		return result;
 	}
 
@@ -369,5 +376,7 @@ public class PositionService {
 
 		return result;
 	}
-
+	public void deleteInBatch(Collection<Position> positions){
+		this.positionRepository.deleteInBatch(positions);
+	}
 }

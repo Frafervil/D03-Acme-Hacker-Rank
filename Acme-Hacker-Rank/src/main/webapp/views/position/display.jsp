@@ -70,7 +70,13 @@
 <security:authorize access="hasRole('COMPANY')">
 <jstl:if test="${position.company.userAccount.username == pageContext.request.userPrincipal.name}">
 <br/>
-	<a href="position/company/edit.do?positionId=${position.id}"><spring:message code="position.edit"/></a><br/>
+	<jstl:if test="${position.status == 'DRAFT'}">			
+		<a href="position/company/edit.do?positionId=${position.id}"><spring:message code="position.edit"/></a><br/>
+	</jstl:if>
+<br/>
+	<jstl:if test="${position.status == 'FINAL'}">
+		<a href="position/company/cancel.do?positionId=${position.id}"><spring:message code="position.saveCancel"/></a><br/>				
+	</jstl:if>
 <br/>
 	<a href="position/company/delete.do?positionId=${position.id}"><spring:message code="position.delete"/></a><br/>
 </jstl:if>
