@@ -152,14 +152,6 @@ public class ApplicationCompanyController extends AbstractController {
 
 	// Ancillary methods ------------------------------------------------------
 
-//	protected ModelAndView createEditModelAndView(final Application application, final Boolean approve) {
-//		ModelAndView result;
-//
-//		result = this.createEditModelAndView(application, null);
-//
-//		return result;
-//	}
-
 	protected ModelAndView createEditModelAndView(final Application application, final String messageCode) {
 		ModelAndView result;
 		Position position;

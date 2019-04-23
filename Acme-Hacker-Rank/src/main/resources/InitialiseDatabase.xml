@@ -30,6 +30,16 @@
 		</property>
 	</bean>
 	
-	<!-- Other domain beans come here -->	
+	<!-- Other domain beans come here -->
+	
+	<bean id="customisation" class="domain.Customisation">
+		<property name="systemName" value="Acme Hacker Rank" />
+		<property name="welcomeBanner" value="https://i.imgur.com/7b8lu4b.png" />
+		<property name="welcomeMessageEn" value="Welcome to Acme hacker Rank! We’re IT
+hacker’s favourite job marketplace!" />
+		<property name="welcomeMessageEs" value="¡Bienvenidos a Acme Hacker Rank! ¡Somos el mercado de trabajo favorito de los profesionales de
+las TICs!" />
+		<property name="countryCode" value="+34" />
+	</bean>
 	
 </beans>
