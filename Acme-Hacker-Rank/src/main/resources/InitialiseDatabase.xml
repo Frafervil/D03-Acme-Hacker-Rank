@@ -32,6 +32,33 @@
 	
 	<!-- Other domain beans come here -->
 	
+	<!-- Administrators -->
+
+	<bean class="domain.Administrator" id="administrator1">
+		<property name="name" value="Lorenzo" />
+		<property name="surname" value="Rondán Domínguez" />
+		<property name="photo" value="http://mifoto.com" />
+		<property name="email" value="loren@" />
+		<property name="phone" value="+34912123123" />
+		<property name="address" value="C/ A nº1 Sevilla" />
+		<property name="vatNumber" value="1" />
+		<property name="userAccount" ref="userAccount1" />
+		<property name="creditCard" ref="creditCard1" />
+	</bean>
+	
+	<!-- Credit Card -->
+
+	<bean class="domain.CreditCard" id="creditCard1">
+		<property name="holderName" value="Lorenzo Domínguez" />
+		<property name="brandName" value="MasterCard" />
+		<property name="number" value="5220 2777 7103 1876" />
+		<property name="expirationMonth" value="7" />
+		<property name="expirationYear" value="19" />
+		<property name="CVV" value="701" />
+	</bean>
+	
+	<!-- Customisation -->
+	
 	<bean id="customisation" class="domain.Customisation">
 		<property name="systemName" value="Acme Hacker Rank" />
 		<property name="welcomeBanner" value="https://i.imgur.com/7b8lu4b.png" />
