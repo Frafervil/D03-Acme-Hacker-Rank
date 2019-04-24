@@ -28,7 +28,7 @@
 	<!-- Action links -->
 
 	<display:column>
-	<a href="positions/company/list.do?companyId=${row.id }"> <spring:message code="company.positions" /></a>
+	<a href="position/listCompanyId.do?companyId=${row.id }"> <spring:message code="company.positions" /></a>
 	</display:column>
 
 </display:table>

@@ -70,7 +70,14 @@ public class CompanyController extends AbstractController {
 			company = this.companyService.findOne(companyId);
 
 		Collection<Position> positions;
-		positions = this.positionService.findAvailableByCompanyId(company.getId());
+		
+		try{
+			Company principal;
+			principal = this.companyService.findByPrincipal();
+			positions = this.positionService.findByCompany(principal.getId());
+		}catch(final Throwable oops){
+			positions = this.positionService.findAvailableByCompanyId(company.getId());
+		}
 
 		result = new ModelAndView("company/display");
 		result.addObject("company", company);

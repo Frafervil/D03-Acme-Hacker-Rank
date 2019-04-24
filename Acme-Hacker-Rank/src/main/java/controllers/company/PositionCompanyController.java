@@ -45,14 +45,18 @@ public class PositionCompanyController extends AbstractController {
 	//List
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam(required = false) final String keyword, @RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
 		final ModelAndView result;
 		Collection<Position> positions;
 		positions = new ArrayList<Position>();
 		
 		final Actor principal = this.actorService.findByPrincipal();
 		
-		positions = this.positionService.findByCompany(principal.getId());
+		if (keywordBool && keyword != null)
+			positions = this.positionService.findByKeywordAll(keyword, principal.getId());
+		else
+			positions = this.positionService.findByCompany(principal.getId());
+
 
 		result = new ModelAndView("position/list");
 		result.addObject("positions", positions);

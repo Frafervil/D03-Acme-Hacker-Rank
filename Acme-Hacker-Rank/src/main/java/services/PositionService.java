@@ -147,10 +147,29 @@ public class PositionService {
 		return result;
 	}
 
-	public Collection<Position> findByKeyword(final String keyword) {
+	public Collection<Position> findByKeywordAll(final String keyword, final int companyId) {
 		final Collection<Position> result = this.positionRepository
-				.findByKeyword(keyword);
+				.findByKeyword(keyword, companyId);
 
+		return result;
+	}
+	public Collection<Position> findByKeywordFinal(final String keyword) {
+		final Collection<Position> result = this.positionRepository
+				.findByKeywordFinal(keyword);
+
+		return result;
+	}
+	public Collection<Position> findByKeywordFinalCompany(final String keyword, final int companyId) {
+		final Collection<Position> result = this.positionRepository
+				.findByKeywordFinalCompany(keyword, companyId);
+
+		return result;
+	}
+	
+	public Collection<Position> findAllFinalCompany(final int companyId) {
+		Collection<Position> result;
+
+		result = this.positionRepository.findAllFinalCompany(companyId);
 		return result;
 	}
 	

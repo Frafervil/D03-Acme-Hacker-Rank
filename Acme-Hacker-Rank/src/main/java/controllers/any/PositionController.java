@@ -33,9 +33,9 @@ public class PositionController extends AbstractController {
 		Collection<Position> positions;
 
 		if (keywordBool && keyword != null)
-			positions = this.positionService.findByKeyword(keyword);
+			positions = this.positionService.findByKeywordFinal(keyword);
 		else
-			positions = this.positionService.findAll();
+			positions = this.positionService.findAllFinal();
 
 		result = new ModelAndView("position/list");
 		result.addObject("positions", positions);
@@ -43,6 +43,26 @@ public class PositionController extends AbstractController {
 
 		return result;
 	}
+	
+	// ListCompanyId
+
+	@RequestMapping(value = "/listCompanyId", method = RequestMethod.GET)
+	public ModelAndView listCompany(@RequestParam final int companyId, @RequestParam(required = false) final String keyword, @RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
+		ModelAndView result;
+		Collection<Position> positions;
+
+		if (keywordBool && keyword != null)
+			positions = this.positionService.findByKeywordFinalCompany(keyword, companyId);
+		else
+			positions = this.positionService.findAllFinalCompany(companyId);
+
+		result = new ModelAndView("position/list");
+		result.addObject("positions", positions);
+		result.addObject("requestURI", "position/list.do");
+
+		return result;
+	}
+
 
 	// Display
 
