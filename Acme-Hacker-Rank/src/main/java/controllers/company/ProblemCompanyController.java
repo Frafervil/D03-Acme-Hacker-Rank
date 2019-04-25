@@ -220,7 +220,7 @@ public class ProblemCompanyController {
 			protected ModelAndView createEditModelAndView(final Problem problem, final String messageCode) {
 				ModelAndView result;
 
-				result = new ModelAndView("problem/display");
+				result = new ModelAndView("problem/edit");
 				result.addObject("problem", problem);
 
 				result.addObject("message", messageCode);
