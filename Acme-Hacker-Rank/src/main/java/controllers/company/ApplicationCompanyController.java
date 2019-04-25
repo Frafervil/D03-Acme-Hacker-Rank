@@ -51,7 +51,7 @@ public class ApplicationCompanyController extends AbstractController {
 
 		result = new ModelAndView("application/list");
 		result.addObject("applications", applications);
-		result.addObject("applicationURI", "application/company/list.do");
+		result.addObject("requestURI", "application/company/list.do");
 
 		return result;
 

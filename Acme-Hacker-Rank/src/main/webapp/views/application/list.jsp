@@ -47,7 +47,7 @@
 
 <!-- Listing grid -->
 
-<display:table name="applications" id="row" requestURI="application/list.do"
+<display:table name="applications" id="row" requestURI="${requestURI}"
 	pagesize="5" class="displaytag">
 	
 	<!-- Display -->
@@ -110,7 +110,7 @@
 	</security:authorize>
 </display:table>
 
-	<security:authorize access="hasRole('HACKER')">
+<security:authorize access="hasRole('HACKER')">
 	<div>
 		<a href="application/hacker/create.do"><spring:message code="application.create" /></a>
 	</div>

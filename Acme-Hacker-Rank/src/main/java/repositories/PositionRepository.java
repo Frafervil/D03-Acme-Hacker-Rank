@@ -33,6 +33,9 @@ public interface PositionRepository extends JpaRepository<Position, Integer> {
 
 	@Query("select p from Position p where p.status='FINAL'")
 	Collection<Position> findAllFinal();
+	
+	@Query("select p from Position p where p.status='FINAL' and p.deadline > NOW()")
+	Collection<Position> findAllFinalFuture();
 
 	@Query("select p from Position p where p.status='FINAL' and p.company.id = ?1")
 	Collection<Position> findAllFinalCompany(int companyId);

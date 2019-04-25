@@ -58,6 +58,8 @@ public class ApplicationHackerController extends AbstractController {
 
 		result = new ModelAndView("application/list");
 		result.addObject("applications", applications);
+		result.addObject("requestURI", "application/hacker/list.do");
+
 
 		return result;
 	}

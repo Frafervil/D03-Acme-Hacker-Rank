@@ -1,5 +1,6 @@
 package services;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Random;
 
@@ -15,6 +16,7 @@ import security.Authority;
 import domain.Actor;
 import domain.Application;
 import domain.Company;
+import domain.Hacker;
 import domain.Position;
 
 @Service
@@ -35,6 +37,9 @@ public class PositionService {
 
 	@Autowired
 	private ActorService actorService;
+	
+	@Autowired
+	private HackerService hackerService;
 
 	@Autowired
 	private Validator validator;
@@ -137,6 +142,23 @@ public class PositionService {
 		Collection<Position> result;
 
 		result = this.positionRepository.findAllFinal();
+		return result;
+	}
+	
+	public Collection<Position> findAllFinalNotApplication() {
+		Collection<Position> result;
+		Collection<Application> applications;
+		Hacker principal;
+		principal = this.hackerService.findByPrincipal();
+		
+		applications = this.applicationService.findAllApplicationsByHackerId(principal.getId());
+		result = this.positionRepository.findAllFinal();
+		for (Position p : result) {
+			for (Application a : applications) {
+				if(a.getPosition().getId() == p.getId())
+					result.remove(p);
+			}
+		}
 		return result;
 	}
 
@@ -242,6 +264,8 @@ public class PositionService {
 
 		
 		}
+		if(result.getDeadline().before(Calendar.getInstance().getTime()))
+			binding.rejectValue("deadline", "application.validation.deadline", "Deadline must be future");
 		if (result.getTechnologiesRequired().isEmpty())
 			binding.rejectValue("technologiesRequired", "application.validation.technologiesRequired", "Must not be blank");
 		if (result.getSkillsRequired().isEmpty())
