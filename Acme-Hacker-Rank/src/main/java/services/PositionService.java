@@ -399,9 +399,10 @@ public class PositionService {
 		Assert.notNull(actor);
 		Assert.isTrue(actor.getUserAccount().getAuthorities()
 				.contains(authority));
-		Position result;
+		Position result = null;
 
-		result = this.positionRepository.bestSalaryPosition();
+		if(this.positionRepository.bestSalaryPosition().size()>1)
+			result = this.positionRepository.bestSalaryPosition().iterator().next();
 
 		return result;
 	}
@@ -413,9 +414,10 @@ public class PositionService {
 		Assert.notNull(actor);
 		Assert.isTrue(actor.getUserAccount().getAuthorities()
 				.contains(authority));
-		Position result;
-
-		result = this.positionRepository.worstSalaryPosition();
+		Position result = null;
+		
+		if(this.positionRepository.worstSalaryPosition().size()>1)
+			result = this.positionRepository.worstSalaryPosition().iterator().next();
 
 		return result;
 	}
