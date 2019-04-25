@@ -27,6 +27,10 @@ public class CompanyServiceTest extends AbstractTest {
 	private CompanyService	companyService;
 
 
+	/*
+	 * Percentage of service tested: CompanyService 16,1%
+	 */
+
 	// --------------------------------------------------
 
 	/*

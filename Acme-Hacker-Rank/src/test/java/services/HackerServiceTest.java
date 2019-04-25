@@ -22,7 +22,10 @@ public class HackerServiceTest extends AbstractTest {
 
 	@Autowired
 	private HackerService hackerService;
-
+	/*
+	 *  Percentage of service tested: 14,7%
+	 * 
+	 */
 	// --------------------------------------------------
 
 	/*

@@ -23,7 +23,7 @@ public class DashboardServiceTest extends AbstractTest {
 	@Autowired
 	private PositionService	positionService;
 	/*
-	 *  Percentage of service tested:
+	 *  Percentage of service tested: 14,3%
 	 * 
 	 */
 
