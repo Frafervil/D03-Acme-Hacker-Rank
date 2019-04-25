@@ -84,29 +84,29 @@ public class DashboardServiceTest extends AbstractTest {
 	public void valueTest() {
 		final Object valueTest[][] = {
 			{
-				"admin", "avg", 1.0, null
+				"admin", "avg", 1.33333, null
 			}, {
 				"admin", "min", 0.0, null
 			}, {
-				"admin", "max", 2.0, null
+				"admin", "max", 3.0, null
 			}, {
-				"admin", "stddev", 0.8165, null
+				"admin", "stddev", 1.24722, null
 			}, {
-				"hacker1", "avg", 1.0, IllegalArgumentException.class
+				"hacker1", "avg", 1.33333, IllegalArgumentException.class
 			}, {
 				"hacker1", "min", 0.0, IllegalArgumentException.class
 			}, {
-				"hacker1", "max", 2.0, IllegalArgumentException.class
+				"hacker1", "max", 3.0, IllegalArgumentException.class
 			}, {
-				"hacker1", "stddev", 0.8165, IllegalArgumentException.class
+				"hacker1", "stddev", 1.24722, IllegalArgumentException.class
 			}, {
-				"company1", "avg", 1.0, IllegalArgumentException.class
+				"company1", "avg", 1.33333, IllegalArgumentException.class
 			}, {
 				"company1", "min", 0.0, IllegalArgumentException.class
 			}, {
-				"company1", "max", 2.0, IllegalArgumentException.class
+				"company1", "max", 3.0, IllegalArgumentException.class
 			}, {
-				"company1", "stddev", 0.8165, IllegalArgumentException.class
+				"company1", "stddev", 1.24722, IllegalArgumentException.class
 		}
 		};
 		for (int i = 0; i < valueTest.length; i++)
